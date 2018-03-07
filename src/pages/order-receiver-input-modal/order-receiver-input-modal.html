@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>직접입력</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding class="modal">
+  <ion-item *ngFor="let data of datas; let i = index; trackBy: trackByFn">
+    <ion-label>휴대폰번호 {{i + 1}}</ion-label>
+    <ion-input type="text" [(ngModel)]="datas[i]">{{data}}</ion-input>
+    <button *ngIf="datas?.length > (i + 1) else elseBlock" ion-button clear color="dark" type="button" item-right (click)="inputRemove(i)"><ion-icon name="remove"></ion-icon></button>
+    <ng-template #elseBlock><button *ngIf="(i + 1) < 10" ion-button clear color="dark" type="button" item-right (click)="inputAdd()"><ion-icon name="add"></ion-icon></button></ng-template>
+  </ion-item>
+  <div class="centerBtn">
+    <button ion-button (click)="dismiss()">확인</button>
+    <button ion-button (click)="closeModal()">취소</button>
+  </div>
+</ion-content>

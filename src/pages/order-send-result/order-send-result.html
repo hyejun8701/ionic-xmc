@@ -1,0 +1,19 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      발송이 완료 되었습니다.
+    </ion-card-header>
+    <ion-list>
+      <ion-item>
+        엑스머스님의 총 발송 건수는 {{receivers?.length}}건
+      </ion-item>
+      <ion-item>
+        사용하신 포인트는 1000 P 입니다.
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <div class="centerBtn">
+    <button ion-button (click)="goPointHistory();">발송내역확인</button>
+    <button ion-button (click)="goHome();">홈으로</button>
+  </div>
+</ion-content>

@@ -1,0 +1,38 @@
+<ion-content>
+  <div class="centerBtn">
+    <button ion-button outline fxFlex="1 1 auto" (click)="setDate('T')">당일</button>
+    <button ion-button outline fxFlex="1 1 auto" (click)="setDate('M1')">1개월</button>
+    <button ion-button outline fxFlex="1 1 auto" (click)="setDate('M3')">3개월</button>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label>Start Date</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="sch.startDate"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>End Date</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="sch.endDate"></ion-datetime>
+    </ion-item>
+  </ion-list>
+  <button ion-button full (click)="schHistory()">조회</button>
+
+  <ion-grid class="grid-table" fixed>
+    <ion-row class="grid-table-header">
+      <ion-col>일자</ion-col>
+      <ion-col>거래내역</ion-col>
+      <ion-col>여신포인트</ion-col>
+      <ion-col>잔여포인트</ion-col>
+    </ion-row>
+
+    <ion-row class="grid-table-body" *ngFor="let ph of pointHistory">
+      <ion-col>{{ph.date}}</ion-col>
+      <ion-col>{{ph.reasonType | commonCode:'REASON_TYPE'}}
+        <ng-container *ngIf="ph.reasonType == 'OP'">
+          {{ph.cnt}} 건
+        </ng-container>
+      </ion-col>
+      <ion-col>{{ph.point | number}}</ion-col>
+      <ion-col>{{ph.remain | number}}</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

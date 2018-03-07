@@ -1,0 +1,11 @@
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let goods of goodsList" (click)="orderSend(goods)">
+      <ion-thumbnail item-left>
+        <img src="{{ goods.imgPath }}"/>
+      </ion-thumbnail>
+        <h2>{{ goods.goodsName }}</h2>
+        <p>{{ goods.goodsPrice }}원</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

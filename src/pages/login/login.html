@@ -1,0 +1,48 @@
+<ion-content>
+  <!-- <form [formGroup]="loginForm" (submit)="doLogin()">
+    <ion-list>
+
+      <ion-item>
+        <ion-label fixed>ID</ion-label>
+        <ion-input type="text" [formControl]="loginForm.controls['id']" value="xmerce"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>PASSWORD</ion-label>
+        <ion-input type="password" [formControl]="loginForm.controls['password']" value="xmc5290"></ion-input>
+      </ion-item>
+
+      <div padding>
+        <button ion-button full [disabled]="!loginForm.valid">LOGIN</button>
+      </div>  
+    </ion-list>
+  </form> -->
+  <ion-card>
+    <ion-card-header>
+      <!-- <img src="../../assets/imgs/header_logo.png" alt="Logo" class="logo"> -->
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list no-line>
+        <ion-item>
+          <ion-input type="text" [(ngModel)]="memberId" placeholder="아이디" value="xmerce"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" [(ngModel)]="password" placeholder="비밀번호" value="xmc5290"></ion-input>
+        </ion-item>
+        <button ion-button block style="background-color: #3b5998" (click)="doLogin()">Login</button>
+        <ion-item>
+          <ion-label>아이디저장</ion-label>
+          <ion-checkbox [(ngModel)]="saveId"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label>자동로그인</ion-label>
+          <ion-checkbox [(ngModel)]="autoLogin"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>  
+  </ion-card>
+  <div class="rightBtn">
+      <button ion-button outline fxFlex="1 1 auto">아이디찾기</button>
+      <button ion-button outline fxFlex="1 1 auto">비밀번호찾기</button>
+    </div>
+</ion-content>
