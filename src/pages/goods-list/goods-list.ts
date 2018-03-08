@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OrderSendPage } from '../order-send/order-send';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 
@@ -16,7 +16,6 @@ export interface GoodsInterface {
   templateUrl: 'goods-list.html',
 })
 export class GoodsListPage {
-  @ViewChild(Nav) nav: Nav;
   
   goodsList: GoodsInterface[] = [
     {goodsId: '0000001234', goodsName: '[스타벅스] 아메리카노', goodsPrice: '4,100', imgPath: '../assets/imgs/goods1.jpg'},
@@ -27,13 +26,9 @@ export class GoodsListPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private loginService: LoginServiceProvider) {
   }
 
-  /* ionViewCanEnter(): boolean {
-    let isLogin = this.loginService.isLogin();
-    if(isLogin) {
-      this.navCtrl.setRoot('LoginPage');
-    }
-    return isLogin;
-  } */
+  ionViewCanEnter(): boolean {
+    return this.loginService.isLogin();
+  }
 
   orderSend(goods) {
     this.navCtrl.push(OrderSendPage, {item: goods});

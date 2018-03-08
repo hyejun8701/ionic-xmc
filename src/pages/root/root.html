@@ -7,25 +7,12 @@
           {{btobMember?.memberName}} 님 보유포인트: {{btobMember?.point | number}}P
         </span>
     </ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
-  <ion-toolbar no-border-top>
-    <ion-segment [(ngModel)]="apps">
-      <ion-segment-button value="paid">
-          상품리스트
-      </ion-segment-button>
-      <ion-segment-button value="free">
-          포인트관리
-      </ion-segment-button>
-    </ion-segment>
-    <button ion-button menuToggle right>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-  </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-nav [root]="rootPage"></ion-nav>

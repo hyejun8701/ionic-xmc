@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Nav, MenuController, App } from 'ionic-angular';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { GoodsListPage } from '../goods-list/goods-list';
+import { PointHistoryPage } from '../point-history/point-history';
 
 export interface PageInterface {
   title: string;
-  pageName: string;
-  tabComponent? :any;
-  index?: number;
+  component? :any;
   icon: string;
 }
 
@@ -21,9 +21,8 @@ export class MenuPage {
   @ViewChild(Nav) nav: Nav;
 
   pages: PageInterface[] = [
-    {title: '상품리스트', pageName: 'RootPage', tabComponent: 'GoodsListPage', index: 0, icon:'home'},
-    {title: '포인트관리', pageName: 'RootPage', tabComponent: 'PointHistoryPage', index: 1, icon:'star'},
-    {title: '개인정보', pageName: 'MemberCheckPage', icon:'settings'}
+    {title: '상품리스트', component: GoodsListPage, icon:'home'},
+    {title: '포인트관리', component: PointHistoryPage,icon:'star'}
   ]
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, public app: App,
@@ -49,6 +48,6 @@ export class MenuPage {
 
   openPage(page: PageInterface) {
     console.log(page);
-    this.navCtrl.push(page.pageName);
+    this.navCtrl.push(page.component);
   }
 }

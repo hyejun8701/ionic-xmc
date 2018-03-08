@@ -1,4 +1,17 @@
-<ion-content padding>
+<ion-content>
+        <ion-toolbar no-border-top>
+            <ion-segment [(ngModel)]="rootPage">
+              <ion-segment-button value="GoodsListPage">
+                  상품리스트
+              </ion-segment-button>
+              <ion-segment-button value="PointHistoryPage">
+                  포인트관리
+              </ion-segment-button>
+            </ion-segment>
+            <button ion-button menuToggle right>
+              <ion-icon name="menu"></ion-icon>
+            </button>
+          </ion-toolbar>
   <ion-list>
     <ion-item *ngFor="let goods of goodsList" (click)="orderSend(goods)">
       <ion-thumbnail item-left>

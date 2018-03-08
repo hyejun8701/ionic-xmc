@@ -24,16 +24,16 @@ export class LoginServiceProvider {
   authenticate(memberId: string, password: string): BtobMember {
 
     const params = {'memberId': memberId, 'password': password};
-
-    this.btobMember = new BtobMember();
-
+    
     this.http.post('/external' + '/login.do', JSON.stringify(params), {headers: this.headers})
-    .subscribe(data => {
-      //console.log(data);
-      Object.keys(data).forEach(key => {
-        this.btobMember.memberName = data[key].member_name;
-        this.btobMember.point = data[key].credit_balance;
-      });
+    .subscribe((data: any) => {
+      if(data.result_code == 'LINK_SUCCESS_S0000') {
+        this.btobMember = new BtobMember();
+        this.btobMember.memberName = data.result_msg.member_name;
+        this.btobMember.point = data.result_msg.credit_balance;
+      } else {
+        this.btobMember = null;
+      }
     },
     err => {
       console.log(err);
@@ -47,7 +47,10 @@ export class LoginServiceProvider {
   }
 
   isLogin() {
-    return this.btobMember != null;
+    if(this.btobMember != null && this.btobMember != undefined) {
+      return true;
+    }
+    return false;
   }
 
   logOut() {

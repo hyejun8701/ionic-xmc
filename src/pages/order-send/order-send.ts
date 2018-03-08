@@ -62,9 +62,6 @@ export class OrderSendPage {
   ionViewDidLeave() {
     // 페이지가 종료될때
     console.log('ionViewDidLeave OrderSendPage');
-    if(!this.rootActive) {
-      this.navCtrl.setRoot('GoodsListPage');
-    }
   }
 
   ionViewDidEnter() {

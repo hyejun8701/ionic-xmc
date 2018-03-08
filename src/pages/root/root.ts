@@ -22,10 +22,26 @@ export class RootPage {
       this.btobMember = this.loginService.getLoginInfo();
       //console.log(this.btobMember);
     }
-    return isLogin;
+    return this.loginService.isLogin();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RootPage');
+  }
+
+  ionViewDidEnter() {
+    console.log("ionViewDidEnter RootPage");
+  }
+
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave RootPage');
+  }
+
+  ionViewDidLeave() {
+    console.log('ionViewDidLeave RootPage');
+  }
+
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload RootPage');
   }
 }
