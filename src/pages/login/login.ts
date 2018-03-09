@@ -17,6 +17,7 @@ export class LoginPage {
   saveId: boolean;
   rememberMe: boolean;
   resResult: ResResult;
+  btobMember: BtobMember;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -40,8 +41,7 @@ export class LoginPage {
     
     /* 자동로그인 */
     const rememberInfo = JSON.parse(localStorage.getItem('rememberMe'));
-    const logOutInfo = localStorage.getItem('isLogOut');
-    if(rememberInfo != null && rememberInfo != "" && logOutInfo != "Y") {
+    if(rememberInfo != null && rememberInfo != "") {
       this.rememberMe = true;
       console.log(rememberInfo.memberId);
       console.log(rememberInfo.password);
@@ -52,20 +52,18 @@ export class LoginPage {
     }
   }
 
-  doLogin() {
-    let btobMember = null;
-    
+  doLogin() {   
     this.loginService.authenticate(this.memberId, this.password)
     .subscribe((data: any) => {
       if(data.result_code == 'APP_LINK_SUCCESS_S0000') {
-        btobMember = new BtobMember();
-        btobMember.memberName = data.result_msg.member_name;
-        btobMember.point = data.result_msg.credit_balance;
+        this.btobMember = new BtobMember();
+        this.btobMember.memberName = data.result_msg.member_name;
+        this.btobMember.point = data.result_msg.credit_balance;
       } else {
-        btobMember = null;
+        this.btobMember = null;
       }
       
-      this.loginService.setLoginInfo(btobMember);// 응답결과 set
+      this.loginService.setLoginInfo(this.btobMember);// 응답결과 set
       
       this.resResult = new ResResult();
       this.resResult.setResCode(data.result_code);
@@ -85,8 +83,6 @@ export class LoginPage {
         } else {
           localStorage.removeItem('rememberMe');
         }
-
-        localStorage.removeItem('isLogOut');
 
       } else {
         let alert = this.alertCtrl.create({

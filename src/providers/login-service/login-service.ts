@@ -11,8 +11,6 @@ export class LoginServiceProvider {
   private btobMember: BtobMember;
 
   constructor(public http: HttpClient) {
-    console.log('Hello LoginServiceProvider Provider');
-    
     this.SERVER = `${environment.HOST}`;
     this.headers = new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
@@ -22,7 +20,11 @@ export class LoginServiceProvider {
   }
   
   authenticate(memberId: string, password: string) {
-    return this.http.post(this.SERVER + '/login.do', JSON.stringify({'memberId': memberId, 'password': password}), {headers: this.headers});
+    return this.http.post(
+      this.SERVER + '/login.do',
+      JSON.stringify({'memberId': memberId, 'password': password}),
+      {headers: this.headers}
+    );
   }
 
   setLoginInfo(btobMember: BtobMember) {
@@ -42,6 +44,14 @@ export class LoginServiceProvider {
 
   logOut() {
     this.btobMember = null;
-    localStorage.setItem('isLogOut', 'Y');
+    localStorage.removeItem('rememberMe');
+  }
+
+  lostPassword(memberId: string, memberName: string, chargeMobile: string) {
+    return this.http.post(
+      this.SERVER + '/lostPassword.do',
+      JSON.stringify({'memberId': memberId, 'memberName': memberName, 'chargeMobile': chargeMobile}),
+      {headers: this.headers}
+    );
   }
 }
