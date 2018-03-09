@@ -25,8 +25,9 @@
         </ion-list>
       </ion-card-content>  
     </ion-card>
-    <div class="rightBtn">
-      <button ion-button clear>아이디찾기</button>|<button ion-button clear>비밀번호찾기</button>
-    </div>
   </form>
+    <div class="rightBtn">
+      <!-- <button ion-button clear>아이디찾기</button>| -->
+      <button ion-button clear (click)="lostPassword()">비밀번호찾기</button>
+    </div>
 </ion-content>

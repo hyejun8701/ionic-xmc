@@ -11,9 +11,9 @@ export class LoginServiceProvider {
   private btobMember: BtobMember;
 
   constructor(public http: HttpClient) {
-    //console.log('Hello LoginServiceProvider Provider');
+    console.log('Hello LoginServiceProvider Provider');
     
-    //this.SERVER = `${environment.HOST}`;
+    this.SERVER = `${environment.HOST}`;
     this.headers = new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
@@ -21,25 +21,12 @@ export class LoginServiceProvider {
     });
   }
   
-  authenticate(memberId: string, password: string): BtobMember {
+  authenticate(memberId: string, password: string) {
+    return this.http.post(this.SERVER + '/login.do', JSON.stringify({'memberId': memberId, 'password': password}), {headers: this.headers});
+  }
 
-    const params = {'memberId': memberId, 'password': password};
-    
-    this.http.post('/external' + '/login.do', JSON.stringify(params), {headers: this.headers})
-    .subscribe((data: any) => {
-      if(data.result_code == 'LINK_SUCCESS_S0000') {
-        this.btobMember = new BtobMember();
-        this.btobMember.memberName = data.result_msg.member_name;
-        this.btobMember.point = data.result_msg.credit_balance;
-      } else {
-        this.btobMember = null;
-      }
-    },
-    err => {
-      console.log(err);
-    });
-
-    return this.btobMember
+  setLoginInfo(btobMember: BtobMember) {
+    this.btobMember = btobMember;
   }
 
   getLoginInfo() {
@@ -55,5 +42,6 @@ export class LoginServiceProvider {
 
   logOut() {
     this.btobMember = null;
+    localStorage.setItem('isLogOut', 'Y');
   }
 }

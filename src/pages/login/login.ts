@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { BtobMember } from '../../models/btob-member';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ResResult } from '../../models/res-result';
 
 @IonicPage()
 @Component({
@@ -13,9 +14,9 @@ export class LoginPage {
   loginForm : FormGroup;
   memberId: string;
   password: string;
-  btobMember: BtobMember;
   saveId: boolean;
   rememberMe: boolean;
+  resResult: ResResult;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -39,58 +40,105 @@ export class LoginPage {
     
     /* 자동로그인 */
     const rememberInfo = JSON.parse(localStorage.getItem('rememberMe'));
-    if(rememberInfo != null && rememberInfo != "") {
+    const logOutInfo = localStorage.getItem('isLogOut');
+    if(rememberInfo != null && rememberInfo != "" && logOutInfo != "Y") {
       this.rememberMe = true;
-      this.loginService.authenticate(rememberInfo.memberId, rememberInfo.password);
-      
-      if(this.loginService.isLogin()) {
-        this.memberId = rememberInfo.memberId;
-        this.password = rememberInfo.password;
-      }
+      console.log(rememberInfo.memberId);
+      console.log(rememberInfo.password);
+
+      this.memberId = rememberInfo.memberId;
+      this.password = rememberInfo.password;
+      this.doLogin();
     }
   }
 
   doLogin() {
+    let btobMember = null;
     
-
-    this.loginService.authenticate(this.memberId, this.password);
-    if(this.loginService.isLogin()) {
-      this.navCtrl.setRoot('RootPage');
-
-      if(this.saveId) {
-        localStorage.setItem('memberId', this.memberId);
+    this.loginService.authenticate(this.memberId, this.password)
+    .subscribe((data: any) => {
+      if(data.result_code == 'APP_LINK_SUCCESS_S0000') {
+        btobMember = new BtobMember();
+        btobMember.memberName = data.result_msg.member_name;
+        btobMember.point = data.result_msg.credit_balance;
       } else {
-        localStorage.removeItem('memberId');
+        btobMember = null;
       }
-
-      if(this.rememberMe) {
-        let info = {
-          memberId: this.memberId,
-          password: this.password
+      
+      this.loginService.setLoginInfo(btobMember);// 응답결과 set
+      
+      this.resResult = new ResResult();
+      this.resResult.setResCode(data.result_code);
+      this.resResult.setResMsg(decodeURIComponent((data.result_msg).toString().replace(/\+/g, '%20')));
+        
+      if(this.loginService.isLogin()) {
+        this.navCtrl.setRoot('RootPage');
+  
+        if(this.saveId) {
+          localStorage.setItem('memberId', this.memberId);
+        } else {
+          localStorage.removeItem('memberId');
         }
-        localStorage.setItem('rememberMe', JSON.stringify(info));
+  
+        if(this.rememberMe) {
+          localStorage.setItem('rememberMe', JSON.stringify({'memberId': this.memberId, 'password': this.password}));
+        } else {
+          localStorage.removeItem('rememberMe');
+        }
+
+        localStorage.removeItem('isLogOut');
+
       } else {
-        localStorage.removeItem('rememberMe');
+        let alert = this.alertCtrl.create({
+          title: '로그인실패',
+          subTitle: this.resResult.getResMsg(),
+          buttons: ['확인']
+        });
+        alert.present();
       }
-    } else {
-      let alert = this.alertCtrl.create({
-        title: '로그인실패',
-        subTitle: '입력하신 정보가 일치하지 않습니다.',
-        buttons: ['확인']
-      });
-      alert.present();
-    }
+    },
+    err => {
+      console.log(err);
+    });
   }
 
-  ionViewDidLoad() {
+  lostMemberId() {
+
+  }
+
+  lostPassword() {
+    let alert = this.alertCtrl.create({
+      title: '비밀번호 요청하기',
+      inputs: [
+        {type: 'text', name: 'memberID', placeholder: '아이디'},
+        {type: 'text', name: 'memberName', placeholder: '이름'},
+        {type: 'tel', name: 'mobile', placeholder: '휴대폰번호'}
+      ],
+      buttons:[
+        /* {
+          text: '취소',
+          role: 'cancel',
+          handler: data => {
+          }
+        }, */
+        {
+          text: '관리자에게 정보 요청하기',
+          handler: data => {
+            console.log('Input data:', data);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  /* ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
   ionViewDidEnter() {
     console.log("ionViewDidEnter LoginPage");
-    if(this.loginService.isLogin()) {
-      this.navCtrl.setRoot('RootPage');
-    }
   }
 
   ionViewWillLeave() {
@@ -103,5 +151,5 @@ export class LoginPage {
 
   ionViewWillUnload() {
     console.log('ionViewWillUnload LoginPage');
-  }
+  } */
 }
