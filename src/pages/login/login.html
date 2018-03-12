@@ -14,15 +14,31 @@
             <ion-input type="password" [(ngModel)]="password" formControlName="password" placeholder="비밀번호"></ion-input>
           </ion-item>
           <button ion-button block style="background-color: #3b5998" [disabled]="!loginForm.valid" type="submit">로그인</button>
-          <ion-item>
+          <!-- <ion-item>
             <ion-label>아이디저장</ion-label>
             <ion-checkbox [(ngModel)]="saveId" [ngModelOptions]="{standalone: true}"></ion-checkbox>
           </ion-item>
           <ion-item>
             <ion-label>자동로그인</ion-label>
             <ion-checkbox [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-          </ion-item>
+          </ion-item> -->
         </ion-list>
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>아이디저장</ion-label>
+                <ion-checkbox [(ngModel)]="saveId" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>자동로그인</ion-label>
+                <ion-checkbox [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>  
     </ion-card>
   </form>

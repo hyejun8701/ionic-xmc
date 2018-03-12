@@ -4,7 +4,7 @@ import { BtobMember } from '../../models/btob-member';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class LoginServiceProvider {
+export class LoginProvider {
   private SERVER: string;
   private headers: HttpHeaders;
 
@@ -45,13 +45,5 @@ export class LoginServiceProvider {
   logOut() {
     this.btobMember = null;
     localStorage.removeItem('rememberMe');
-  }
-
-  lostPassword(memberId: string, memberName: string, chargeMobile: string) {
-    return this.http.post(
-      this.SERVER + '/lostPassword.do',
-      JSON.stringify({'memberId': memberId, 'memberName': memberName, 'chargeMobile': chargeMobile}),
-      {headers: this.headers}
-    );
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { BtobMember } from '../../models/btob-member';
+import { LoginProvider } from '../../providers/login/login';
 
 @IonicPage()
 @Component({
@@ -12,17 +12,17 @@ export class RootPage {
   btobMember: BtobMember;
   rootPage = 'GoodsListPage';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private loginService: LoginServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private loginProvider: LoginProvider) {
     
   }
 
   ionViewCanEnter(): boolean {
-    let isLogin = this.loginService.isLogin();
+    let isLogin = this.loginProvider.isLogin();
     if(isLogin) {
-      this.btobMember = this.loginService.getLoginInfo();
+      this.btobMember = this.loginProvider.getLoginInfo();
       //console.log(this.btobMember);
     }
-    return this.loginService.isLogin();
+    return this.loginProvider.isLogin();
   }
 
   ionViewDidLoad() {

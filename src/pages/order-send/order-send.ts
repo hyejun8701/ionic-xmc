@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
-import { OrderReceiverInputModalPage } from '../order-receiver-input-modal/order-receiver-input-modal';
+import { OrderReceiverInputModalPage } from '../modal/order-receiver-input-modal/order-receiver-input-modal';
 import { OrderSendResultPage } from '../order-send-result/order-send-result';
 
 @IonicPage()
@@ -22,7 +22,7 @@ export class OrderSendPage {
   createReceiverModal(type) {
     console.log(type);
     if(type == 'input') {
-      let modal = this.modalCtrl.create(OrderReceiverInputModalPage);
+      let modal = this.modalCtrl.create('OrderReceiverInputModalPage');
       modal.onDidDismiss(data => {
         if(data != null) {
           for(let i = 0; i < data.length; i++) {

@@ -11,17 +11,17 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { TopComponent } from '../components/top/top';
 import { OrderSendPage } from '../pages/order-send/order-send';
 import { ComponentsModule } from '../components/components.module';
-import { OrderReceiverInputModalPage } from '../pages/order-receiver-input-modal/order-receiver-input-modal';
 import { OrderSendResultPage } from '../pages/order-send-result/order-send-result';
-import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BtobMemberProvider } from '../providers/btob-member/btob-member';
+import { LoginProvider } from '../providers/login/login';
 
 @NgModule({
   declarations: [
     MyApp,
     OrderSendPage,
     OrderSendResultPage,
-    OrderReceiverInputModalPage,
+    //OrderReceiverInputModalPage,
   ],
   imports: [
     BrowserModule,
@@ -34,13 +34,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     MyApp,
     OrderSendPage,
     OrderSendResultPage,
-    OrderReceiverInputModalPage,
+    //OrderReceiverInputModalPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LoginServiceProvider,
+    BtobMemberProvider,
+    LoginProvider,
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

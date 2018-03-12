@@ -3,7 +3,7 @@ import { Platform, Nav, NavController} from 'ionic-angular';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
-import { LoginServiceProvider } from '../providers/login-service/login-service';
+import { LoginProvider } from '../providers/login/login';
 
 export interface PageInterface {
   title: string;
@@ -24,7 +24,7 @@ export class MyApp {
     {title: '포인트관리', component: 'PointHistoryPage', icon:'star'}
   ]
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private loginService: LoginServiceProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private loginProvider: LoginProvider) {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
@@ -37,7 +37,7 @@ export class MyApp {
   }
 
   logOut() {
-    this.loginService.logOut();
+    this.loginProvider.logOut();
     this.nav.setRoot('LoginPage');
   }
 }

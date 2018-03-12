@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Nav, MenuController, App } from 'ionic-angular';
-import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { LoginProvider } from '../../providers/login/login';
 import { GoodsListPage } from '../goods-list/goods-list';
 import { PointHistoryPage } from '../point-history/point-history';
 
@@ -26,7 +26,7 @@ export class MenuPage {
   ]
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, public app: App,
-  private loginService: LoginServiceProvider) {
+  private loginProvider: LoginProvider) {
   }
 
   /* ionViewCanEnter(): boolean {
@@ -42,7 +42,7 @@ export class MenuPage {
   }
 
   logOut() {
-    this.loginService.logOut();
+    this.loginProvider.logOut();
     this.navCtrl.setRoot('LoginPage');
   }
 

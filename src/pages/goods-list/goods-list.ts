@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OrderSendPage } from '../order-send/order-send';
-import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { LoginProvider } from '../../providers/login/login';
 
 export interface GoodsInterface {
   goodsId: string;
@@ -23,11 +23,11 @@ export class GoodsListPage {
     {goodsId: '0000001236', goodsName: '[투썸플레이스] 아메리카노', goodsPrice: '4,900', imgPath: '../assets/imgs/goods3.jpg'},
   ];
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private loginService: LoginServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private loginProvider: LoginProvider) {
   }
 
   ionViewCanEnter(): boolean {
-    return this.loginService.isLogin();
+    return this.loginProvider.isLogin();
   }
 
   orderSend(goods) {
