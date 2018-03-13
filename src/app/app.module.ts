@@ -15,6 +15,7 @@ import { OrderSendResultPage } from '../pages/order-send-result/order-send-resul
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BtobMemberProvider } from '../providers/btob-member/btob-member';
 import { LoginProvider } from '../providers/login/login';
+import { BtobEventGoodsProvider } from '../providers/btob-event-goods/btob-event-goods';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { LoginProvider } from '../providers/login/login';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BtobMemberProvider,
     LoginProvider,
+    BtobEventGoodsProvider,
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

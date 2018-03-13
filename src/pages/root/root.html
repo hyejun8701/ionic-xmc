@@ -1,9 +1,10 @@
 <ion-header>
-  <ion-navbar primary>
+  <!-- <ion-navbar> -->
+      <ion-toolbar>
     <ion-title>
-        <img src="../assets/imgs/header_logo.png">
-        <span fxFlex></span>
-        <span style="font-size: 0.7em;vertical-align: middle;">
+        <!-- <img src="../assets/imgs/header_logo.png"> -->
+        <!-- <span fxFlex></span> -->
+        <span style="font-size: 0.7em;vertical-align: text-top;">
           {{btobMember?.memberName}} 님 보유포인트: {{btobMember?.point | number}}P
         </span>
     </ion-title>
@@ -12,8 +13,41 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons> -->
-  </ion-navbar>
+    </ion-toolbar>
+  <!-- </ion-navbar> -->
 </ion-header>
 <ion-content>
-  <ion-nav [root]="rootPage"></ion-nav>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="rootPage" color="dark">
+      <ion-segment-button value="GoodsListPage">
+          상품리스트
+      </ion-segment-button>
+      <ion-segment-button value="PointHistoryPage">
+          포인트관리
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons end>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div>
+    <ion-nav [root]="rootPage"></ion-nav>
+  </div>
 </ion-content>
+
+<!-- <ion-content padding>
+    <ion-segment [(ngModel)]="modelStyle" color="dark">
+      <ion-segment-button value="A">
+        Model A
+      </ion-segment-button>
+      <ion-segment-button value="B">
+        Model B
+      </ion-segment-button>
+      <ion-segment-button value="C">
+        Model C
+      </ion-segment-button>
+    </ion-segment>
+    <p>Model Style: <b>Model {{ modelStyle }}</b></p>
+  </ion-content> -->

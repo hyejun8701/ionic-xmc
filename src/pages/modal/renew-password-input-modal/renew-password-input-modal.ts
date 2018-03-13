@@ -39,7 +39,19 @@ export class RenewPasswordInputModalPage {
 
   dismiss() {
     if(this.newPassword != this.newPasswordCheck) {
-
+      let alert = this.alertCtrl.create({
+        subTitle: '입력하신 비밀번호가 일치하지 않습니다.',
+        buttons: [
+          {
+            text: '확인',
+            handler: () => {
+              console.log('clicked');
+            }
+          }
+        ]
+      });
+      
+      alert.present();
     } else {
       this.btobMemberProvider.renewPassword(this.memberId, this.password, this.newPassword)
       .subscribe((data: any) => {

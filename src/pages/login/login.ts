@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ResResult } from '../../models/res-result';
@@ -27,7 +27,8 @@ export class LoginPage {
               private alertCtrl: AlertController,
               private formBuilder: FormBuilder,
               private loginProvider: LoginProvider,
-              private btobMemberProvider: BtobMemberProvider) {
+              private btobMemberProvider: BtobMemberProvider,
+              private loadingCtrl: LoadingController) {
     console.log('constructor LoginPage');
 
     /* form 체크 */
@@ -47,8 +48,8 @@ export class LoginPage {
     const rememberInfo = JSON.parse(localStorage.getItem('rememberMe'));
     if(rememberInfo != null && rememberInfo != "") {
       this.rememberMe = true;
-      console.log(rememberInfo.memberId);
-      console.log(rememberInfo.password);
+      //console.log(rememberInfo.memberId);
+      //console.log(rememberInfo.password);
 
       this.memberId = rememberInfo.memberId;
       this.password = rememberInfo.password;
@@ -58,12 +59,13 @@ export class LoginPage {
 
   doLogin() {   
     this.loginProvider.authenticate(this.memberId, this.password)
-    .subscribe((data: any) => {
-      if(data.result_code == 'APP_LINK_SUCCESS_S0000') {
+    .subscribe((res: any) => {
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.btobMember = new BtobMember();
-        this.btobMember.memberName = data.result_msg.member_name;
-        this.btobMember.point = data.result_msg.credit_balance;
-        this.btobMember.lastLoginDate = data.result_msg.last_login_date;
+        this.btobMember.memberId = res.result_msg.member_id;
+        this.btobMember.memberName = res.result_msg.member_name;
+        this.btobMember.point = res.result_msg.credit_balance;
+        this.btobMember.lastLoginDate = res.result_msg.last_login_date;
       } else {
         this.btobMember = null;
       }
@@ -71,53 +73,63 @@ export class LoginPage {
       this.loginProvider.setLoginInfo(this.btobMember);// 응답결과 set
       
       this.resResult = new ResResult();
-      this.resResult.setResCode(data.result_code);
-      this.resResult.setResMsg(decodeURIComponent((data.result_msg).toString().replace(/\+/g, '%20')));
+      this.resResult.setResCode(res.result_code);
+      this.resResult.setResMsg(decodeURIComponent((res.result_msg).toString().replace(/\+/g, '%20')));
         
-      if(this.loginProvider.isLogin()) {       
-        this.navCtrl.setRoot('RootPage');
-  
-        if(this.saveId) {
-          localStorage.setItem('memberId', this.memberId);
-        } else {
-          localStorage.removeItem('memberId');
-        }
-  
-        if(this.rememberMe) {
-          localStorage.setItem('rememberMe', JSON.stringify({'memberId': this.memberId, 'password': this.password}));
-        } else {
-          localStorage.removeItem('rememberMe');
-        }
+      if(this.loginProvider.isLogin()) {
+        let loader = this.loadingCtrl.create({
+          content: "Please wait..."
+        });
+        loader.present();
 
-        const last = moment(new Date(this.btobMember.lastLoginDate)).add(-1, 'days').format('YYYY-MM-DD');
-        const curr = moment(new Date()).add(-3, 'month').format('YYYY-MM-DD');
+        setTimeout(() => {
+          this.navCtrl.setRoot('RootPage');
+    
+          if(this.saveId) {
+            localStorage.setItem('memberId', this.memberId);
+          } else {
+            localStorage.removeItem('memberId');
+          }
+    
+          if(this.rememberMe) {
+            localStorage.setItem('rememberMe', JSON.stringify({'memberId': this.memberId, 'password': this.password}));
+          } else {
+            localStorage.removeItem('rememberMe');
+          }
 
-        console.log(last);
-        console.log(curr);
+          const last = moment(new Date(this.btobMember.lastLoginDate)).add(-1, 'days').format('YYYY-MM-DD');
+          const curr = moment(new Date()).add(-3, 'month').format('YYYY-MM-DD');
 
-        //if(moment.utc(last).isBefore(curr)) {
-          let alert = this.alertCtrl.create({
-            //title: '로그인 후 3개월 기간경과 시 비밀번호 변경',
-            message: '고객님의 소중한 정보를 위하여<br/>비밀번호를 변경하여 주세요.',
-            buttons: [
-              {
-                text: '다음에',
-                handler: () => {
-                  console.log('Disagree clicked');
+          //console.log(last);
+          //console.log(curr);
+
+          if(moment.utc(last).isBefore(curr)) {
+            let alert = this.alertCtrl.create({
+              //title: '로그인 후 3개월 기간경과 시 비밀번호 변경',
+              message: '고객님의 소중한 정보를 위하여<br/>비밀번호를 변경하여 주세요.',
+              buttons: [
+                {
+                  text: '다음에',
+                  handler: () => {
+                    console.log('Disagree clicked');
+                  }
+                },
+                {
+                  text: '지금 변경하기',
+                  handler: () => {
+                    console.log('Agree clicked');
+                    this.navCtrl.push('RenewPasswordInputModalPage', {'memberId': this.memberId});
+                  }
                 }
-              },
-              {
-                text: '지금 변경하기',
-                handler: () => {
-                  console.log('Agree clicked');
-                  this.navCtrl.push('RenewPasswordInputModalPage', {'memberId': this.memberId});
-                }
-              }
-            ]
-          });
-      
-          alert.present();
-        //}
+              ]
+            });
+        
+            alert.present();
+          }
+
+          loader.dismiss();
+        }, 1500);
+
       } else {
         let alert = this.alertCtrl.create({
           title: '로그인실패',
@@ -165,11 +177,11 @@ export class LoginPage {
               return false;
             } else {
               this.btobMemberProvider.lostPassword(data.memberId, data.memberName, data.chargeMobile)
-              .subscribe((data: any) => {
+              .subscribe((res: any) => {
                 //console.log(data);
                 this.resResult = new ResResult();
-                this.resResult.setResCode(data.result_code);
-                this.resResult.setResMsg(decodeURIComponent((data.result_msg).toString().replace(/\+/g, '%20')));
+                this.resResult.setResCode(res.result_code);
+                this.resResult.setResMsg(decodeURIComponent((res.result_msg).toString().replace(/\+/g, '%20')));
                 
                 let alert = this.alertCtrl.create({
                   title: '비밀번호요청결과',
