@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { OrderSendPage } from '../order-send/order-send';
 import { LoginProvider } from '../../providers/login/login';
 import { BtobEventGoodsProvider } from '../../providers/btob-event-goods/btob-event-goods';
@@ -28,8 +28,12 @@ export class GoodsListPage {
     {goodsId: '0000001236', goodsName: '[투썸플레이스] 아메리카노', goodsPrice: '4,900', imgPath: '../assets/imgs/goods3.jpg'},
   ]; */
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private loginProvider: LoginProvider,
-  private btobEventGoodsProvider: BtobEventGoodsProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private loginProvider: LoginProvider,
+              private btobEventGoodsProvider: BtobEventGoodsProvider,
+              private modalCtrl: ModalController
+              ) {
     btobEventGoodsProvider.getEventGoodsList(loginProvider.getLoginInfo().memberId)
     .subscribe((res: any) => {
       //console.log(res);
@@ -56,7 +60,11 @@ export class GoodsListPage {
   }
 
   orderSend(goods) {
-    this.navCtrl.push(OrderSendPage, {item: goods});
+    // let modal = this.modalCtrl.create('OrderSendModalPage');
+    //   modal.present();
+
+    this.navCtrl.push('OrderSendModalPage', {item: goods});
+    //this.navCtrl.push(OrderSendPage, {item: goods});
   }
 
   ionViewDidLoad() {

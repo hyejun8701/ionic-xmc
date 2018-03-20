@@ -22,7 +22,7 @@ export class MenuPage {
 
   pages: PageInterface[] = [
     {title: '상품리스트', component: GoodsListPage, icon:'home'},
-    {title: '포인트관리', component: PointHistoryPage,icon:'star'}
+    {title: '포인트관리', component: PointHistoryPage, icon:'star'}
   ]
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, public app: App,
@@ -46,8 +46,11 @@ export class MenuPage {
     this.navCtrl.setRoot('LoginPage');
   }
 
-  openPage(page: PageInterface) {
-    console.log(page);
-    this.navCtrl.push(page.component);
-  }
+  // openPage(page: PageInterface) {
+  //   console.log(page);
+  //   //this.navCtrl.push(page.component);
+  //   //this.rootPage = page.component;
+  //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  //   console.log(this.app.getRootNav());
+  // }
 }

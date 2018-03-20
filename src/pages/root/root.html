@@ -8,33 +8,31 @@
           {{btobMember?.memberName}} 님 보유포인트: {{btobMember?.point | number}}P
         </span>
     </ion-title>
-    <!-- <ion-buttons end>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons> -->
-    </ion-toolbar>
-  <!-- </ion-navbar> -->
-</ion-header>
-<ion-content>
-  <ion-toolbar>
-    <ion-segment [(ngModel)]="rootPage" color="dark">
-      <ion-segment-button value="GoodsListPage">
-          상품리스트
-      </ion-segment-button>
-      <ion-segment-button value="PointHistoryPage">
-          포인트관리
-      </ion-segment-button>
-    </ion-segment>
     <ion-buttons end>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-toolbar>
-  <div>
-    <ion-nav [root]="rootPage"></ion-nav>
-  </div>
+    </ion-toolbar>
+    <!-- <ion-toolbar>
+      <ion-segment [(ngModel)]="rootPage" color="dark">
+        <ion-segment-button value="GoodsListPage">
+            상품리스트
+        </ion-segment-button>
+        <ion-segment-button value="PointHistoryPage">
+            포인트관리
+        </ion-segment-button>
+      </ion-segment>
+      <ion-buttons end>
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar> -->
+  <!-- </ion-navbar> -->
+</ion-header>
+<ion-content>
+  <ion-nav [root]="rootPage" #content></ion-nav>
 </ion-content>
 
 <!-- <ion-content padding>

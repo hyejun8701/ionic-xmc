@@ -34,7 +34,7 @@ export class PointHistoryPage {
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    console.log(this.currDate);
+    //console.log(this.currDate);
   }
 
   setDate(type: string) {
@@ -58,6 +58,6 @@ export class PointHistoryPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PointHistoryPage');
-    console.log(this.navCtrl.parent);
+    //console.log(this.navCtrl.parent);
   }
 }
