@@ -20,7 +20,7 @@ export class BtobEventGoodsProvider {
   /* 간편발송 이벤트등록 상품리스트 */
   getEventGoodsList(memberId: string) {
     return this.http.post(
-      this.SERVER + '/eventGoodsList.do',
+      this.SERVER + '/smtEventGoodsList.do',
       JSON.stringify({'memberId': memberId}),
       {headers: this.headers}
     );
