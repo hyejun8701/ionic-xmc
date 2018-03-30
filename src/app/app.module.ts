@@ -16,11 +16,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BtobMemberProvider } from '../providers/btob-member/btob-member';
 import { LoginProvider } from '../providers/login/login';
 import { BtobEventGoodsProvider } from '../providers/btob-event-goods/btob-event-goods';
+import { ExternalOrderProvider } from '../providers/external-order/external-order';
+import { OrderSendProvider } from '../providers/order-send/order-send';
 
 @NgModule({
   declarations: [
     MyApp,
-    OrderSendPage,
     OrderSendResultPage,
     //OrderReceiverInputModalPage,
   ],
@@ -33,7 +34,6 @@ import { BtobEventGoodsProvider } from '../providers/btob-event-goods/btob-event
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    OrderSendPage,
     OrderSendResultPage,
     //OrderReceiverInputModalPage,
   ],
@@ -44,6 +44,8 @@ import { BtobEventGoodsProvider } from '../providers/btob-event-goods/btob-event
     BtobMemberProvider,
     LoginProvider,
     BtobEventGoodsProvider,
+    ExternalOrderProvider,
+    OrderSendProvider,
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

@@ -4,7 +4,7 @@ import { BtobMember } from '../../models/btob-member';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class LoginProvider {
+export class BtobLoginProvider {
   private SERVER: string;
   private headers: HttpHeaders;
 

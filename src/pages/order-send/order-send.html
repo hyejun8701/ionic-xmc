@@ -5,7 +5,7 @@
     </ion-card-header>
     <ion-item>
       <ion-thumbnail item-left>
-        <img src="{{ goods.imgPath }}"/>
+        <img src="{{ goods.goodsImg }}"/>
       </ion-thumbnail>
         <h2>{{ goods.goodsName }}</h2>
         <p>{{ goods.goodsPrice }}</p>
@@ -44,7 +44,7 @@
     </ion-card-header>
     <ion-list>
       <ion-item>
-        <ion-input type="text" placeholder="발송메세지를 입력하세요."></ion-input>
+        <ion-textarea #myInput id="myInput" placeholder="발송메세지를 입력하세요." (keyup)="resize()"></ion-textarea>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -57,7 +57,7 @@
         총 발송 건수 {{receivers?.length}}건
       </ion-item>
       <ion-item style="text-align: right">
-        사용할 여신포인트 P
+        사용할 여신포인트 {{goods.goodsPrice * receivers?.length}}P
       </ion-item>
     </ion-list>
   </ion-card>

@@ -26,7 +26,7 @@ export class LoginPage {
               public navParams: NavParams,
               private alertCtrl: AlertController,
               private formBuilder: FormBuilder,
-              private loginProvider: LoginProvider,
+              private btobLoginProvider: BtobLoginProvider,
               private btobMemberProvider: BtobMemberProvider,
               private loadingCtrl: LoadingController) {
     console.log('constructor LoginPage');
@@ -58,7 +58,7 @@ export class LoginPage {
   }
 
   doLogin() {   
-    this.loginProvider.authenticate(this.memberId, this.password)
+    this.btobLoginProvider.authenticate(this.memberId, this.password)
     .subscribe((res: any) => {
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.btobMember = new BtobMember();
@@ -70,13 +70,13 @@ export class LoginPage {
         this.btobMember = null;
       }
       
-      this.loginProvider.setLoginInfo(this.btobMember);// 응답결과 set
+      this.btobLoginProvider.setLoginInfo(this.btobMember);// 응답결과 set
       
       this.resResult = new ResResult();
       this.resResult.setResCode(res.result_code);
       this.resResult.setResMsg(decodeURIComponent((res.result_msg).toString().replace(/\+/g, '%20')));
         
-      if(this.loginProvider.isLogin()) {
+      if(this.btobLoginProvider.isLogin()) {
         let loader = this.loadingCtrl.create({
           content: "Please wait..."
         });

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, Nav } from 'ionic-angular';
 import { OrderSendPage } from '../order-send/order-send';
 import { LoginProvider } from '../../providers/login/login';
 import { BtobEventGoodsProvider } from '../../providers/btob-event-goods/btob-event-goods';
@@ -19,6 +19,8 @@ export interface EventGoodsInterface {
   templateUrl: 'goods-list.html',
 })
 export class GoodsListPage {
+  @ViewChild(Nav) nav: Nav;
+  
   private btobMember: BtobMember;
   private goodsList: EventGoodsInterface[];
   
@@ -34,25 +36,27 @@ export class GoodsListPage {
               private btobEventGoodsProvider: BtobEventGoodsProvider,
               private modalCtrl: ModalController
               ) {
-    btobEventGoodsProvider.getEventGoodsList(loginProvider.getLoginInfo().memberId)
-    .subscribe((res: any) => {
-      //console.log(res);
-      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-        this.goodsList = new Array();
-        
-        for(let i = 0; i < res.result_data.length; i++) {
-          //console.log(res.result_data[i]);
-          this.goodsList.push(
-            {
-              goodsId: res.result_data[i].goods_id,
-              goodsName: res.result_data[i].goods_name,
-              goodsPrice: res.result_data[i].goods_price,
-              goodsImg: `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name
-            }
-          );
+    if(loginProvider.isLogin()) {
+      btobEventGoodsProvider.getEventGoodsList(loginProvider.getLoginInfo().memberId)
+      .subscribe((res: any) => {
+        //console.log(res);
+        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+          this.goodsList = new Array();
+          
+          for(let i = 0; i < res.result_data.length; i++) {
+            //console.log(res.result_data[i]);
+            this.goodsList.push(
+              {
+                goodsId: res.result_data[i].goods_id,
+                goodsName: res.result_data[i].goods_name,
+                goodsPrice: res.result_data[i].goods_price,
+                goodsImg: `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name
+              }
+            );
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   ionViewCanEnter(): boolean {
@@ -60,11 +64,12 @@ export class GoodsListPage {
   }
 
   orderSend(goods) {
-    // let modal = this.modalCtrl.create('OrderSendModalPage');
-    //   modal.present();
+    //  let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
+    //    modal.present();
 
-    this.navCtrl.push('OrderSendModalPage', {item: goods});
-    //this.navCtrl.push(OrderSendPage, {item: goods});
+    //this.navCtrl.push('OrderSendModalPage', {item: goods});
+    //this.navCtrl.setRoot('RootPage');
+    this.navCtrl.push('OrderSendPage', {item: goods});
   }
 
   ionViewDidLoad() {

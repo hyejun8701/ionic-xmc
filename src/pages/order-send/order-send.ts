@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { OrderReceiverInputModalPage } from '../modal/order-receiver-input-modal/order-receiver-input-modal';
 import { OrderSendResultPage } from '../order-send-result/order-send-result';
@@ -13,6 +13,7 @@ export class OrderSendPage {
   receiverSetType: string;
   receivers: Array<string> = [];
   rootActive: boolean = false;
+  @ViewChild('myInput') myInput: ElementRef;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
     this.goods = navParams.get("item");
@@ -39,6 +40,13 @@ export class OrderSendPage {
 
   receiverRemove(i) {
     this.receivers.splice(i , 1);
+  }
+
+  resize() {
+      var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
+      var scrollHeight = element.scrollHeight;
+      element.style.height = scrollHeight + 'px';
+      this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
   }
 
   orderSend() {

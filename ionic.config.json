@@ -8,6 +8,6 @@
   ,
   "proxies":[{
     "path": "/external",
-    "proxyUrl": "http://api.stepin.xmerce.com/external"
+    "proxyUrl": "http://api.stepin.xmerce.com/external/smt"
   }]
 }
