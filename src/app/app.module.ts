@@ -13,11 +13,10 @@ import { OrderSendPage } from '../pages/order-send/order-send';
 import { ComponentsModule } from '../components/components.module';
 import { OrderSendResultPage } from '../pages/order-send-result/order-send-result';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { BtobMemberProvider } from '../providers/btob-member/btob-member';
-import { LoginProvider } from '../providers/login/login';
-import { BtobEventGoodsProvider } from '../providers/btob-event-goods/btob-event-goods';
-import { ExternalOrderProvider } from '../providers/external-order/external-order';
-import { OrderSendProvider } from '../providers/order-send/order-send';
+import { BtobMemberProvider } from '../providers/btob/btob-member/btob-member';
+import { BtobLoginProvider } from '../providers/btob/btob-login/btob-login';
+import { BtobEventGoodsProvider } from '../providers/btob/btob-event-goods/btob-event-goods';
+import { OrderSendProvider } from '../providers/order/order-send/order-send';
 
 @NgModule({
   declarations: [
@@ -42,9 +41,8 @@ import { OrderSendProvider } from '../providers/order-send/order-send';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BtobMemberProvider,
-    LoginProvider,
+    BtobLoginProvider,
     BtobEventGoodsProvider,
-    ExternalOrderProvider,
     OrderSendProvider,
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]

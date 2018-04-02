@@ -3,8 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { BtobMember } from '../../models/btob-member';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ResResult } from '../../models/res-result';
-import { BtobMemberProvider } from '../../providers/btob-member/btob-member';
-import { LoginProvider } from '../../providers/login/login';
+import { BtobMemberProvider } from '../../providers/btob/btob-member/btob-member';
+import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
 
 import * as moment from 'moment';
 

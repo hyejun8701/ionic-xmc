@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Nav, MenuController, App } from 'ionic-angular';
-import { LoginProvider } from '../../providers/login/login';
+import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
 import { GoodsListPage } from '../goods-list/goods-list';
 import { PointHistoryPage } from '../point-history/point-history';
 
@@ -26,7 +26,7 @@ export class MenuPage {
   ]
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, public app: App,
-  private loginProvider: LoginProvider) {
+  private btobLoginProvider: BtobLoginProvider) {
   }
 
   /* ionViewCanEnter(): boolean {
@@ -42,7 +42,7 @@ export class MenuPage {
   }
 
   logOut() {
-    this.loginProvider.logOut();
+    this.btobLoginProvider.logOut();
     this.navCtrl.setRoot('LoginPage');
   }
 

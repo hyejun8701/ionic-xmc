@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
-import { LoginProvider } from '../../providers/login/login';
-import { BtobEventGoodsProvider } from '../../providers/btob-event-goods/btob-event-goods';
+import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
+import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods/btob-event-goods';
 import { environment } from '../../environments/environment';
 
 export interface EventGoodsInterface {
@@ -24,11 +24,11 @@ export class RootPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private loginProvider: LoginProvider,
+              private btobLoginProvider: BtobLoginProvider,
               private btobEventGoodsProvider: BtobEventGoodsProvider,
               private modalCtrl: ModalController) {
-      if(loginProvider.isLogin()) {
-        btobEventGoodsProvider.getEventGoodsList(loginProvider.getLoginInfo().memberId)
+      if(btobLoginProvider.isLogin()) {
+        btobEventGoodsProvider.getEventGoodsList(btobLoginProvider.getLoginInfo().memberId)
         .subscribe((res: any) => {
           //console.log(res);
           if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
@@ -55,12 +55,12 @@ export class RootPage {
   }
 
   ionViewCanEnter(): boolean {
-    let isLogin = this.loginProvider.isLogin();
+    let isLogin = this.btobLoginProvider.isLogin();
     if(isLogin) {
-      this.btobMember = this.loginProvider.getLoginInfo();
+      this.btobMember = this.btobLoginProvider.getLoginInfo();
       //console.log(this.btobMember);
     }
-    return this.loginProvider.isLogin();
+    return this.btobLoginProvider.isLogin();
   }
 
   ionViewDidLoad() {

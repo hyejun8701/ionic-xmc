@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Nav } from 'ionic-angular';
 import { OrderSendPage } from '../order-send/order-send';
-import { LoginProvider } from '../../providers/login/login';
-import { BtobEventGoodsProvider } from '../../providers/btob-event-goods/btob-event-goods';
+import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
+import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods/btob-event-goods';
 import { BtobMember } from '../../models/btob-member';
 import { environment } from '../../environments/environment';
 
