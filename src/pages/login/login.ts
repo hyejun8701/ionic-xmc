@@ -3,8 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { BtobMember } from '../../models/btob-member';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ResResult } from '../../models/res-result';
-import { BtobMemberProvider } from '../../providers/btob/btob-member/btob-member';
-import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
+import { BtobMemberProvider } from '../../providers/btob/btob-member';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
 
 import * as moment from 'moment';
 
@@ -62,10 +62,10 @@ export class LoginPage {
     .subscribe((res: any) => {
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.btobMember = new BtobMember();
-        this.btobMember.memberId = res.result_msg.member_id;
-        this.btobMember.memberName = res.result_msg.member_name;
-        this.btobMember.point = res.result_msg.credit_balance;
-        this.btobMember.lastLoginDate = res.result_msg.last_login_date;
+        this.btobMember.memberId = res.result_data.member_id;
+        this.btobMember.memberName = res.result_data.member_name;
+        this.btobMember.point = res.result_data.credit_balance;
+        this.btobMember.lastLoginDate = res.result_data.last_login_date;
       } else {
         this.btobMember = null;
       }

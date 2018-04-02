@@ -8,15 +8,15 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { MyApp } from './app.component';
 import { MenuPage } from '../pages/menu/menu';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { TopComponent } from '../components/top/top';
 import { OrderSendPage } from '../pages/order-send/order-send';
 import { ComponentsModule } from '../components/components.module';
 import { OrderSendResultPage } from '../pages/order-send-result/order-send-result';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { BtobMemberProvider } from '../providers/btob/btob-member/btob-member';
-import { BtobLoginProvider } from '../providers/btob/btob-login/btob-login';
-import { BtobEventGoodsProvider } from '../providers/btob/btob-event-goods/btob-event-goods';
-import { OrderSendProvider } from '../providers/order/order-send/order-send';
+import { BtobMemberProvider } from '../providers/btob/btob-member';
+import { BtobLoginProvider } from '../providers/btob/btob-login';
+import { BtobEventGoodsProvider } from '../providers/btob/btob-event-goods';
+import { OrderSendProvider } from '../providers/order/order-send';
+import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-member-credit-use-history';
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { OrderSendProvider } from '../providers/order/order-send/order-send';
     BtobLoginProvider,
     BtobEventGoodsProvider,
     OrderSendProvider,
+    BtobMemberCreditUseHistoryProvider,
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

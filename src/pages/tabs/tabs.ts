@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
-import { LoginProvider } from '../../providers/login/login';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ export class TabsPage {
   btobMember: BtobMember;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private loginProvider: LoginProvider) {
+              private btobLoginProvider: BtobLoginProvider) {
     this.btobMember = new BtobMember();
   }
   

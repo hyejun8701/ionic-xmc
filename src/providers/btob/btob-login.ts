@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BtobMember } from '../../../models/btob-member';
-import { environment } from '../../../environments/environment';
+import { BtobMember } from '../../models/btob-member';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class BtobLoginProvider {

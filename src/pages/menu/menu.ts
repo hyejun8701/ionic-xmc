@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Nav, MenuController, App } from 'ionic-angular';
-import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { GoodsListPage } from '../goods-list/goods-list';
 import { PointHistoryPage } from '../point-history/point-history';
 

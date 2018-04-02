@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
-import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
-import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods/btob-event-goods';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
+import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { environment } from '../../environments/environment';
 
 export interface EventGoodsInterface {

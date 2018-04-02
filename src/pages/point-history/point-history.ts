@@ -2,13 +2,17 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import * as moment from 'moment';
+import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
 
 export interface PointHistoryInterface {
-  date: string;
-  reasonType: string;
-  cnt?: string;
-  point: string;
-  remain :string;
+  datecreated: string;
+  usePrice: string;
+  orderCnt: string;
+  cancelCnt: string;
+  failCnt: string;
+  afterCreditBalance: string;
+  sumGroup :string;
 }
 
 @IonicPage()
@@ -18,42 +22,62 @@ export interface PointHistoryInterface {
 })
 export class PointHistoryPage {
   currDate = moment(new Date()).format('YYYY-MM-DD');
-  sch = {
-    startDate: this.currDate,
-    endDate: this.currDate
-  }
+  startDate = this.currDate;
+  endDate = this.currDate;
 
-  pointHistory: PointHistoryInterface[] = [
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "3000"},
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "4000"},
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "5000"},
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "6000"},
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "7000"},
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "8000"},
-    {date: "2017.06.01", reasonType: "OP", cnt: "1", point: "-1000", remain: "9000"}
-  ];
+  pointHistory: PointHistoryInterface[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private btobLoginProvider: BtobLoginProvider,
+              private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider
+            ) {
+
     //console.log(this.currDate);
   }
 
   setDate(type: string) {
-    this.sch.endDate = this.currDate;
+    this.endDate = this.currDate;
     switch (type) {
       case 'T':
-        this.sch.startDate = this.currDate;
+        this.startDate = this.currDate;
         break;
       case 'M1':
-        this.sch.startDate = moment(new Date()).add(-1, 'month').format('YYYY-MM-DD');
+        this.startDate = moment(new Date()).add(-1, 'month').format('YYYY-MM-DD');
         break;
       case 'M3':
-        this.sch.startDate = moment(new Date()).add(-3, 'month').format('YYYY-MM-DD');
+        this.startDate = moment(new Date()).add(-3, 'month').format('YYYY-MM-DD');
         break;
     }
   }
 
-  schHistory() {
-    alert('나중에 서비스에서 api 호출....');
+  getPointHistory() {
+    this.btobMemberCreditUseHistoryProvider.getCreditUseHistory(
+      this.btobLoginProvider.getLoginInfo().memberId,
+      this.startDate,
+      this.endDate
+    )
+    .subscribe((res: any) => {
+      //console.log(res);
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+        this.pointHistory = new Array();
+        
+        for(let i = 0; i < res.result_data.length; i++) {
+          //console.log(res.result_data[i]);
+          this.pointHistory.push(
+            {
+              datecreated: res.result_data[i].datecreated,
+              usePrice: res.result_data[i].use_price,
+              orderCnt: res.result_data[i].order_cnt,
+              cancelCnt: res.result_data[i].cancel_cnt,
+              failCnt: res.result_data[i].fail_cnt,
+              afterCreditBalance: res.result_data[i].after_credit_balance,
+              sumGroup: res.result_data[i].sum_group
+            }
+          );
+        }
+      }
+    });
   }
 
   ionViewDidLoad() {

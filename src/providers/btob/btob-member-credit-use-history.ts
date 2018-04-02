@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
-export class OrderSendProvider {
+export class BtobMemberCreditUseHistoryProvider {
   private SERVER: string;
   private headers: HttpHeaders;
 
@@ -13,13 +13,15 @@ export class OrderSendProvider {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-    });    
+    });
   }
 
-  orderSend(memberId: string, password: string) {
+  getCreditUseHistory(memberId: string, startDate: string, endDate: string) {
+    startDate = startDate.replace(/[^0-9]/g, "");
+    endDate = endDate.replace(/[^0-9]/g, "");
     return this.http.post(
-      this.SERVER + '/orderSend.do',
-      JSON.stringify({'memberId': memberId, 'password': password}),
+      this.SERVER + '/pointUseHistory.do',
+      JSON.stringify({'memberId': memberId, 'startDate': startDate, 'endDate': endDate}),
       {headers: this.headers}
     );
   }

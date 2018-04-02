@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Nav } from 'ionic-angular';
 import { OrderSendPage } from '../order-send/order-send';
-import { BtobLoginProvider } from '../../providers/btob/btob-login/btob-login';
-import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods/btob-event-goods';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
+import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { BtobMember } from '../../models/btob-member';
 import { environment } from '../../environments/environment';
 
@@ -32,12 +32,12 @@ export class GoodsListPage {
   
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private loginProvider: LoginProvider,
+              private btobLoginProvider: BtobLoginProvider,
               private btobEventGoodsProvider: BtobEventGoodsProvider,
               private modalCtrl: ModalController
               ) {
-    if(loginProvider.isLogin()) {
-      btobEventGoodsProvider.getEventGoodsList(loginProvider.getLoginInfo().memberId)
+    if(btobLoginProvider.isLogin()) {
+      btobEventGoodsProvider.getEventGoodsList(btobLoginProvider.getLoginInfo().memberId)
       .subscribe((res: any) => {
         //console.log(res);
         if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
@@ -60,7 +60,7 @@ export class GoodsListPage {
   }
 
   ionViewCanEnter(): boolean {
-    return this.loginProvider.isLogin();
+    return this.btobLoginProvider.isLogin();
   }
 
   orderSend(goods) {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { BtobMemberProvider } from '../../../providers/btob-member/btob-member';
+import { BtobMemberProvider } from '../../../providers/btob/btob-member';
 import { ResResult } from '../../../models/res-result';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
