@@ -16,10 +16,17 @@ export class OrderSendProvider {
     });    
   }
 
-  orderSend(memberId: string, password: string) {
+  orderSend(memberId: string, goodsId: string, receivermobiles: string, smsType: string, content: string) {
     return this.http.post(
       this.SERVER + '/orderSend.do',
-      JSON.stringify({'memberId': memberId, 'password': password}),
+      JSON.stringify(
+        {
+          'memberId': memberId,
+          'goodsId': goodsId,
+          'receivermobiles': receivermobiles,
+          'sms_type': smsType,// 나중에 네이밍 변경 카멜
+          'content': content
+        }),
       {headers: this.headers}
     );
   }

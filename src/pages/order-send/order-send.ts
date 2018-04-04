@@ -2,6 +2,8 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { OrderReceiverInputModalPage } from '../modal/order-receiver-input-modal/order-receiver-input-modal';
 import { OrderSendResultPage } from '../order-send-result/order-send-result';
+import { OrderSendProvider } from '../../providers/order/order-send';
+import { BtobLoginProvider } from '../../providers/btob/btob-login';
 
 @IonicPage()
 @Component({
@@ -15,7 +17,12 @@ export class OrderSendPage {
   rootActive: boolean = false;
   @ViewChild('myInput') myInput: ElementRef;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public modalCtrl: ModalController,
+              private btobLoginProvider: BtobLoginProvider,
+              private orderSendProvider: OrderSendProvider 
+            ) {
     this.goods = navParams.get("item");
     console.log(this.goods);
   }
@@ -50,6 +57,16 @@ export class OrderSendPage {
   }
 
   orderSend() {
+      this.orderSendProvider.orderSend(
+      this.btobLoginProvider.getLoginInfo().memberId,
+      this.goods.goodsId,
+      JSON.parse(JSON.stringify(this.receivers)),
+      'M',
+      this.myInput['_value']
+    ).subscribe((res: any) => {
+      console.log(res);
+    });
+
     this.navCtrl.setRoot(OrderSendResultPage);
     this.rootActive = true;
   }
