@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
-import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
-import { environment } from '../../environments/environment';
+import { App, MenuController } from 'ionic-angular';
 
-export interface EventGoodsInterface {
-  goodsId: string;
-  goodsName: string;
-  goodsPrice: string;
-  goodsImg :string;
+export interface PageInterface {
+  title: string;
+  component? :any;
+  icon: string;
 }
 
 @IonicPage()
@@ -19,48 +17,38 @@ export interface EventGoodsInterface {
 })
 export class RootPage {
   btobMember: BtobMember;
-  private goodsList: EventGoodsInterface[];
   rootPage = 'GoodsListPage';
+
+  pages: PageInterface[] = [
+    {title: '상품리스트', component: 'GoodsListPage', icon:'home'},
+    {title: '포인트관리', component: 'PointHistoryPage', icon:'card'}
+  ]
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private btobLoginProvider: BtobLoginProvider,
-              private btobEventGoodsProvider: BtobEventGoodsProvider,
-              private modalCtrl: ModalController) {
-      if(btobLoginProvider.isLogin()) {
-        btobEventGoodsProvider.getEventGoodsList(btobLoginProvider.getLoginInfo().memberId)
-        .subscribe((res: any) => {
-          //console.log(res);
-          if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-            this.goodsList = new Array();
-            
-            for(let i = 0; i < res.result_data.length; i++) {
-              //console.log(res.result_data[i]);
-              this.goodsList.push(
-                {
-                  goodsId: res.result_data[i].goods_id,
-                  goodsName: res.result_data[i].goods_name,
-                  goodsPrice: res.result_data[i].goods_price,
-                  goodsImg: `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name
-                }
-              );
-            }
-          }
-        });
-      }
-  }
-
-  orderSend(goods) {
-    this.navCtrl.push('OrderSendModalPage', {item: goods});
+              private app: App,
+              private menu: MenuController
+            ) {
+                menu.enable(true);
   }
 
   ionViewCanEnter(): boolean {
     let isLogin = this.btobLoginProvider.isLogin();
     if(isLogin) {
       this.btobMember = this.btobLoginProvider.getLoginInfo();
-      //console.log(this.btobMember);
     }
     return this.btobLoginProvider.isLogin();
+  }
+
+  openPage(page: PageInterface) {
+    console.log(page);
+    this.rootPage = page.component;
+  }
+
+  logOut() {
+    this.btobLoginProvider.logOut();
+    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewDidLoad() {

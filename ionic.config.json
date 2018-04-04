@@ -4,8 +4,7 @@
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
-  ,
+  },
   "proxies":[{
     "path": "/external",
     "proxyUrl": "http://api.stepin.xmerce.com/external/smt"

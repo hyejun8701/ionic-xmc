@@ -1,36 +1,40 @@
+<ion-menu [content]="content" side="right">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-list>
+      <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon"></ion-icon>
+          {{ p.title }}
+        </button>
+        <button ion-item menuClose (click)="logOut()">
+          <ion-icon item-start name="log-out"></ion-icon>
+          로그아웃
+        </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
 <ion-header>
-  <!-- <ion-navbar> -->
-      <ion-toolbar>
+  <ion-navbar>
     <ion-title>
-        <!-- <img src="../assets/imgs/header_logo.png"> -->
-        <!-- <span fxFlex></span> -->
-        <span style="font-size: 0.7em;vertical-align: text-top;">
-          {{btobMember?.memberName}} 님 보유포인트: {{btobMember?.point | number}}P
-        </span>
+      <!-- <img src="../assets/imgs/header_logo.png"> -->
+      <!-- <span fxFlex></span> -->
+      <span style="font-size: 0.7em;vertical-align: text-top;">
+        {{btobMember?.memberName}} 님 보유포인트: {{btobMember?.point | number}}P
+      </span>
     </ion-title>
     <ion-buttons end>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    </ion-toolbar>
-    <!-- <ion-toolbar>
-      <ion-segment [(ngModel)]="rootPage" color="dark">
-        <ion-segment-button value="GoodsListPage">
-            상품리스트
-        </ion-segment-button>
-        <ion-segment-button value="PointHistoryPage">
-            포인트관리
-        </ion-segment-button>
-      </ion-segment>
-      <ion-buttons end>
-        <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-toolbar> -->
-  <!-- </ion-navbar> -->
+  </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-nav [root]="rootPage" #content></ion-nav>
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 </ion-content>

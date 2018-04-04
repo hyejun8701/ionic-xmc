@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ResResult } from '../../models/res-result';
 import { BtobMemberProvider } from '../../providers/btob/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
