@@ -6,7 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { MyApp } from './app.component';
-import { MenuPage } from '../pages/menu/menu';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { OrderSendPage } from '../pages/order-send/order-send';
 import { OrderSendResultPage } from '../pages/order-send-result/order-send-result';

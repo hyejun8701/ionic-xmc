@@ -8,7 +8,7 @@
         <img src="{{ goods.goodsImg }}"/>
       </ion-thumbnail>
         <h2>{{ goods.goodsName }}</h2>
-        <p>{{ goods.goodsPrice }}</p>
+        <p>{{ goods.goodsPrice | number }}원</p>
     </ion-item>
   </ion-card>
   <ion-card>
@@ -18,11 +18,11 @@
     <ion-list radio-group [(ngModel)]="receiverSetType" (ionChange)="createReceiverModal(receiverSetType)">
         <ion-item>
           <ion-label>연락처</ion-label>
-          <ion-radio checked="true" value="address"></ion-radio>
+          <ion-radio value="address" [disabled]="true"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>카카오톡</ion-label>
-          <ion-radio value="kakako"></ion-radio>
+          <ion-radio value="kakako" [disabled]="true"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>직접입력</ion-label>

@@ -7,8 +7,12 @@ import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
   templateUrl: 'order-send-result.html',
 })
 export class OrderSendResultPage {
+  goods: any;
+  cnt: any;
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.goods = navParams.get("item");
+    this.cnt = navParams.get("cnt");
   }
 
   goPointHistory() {

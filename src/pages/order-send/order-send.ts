@@ -61,13 +61,14 @@ export class OrderSendPage {
       this.btobLoginProvider.getLoginInfo().memberId,
       this.goods.goodsId,
       JSON.parse(JSON.stringify(this.receivers)),
-      'M',
+      'Z',
       this.myInput['_value']
     ).subscribe((res: any) => {
       console.log(res);
     });
 
-    this.navCtrl.setRoot(OrderSendResultPage);
+    this.navCtrl.setRoot(OrderSendResultPage, {item: this.goods, cnt: this.receivers.length});
+    //this.navCtrl.push('OrderSendPage', {item: goods});
     this.rootActive = true;
   }
 
