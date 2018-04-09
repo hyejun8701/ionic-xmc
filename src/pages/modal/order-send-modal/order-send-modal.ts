@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController } from 'ionic-angular';
-import { OrderSendResultPage } from '../../order-send-result/order-send-result';
 import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
@@ -79,7 +78,7 @@ export class OrderSendModalPage {
         });
       });
 
-      let modal = this.modalCtrl.create('OrderSendResultPage', {item: this.goods, cnt: this.receivers.length});
+      let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
       modal.present().then(() => {
         this.viewCtrl.dismiss();
       });
