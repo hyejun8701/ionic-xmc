@@ -1,19 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { BaseProvider } from '../base-provider';
 
 @Injectable()
-export class OrderSendProvider {
-  private SERVER: string;
-  private headers: HttpHeaders;
+export class OrderSendProvider extends BaseProvider {
 
   constructor(public http: HttpClient) {
-    this.SERVER = `${environment.HOST}`;
-    this.headers = new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });    
+    super();  
   }
 
   orderSend(memberId: string, goodsId: string, receivermobiles: string, smsType: string, content: string) {
@@ -24,7 +17,7 @@ export class OrderSendProvider {
           'memberId': memberId,
           'goodsId': goodsId,
           'receivermobiles': receivermobiles,
-          'sms_type': smsType,// 나중에 네이밍 변경 카멜
+          'smsType': smsType,
           'content': content
         }),
       {headers: this.headers}

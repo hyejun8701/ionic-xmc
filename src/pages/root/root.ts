@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
-import { App, MenuController } from 'ionic-angular';
 
 export interface PageInterface {
   title: string;
@@ -17,7 +16,7 @@ export interface PageInterface {
 })
 export class RootPage {
   btobMember: BtobMember;
-  rootPage = 'GoodsListPage';
+  rootPage: string;
 
   pages: PageInterface[] = [
     {title: '상품리스트', component: 'GoodsListPage', icon:'home'},
@@ -27,10 +26,12 @@ export class RootPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private btobLoginProvider: BtobLoginProvider,
-              private app: App,
-              private menu: MenuController
+              private menuCtrl: MenuController
             ) {
-                menu.enable(true);
+              const changePage = this.navParams.get('rootPage');
+              if(changePage == null) {
+                this.openPage(this.pages[0]);
+              }
   }
 
   ionViewCanEnter(): boolean {
@@ -42,7 +43,8 @@ export class RootPage {
   }
 
   openPage(page: PageInterface) {
-    console.log(page);
+    console.log(">>>>>>>>>>> " + page.component);
+    this.navCtrl.popToRoot();
     this.rootPage = page.component;
   }
 
@@ -57,6 +59,13 @@ export class RootPage {
 
   ionViewDidEnter() {
     console.log("ionViewDidEnter RootPage");
+    const changePage = this.navParams.get('rootPage');
+    if(changePage != null) {
+      //this.rootPage = changePage;
+      //console.log(this.pages[1].component);
+      this.openPage(this.pages[1]);
+      this.menuCtrl.enable(true);
+    }
   }
 
   ionViewWillLeave() {

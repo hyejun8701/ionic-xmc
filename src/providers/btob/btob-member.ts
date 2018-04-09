@@ -1,20 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { BaseProvider } from '../base-provider';
 
 @Injectable()
-export class BtobMemberProvider {
-  private SERVER: string;
-  private headers: HttpHeaders;
-
+export class BtobMemberProvider extends BaseProvider {
+  
   constructor(public http: HttpClient) {
-    console.log('Hello BtobMemberProvider Provider');
-    this.SERVER = `${environment.HOST}`;
-    this.headers = new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
+    super();
   }
 
   /* 비밀번호 분실요청 */

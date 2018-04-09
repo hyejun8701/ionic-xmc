@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 
 import * as moment from 'moment';
 import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
@@ -30,9 +30,10 @@ export class PointHistoryPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private btobLoginProvider: BtobLoginProvider,
-              private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider
+              private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider,
+              private menuCtrl: MenuController
             ) {
-
+              this.menuCtrl.enable(true);
     //console.log(this.currDate);
   }
 
@@ -83,5 +84,9 @@ export class PointHistoryPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad PointHistoryPage');
     //console.log(this.navCtrl.parent);
+  }
+
+  ionViewDidEnter() {
+    this.menuCtrl.enable(true);
   }
 }

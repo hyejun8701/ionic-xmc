@@ -1,5 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, App, MenuController } from 'ionic-angular';
+import { RootPage } from '../root/root';
 
 @IonicPage()
 @Component({
@@ -10,21 +11,28 @@ export class OrderSendResultPage {
   goods: any;
   cnt: any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
+    private menuCtrl: MenuController
+    ) {
     this.goods = navParams.get("item");
     this.cnt = navParams.get("cnt");
   }
 
   goPointHistory() {
-    this.navCtrl.push('PointHistoryPage');
+    this.navCtrl.pop();
+    this.app.getRootNav().setRoot('RootPage', {rootPage: 'PointHistoryPage'});
   }
 
   goHome() {
-    this.navCtrl.push('GoodsListPage');
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderSendResultPage');
+  }
+
+  ionViewDidEnter() {
+    this.menuCtrl.enable(true);
   }
 
   ionViewDidLeave() {

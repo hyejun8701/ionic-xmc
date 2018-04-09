@@ -1,19 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { BaseProvider } from '../base-provider';
 
 @Injectable()
-export class BtobMemberCreditUseHistoryProvider {
-  private SERVER: string;
-  private headers: HttpHeaders;
+export class BtobMemberCreditUseHistoryProvider extends BaseProvider {
 
   constructor(public http: HttpClient) {
-    this.SERVER = `${environment.HOST}`;
-    this.headers = new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
+    super();
   }
 
   getCreditUseHistory(memberId: string, startDate: string, endDate: string) {

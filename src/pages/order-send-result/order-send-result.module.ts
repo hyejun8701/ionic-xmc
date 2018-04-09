@@ -7,7 +7,7 @@ import { OrderSendResultPage } from './order-send-result';
     OrderSendResultPage,
   ],
   imports: [
-    IonicPageModule.forChild(OrderSendResultPage),
-  ],
+    IonicPageModule.forChild(OrderSendResultPage)
+  ]
 })
 export class OrderSendResultPageModule {}

@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Nav } from 'ionic-angular';
-import { OrderSendPage } from '../order-send/order-send';
+import { IonicPage, NavController, NavParams, Nav, ModalController } from 'ionic-angular';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
-import { BtobMember } from '../../models/btob-member';
 import { environment } from '../../environments/environment';
 
 export interface EventGoodsInterface {
@@ -21,7 +19,6 @@ export interface EventGoodsInterface {
 export class GoodsListPage {
   @ViewChild(Nav) nav: Nav;
   
-  private btobMember: BtobMember;
   private goodsList: EventGoodsInterface[];
   
   /* goodsList: EventGoodsInterface[] = [
@@ -32,9 +29,9 @@ export class GoodsListPage {
   
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public modalCtrl: ModalController,
               private btobLoginProvider: BtobLoginProvider,
-              private btobEventGoodsProvider: BtobEventGoodsProvider,
-              private modalCtrl: ModalController
+              private btobEventGoodsProvider: BtobEventGoodsProvider
               ) {
     if(btobLoginProvider.isLogin()) {
       btobEventGoodsProvider.getEventGoodsList(btobLoginProvider.getLoginInfo().memberId)
@@ -64,12 +61,18 @@ export class GoodsListPage {
   }
 
   orderSend(goods) {
-    //  let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
-    //    modal.present();
+    let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
+    modal.onDidDismiss(data => {
+      console.log(data);
 
-    //this.navCtrl.push('OrderSendModalPage', {item: goods});
-    //this.navCtrl.setRoot('RootPage');
-    this.navCtrl.push('OrderSendPage', {item: goods});
+      // let modal = this.modalCtrl.create('OrderSendResultPage', data);
+      // modal.present();
+      if(data != null) {
+      }
+    });
+    modal.present();
+
+    //this.navCtrl.push('OrderSendPage', {item: goods});
   }
 
   ionViewDidLoad() {

@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>쿠폰 주문하기</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      1. 주문상품확인
+    </ion-card-header>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="{{ goods.goodsImg }}"/>
+      </ion-thumbnail>
+        <h2>{{ goods.goodsName }}</h2>
+        <p>{{ goods.goodsPrice | number }}원</p>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      2. 수신자 입력
+    </ion-card-header>
+    <ion-list radio-group [(ngModel)]="receiverSetType" (ionChange)="createReceiverModal(receiverSetType)">
+        <ion-item>
+          <ion-label>연락처</ion-label>
+          <ion-radio value="address" [disabled]="true"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>카카오톡</ion-label>
+          <ion-radio value="kakako" [disabled]="true"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>직접입력</ion-label>
+          <ion-radio value="input"></ion-radio>
+        </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="receivers?.length > 0">
+      <ion-item *ngFor="let receiver of receivers; let i = index;">
+        <ion-icon item-start color="primary"><p>{{i + 1}}</p></ion-icon>
+        <ion-label><p>{{receiver}}</p></ion-label>
+        <button ion-button clear color="dark" type="button" item-right (click)="receiverRemove(i)"><ion-icon name="close"></ion-icon></button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-card style="min-height: 25px">
+    <ion-card-header>
+      3. 메시지 입력
+    </ion-card-header>
+    <ion-list>
+      <ion-item>
+        <ion-textarea #myInput id="myInput" placeholder="발송메세지를 입력하세요." (keyup)="resize()"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      4. 사용포인트 확인
+    </ion-card-header>
+    <ion-list>
+      <ion-item style="text-align: right">
+        총 발송 건수 {{receivers?.length}}건
+      </ion-item>
+      <ion-item style="text-align: right">
+        사용할 여신포인트 {{goods.goodsPrice * receivers?.length}}P
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <div class="centerBtn">
+    <button ion-button (click)="orderSend();">발송하기</button>
+    <button ion-button (click)="goBack();">돌아가기</button>
+  </div>
+</ion-content>

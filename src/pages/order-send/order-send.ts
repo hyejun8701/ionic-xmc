@@ -1,9 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
-import { OrderReceiverInputModalPage } from '../modal/order-receiver-input-modal/order-receiver-input-modal';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { OrderSendResultPage } from '../order-send-result/order-send-result';
 import { OrderSendProvider } from '../../providers/order/order-send';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
+import { BtobMemberCreditProvider } from '../../providers/btob/btob-member-credit';
 
 @IonicPage()
 @Component({
@@ -21,7 +21,8 @@ export class OrderSendPage {
               public navParams: NavParams,
               public modalCtrl: ModalController,
               private btobLoginProvider: BtobLoginProvider,
-              private orderSendProvider: OrderSendProvider 
+              private orderSendProvider: OrderSendProvider,
+              private btobMemberCreditProvider: BtobMemberCreditProvider
             ) {
     this.goods = navParams.get("item");
     console.log(this.goods);
@@ -65,9 +66,18 @@ export class OrderSendPage {
       this.myInput['_value']
     ).subscribe((res: any) => {
       console.log(res);
+      
+      this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+      .subscribe((res: any) => {
+        console.log(res);
+
+        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+          this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance);
+        }
+      });
     });
 
-    this.navCtrl.setRoot(OrderSendResultPage, {item: this.goods, cnt: this.receivers.length});
+    this.navCtrl.push(OrderSendResultPage, {item: this.goods, cnt: this.receivers.length});
     //this.navCtrl.push('OrderSendPage', {item: goods});
     this.rootActive = true;
   }

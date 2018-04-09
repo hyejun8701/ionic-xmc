@@ -7,7 +7,6 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { MyApp } from './app.component';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { OrderSendPage } from '../pages/order-send/order-send';
 import { OrderSendResultPage } from '../pages/order-send-result/order-send-result';
 import { HttpClientModule } from '@angular/common/http';
 import { BtobMemberProvider } from '../providers/btob/btob-member';
@@ -15,11 +14,12 @@ import { BtobLoginProvider } from '../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../providers/btob/btob-event-goods';
 import { OrderSendProvider } from '../providers/order/order-send';
 import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-member-credit-use-history';
+import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
 @NgModule({
   declarations: [
     MyApp,
-    OrderSendResultPage,
+    //OrderSendResultPage,
     //OrderReceiverInputModalPage,
   ],
   imports: [
@@ -31,7 +31,7 @@ import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-membe
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    OrderSendResultPage,
+    //OrderSendResultPage,
     //OrderReceiverInputModalPage,
   ],
   providers: [
@@ -43,6 +43,7 @@ import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-membe
     BtobEventGoodsProvider,
     OrderSendProvider,
     BtobMemberCreditUseHistoryProvider,
+    BtobMemberCreditProvider,
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })
