@@ -7,7 +7,6 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { MyApp } from './app.component';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { OrderSendResultPage } from '../pages/order-send-result/order-send-result';
 import { HttpClientModule } from '@angular/common/http';
 import { BtobMemberProvider } from '../providers/btob/btob-member';
 import { BtobLoginProvider } from '../providers/btob/btob-login';
@@ -18,9 +17,7 @@ import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
 @NgModule({
   declarations: [
-    MyApp,
-    //OrderSendResultPage,
-    //OrderReceiverInputModalPage,
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -30,9 +27,7 @@ import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    //OrderSendResultPage,
-    //OrderReceiverInputModalPage,
+    MyApp
   ],
   providers: [
     StatusBar,

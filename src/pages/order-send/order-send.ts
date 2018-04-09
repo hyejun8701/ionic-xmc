@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { OrderSendResultPage } from '../order-send-result/order-send-result';
 import { OrderSendProvider } from '../../providers/order/order-send';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../providers/btob/btob-member-credit';
@@ -14,7 +13,7 @@ export class OrderSendPage {
   goods: any;
   receiverSetType: string;
   receivers: Array<string> = [];
-  rootActive: boolean = false;
+  
   @ViewChild('myInput') myInput: ElementRef;
 
   constructor(public navCtrl: NavController,
@@ -77,9 +76,7 @@ export class OrderSendPage {
       });
     });
 
-    this.navCtrl.push(OrderSendResultPage, {item: this.goods, cnt: this.receivers.length});
-    //this.navCtrl.push('OrderSendPage', {item: goods});
-    this.rootActive = true;
+    this.navCtrl.push('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
   }
 
   goBack() {

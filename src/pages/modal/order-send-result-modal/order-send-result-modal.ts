@@ -1,26 +1,27 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, App, MenuController } from 'ionic-angular';
-import { RootPage } from '../root/root';
 
 @IonicPage()
 @Component({
-  selector: 'page-order-send-result',
-  templateUrl: 'order-send-result.html',
+  selector: 'page-order-send-result-modal',
+  templateUrl: 'order-send-result-modal.html',
 })
-export class OrderSendResultPage {
+export class OrderSendResultModalPage {
   goods: any;
   cnt: any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
-    private menuCtrl: MenuController
-    ) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private app: App,
+              private menuCtrl: MenuController
+              ) {
     this.goods = navParams.get("item");
     this.cnt = navParams.get("cnt");
   }
 
   goPointHistory() {
-    this.navCtrl.pop();
     this.app.getRootNav().setRoot('RootPage', {rootPage: 'PointHistoryPage'});
+    this.navCtrl.pop();
   }
 
   goHome() {
@@ -28,7 +29,7 @@ export class OrderSendResultPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderSendResultPage');
+    console.log('ionViewDidLoad OrderSendResultModalPage');
   }
 
   ionViewDidEnter() {
@@ -37,6 +38,6 @@ export class OrderSendResultPage {
 
   ionViewDidLeave() {
     // 페이지가 종료될때
-    console.log('ionViewDidLeave OrderSendResultPage');
+    console.log('ionViewDidLeave OrderSendResultModalPage');
   }
 }
