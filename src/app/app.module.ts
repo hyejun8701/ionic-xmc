@@ -15,6 +15,9 @@ import { OrderSendProvider } from '../providers/order/order-send';
 import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-member-credit-use-history';
 import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
+import { CallNumber } from '@ionic-native/call-number';
+import { Contacts } from '@ionic-native/contacts';
+
 @NgModule({
   declarations: [
     MyApp
@@ -39,6 +42,8 @@ import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
     OrderSendProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,
+    CallNumber,
+    Contacts
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

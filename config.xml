@@ -88,4 +88,6 @@
         <variable name="ANDROID_PATH_PREFIX" value="/" />
     </plugin>
     <engine name="android" spec="~7.0.0" />
+    <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
+    <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
 </widget>

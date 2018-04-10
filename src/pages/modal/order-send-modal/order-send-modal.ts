@@ -4,6 +4,9 @@ import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
 
+import { CallNumber } from '@ionic-native/call-number';
+import { Contacts } from '@ionic-native/contacts';
+
 @IonicPage()
 @Component({
   selector: 'page-order-send-modal',
@@ -22,7 +25,9 @@ export class OrderSendModalPage {
               private orderSendProvider: OrderSendProvider,
               private btobMemberCreditProvider: BtobMemberCreditProvider,
               private viewCtrl: ViewController,
-              private alertCtrl: AlertController
+              private alertCtrl: AlertController,
+              private callNumber: CallNumber,
+              private contacts: Contacts
             ) {
     this.goods = navParams.get("item");
     console.log(this.goods);
@@ -43,6 +48,9 @@ export class OrderSendModalPage {
         }
       });
       modal.present();
+    } else if(type == 'address') {
+      console.log(this.contacts.find(["*"]));
+      alert(this.contacts.find(["*"]));
     }
   }
 

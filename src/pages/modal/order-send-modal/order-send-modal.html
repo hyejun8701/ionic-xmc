@@ -23,12 +23,12 @@
     <ion-list radio-group [(ngModel)]="receiverSetType" (ionChange)="createReceiverModal(receiverSetType)">
         <ion-item>
           <ion-label>연락처</ion-label>
-          <ion-radio value="address" [disabled]="true"></ion-radio>
+          <ion-radio value="address"></ion-radio>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
           <ion-label>카카오톡</ion-label>
           <ion-radio value="kakako" [disabled]="true"></ion-radio>
-        </ion-item>
+        </ion-item> -->
         <ion-item>
           <ion-label>직접입력</ion-label>
           <ion-radio value="input"></ion-radio>
