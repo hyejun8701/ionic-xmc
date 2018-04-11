@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    HOST: "/external/smt",
+    HOST: "/external",
     uploadPath: 'http://api.stepin.xmerce.com/upload'
 };

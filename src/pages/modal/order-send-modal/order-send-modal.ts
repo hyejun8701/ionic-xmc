@@ -49,8 +49,21 @@ export class OrderSendModalPage {
       });
       modal.present();
     } else if(type == 'address') {
-      console.log(this.contacts.find(["*"]));
-      alert(this.contacts.find(["*"]));
+      this.contacts.find(["*"], {multiple: true})
+      .then((res) => {
+      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {contacts: res});
+      modal.onDidDismiss(data => {
+        if(data != null) {
+          for(let i = 0; i < data.length; i++) {
+            if(!data[i]) {
+              continue;
+            }
+            this.receivers.push(data[i]);
+          }
+        }
+      });
+      modal.present();
+      });
     }
   }
 

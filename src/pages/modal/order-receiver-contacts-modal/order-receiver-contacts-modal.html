@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Multiline Items</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      연락처
+    </ion-list-header>
+
+    <ion-item *ngFor="let mc of myContacts | async">
+      <ion-avatar item-start>
+        <img [src]="contact.photos[0].value | safeUrl">
+      </ion-avatar>
+      <h2>{{contact.displayName}}</h2>
+      <p>{{mc.phoneNumers[0].value}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
