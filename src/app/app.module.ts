@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Keyboard } from "@ionic-native/keyboard";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { MyApp } from './app.component';
@@ -25,7 +26,7 @@ import { Contacts } from '@ionic-native/contacts';
   imports: [
     BrowserModule,
     FlexLayoutModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {scrollAssist: false, autoFocusAssist: false}),
     HttpClientModule
   ],
   bootstrap: [IonicApp],
@@ -35,6 +36,7 @@ import { Contacts } from '@ionic-native/contacts';
   providers: [
     StatusBar,
     SplashScreen,
+    Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BtobMemberProvider,
     BtobLoginProvider,
