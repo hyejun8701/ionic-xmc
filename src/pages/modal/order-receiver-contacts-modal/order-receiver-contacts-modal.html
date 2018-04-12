@@ -12,9 +12,9 @@
 
     <ion-item *ngFor="let mc of myContacts | async">
       <ion-avatar item-start>
-        <img [src]="contact.photos[0].value | safeUrl">
+        <img [src]="mc.photos[0].value | safeUrl">
       </ion-avatar>
-      <h2>{{contact.displayName}}</h2>
+      <h2>{{mc.displayName}}</h2>
       <p>{{mc.phoneNumers[0].value}}</p>
     </ion-item>
   </ion-list>

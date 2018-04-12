@@ -51,18 +51,23 @@ export class OrderSendModalPage {
     } else if(type == 'address') {
       this.contacts.find(["*"], {multiple: true})
       .then((res) => {
-      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {contacts: res});
-      modal.onDidDismiss(data => {
-        if(data != null) {
-          for(let i = 0; i < data.length; i++) {
-            if(!data[i]) {
-              continue;
-            }
-            this.receivers.push(data[i]);
-          }
-        }
-      });
-      modal.present();
+        alert(res[0].displayName);
+        alert(res[0].phoneNumbers);
+        alert(res[0].photos);
+        //alert('a');
+        //this.myContacts = res;
+      //let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {contacts: this.myContacts});
+      // modal.onDidDismiss(data => {
+      //   if(data != null) {
+      //     for(let i = 0; i < data.length; i++) {
+      //       if(!data[i]) {
+      //         continue;
+      //       }
+      //       this.receivers.push(data[i]);
+      //     }
+      //   }
+      // });
+      //modal.present();
       });
     }
   }
