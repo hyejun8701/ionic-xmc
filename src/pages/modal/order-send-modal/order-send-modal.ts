@@ -17,6 +17,7 @@ export class OrderSendModalPage {
   receiverSetType: string;
   receivers: Array<string> = [];
   @ViewChild('myInput') myInput: ElementRef;
+  myContacts;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,25 +50,30 @@ export class OrderSendModalPage {
       });
       modal.present();
     } else if(type == 'address') {
-      this.contacts.find(["*"], {multiple: true})
-      .then((res) => {
-        alert(res[0].displayName);
-        alert(res[0].phoneNumbers);
-        alert(res[0].photos);
-        //alert('a');
-        //this.myContacts = res;
-      //let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {contacts: this.myContacts});
-      // modal.onDidDismiss(data => {
-      //   if(data != null) {
-      //     for(let i = 0; i < data.length; i++) {
-      //       if(!data[i]) {
-      //         continue;
-      //       }
-      //       this.receivers.push(data[i]);
-      //     }
-      //   }
+      // this.contacts.pickContact()
+      // .then((res) => {
+      //   console.log(res);
+      //   alert(res.displayName);
       // });
-      //modal.present();
+
+      this.contacts.find(["displayName", "phoneNumbers"], {multiple: true})
+      .then((res) => {
+        //alert(JSON.stringify(res));
+        //alert('a');
+        this.myContacts = JSON.stringify(res);
+        alert(this.myContacts);
+        //let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {contacts: this.myContacts});
+        // modal.onDidDismiss(data => {
+        //   if(data != null) {
+        //     for(let i = 0; i < data.length; i++) {
+        //       if(!data[i]) {
+        //         continue;
+        //       }
+        //       this.receivers.push(data[i]);
+        //     }
+        //   }
+        // });
+        //modal.present();
       });
     }
   }

@@ -10,12 +10,11 @@
       연락처
     </ion-list-header>
 
-    <ion-item *ngFor="let mc of myContacts | async">
-      <ion-avatar item-start>
-        <img [src]="mc.photos[0].value | safeUrl">
-      </ion-avatar>
-      <h2>{{mc.displayName}}</h2>
-      <p>{{mc.phoneNumers[0].value}}</p>
+    <ion-item>
+      <!-- <h2>{{mc.displayName}}</h2>
+      <p>{{mc.phoneNumers.value}}</p> -->
+      <p>{{myContacts}}</p>
+    </ion-item>
     </ion-item>
   </ion-list>
 </ion-content>

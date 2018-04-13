@@ -7,7 +7,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'order-receiver-contacts-modal.html',
 })
 export class OrderReceiverContactsModalPage {
-  myContacts: any;
+  myContacts;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.myContacts = navParams.get('contacts');

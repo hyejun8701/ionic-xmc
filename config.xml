@@ -90,4 +90,5 @@
     <engine name="android" spec="~7.0.0" />
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
+    <allow-navigation href="http://122.129.251.80:8100" />
 </widget>
