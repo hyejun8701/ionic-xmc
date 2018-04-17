@@ -60,13 +60,13 @@ export class GoodsListPage {
     return this.btobLoginProvider.isLogin();
   }
 
-  orderSend(goods) {
+  goOrder(goods) {
     let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
-    modal.onDidDismiss(data => {
-      //console.log(data);
-      if(data != null) {
-      }
-    });
+    // modal.onDidDismiss(data => {
+    //   //console.log(data);
+    //   if(data != null) {
+    //   }
+    // });
     modal.present();
   }
 

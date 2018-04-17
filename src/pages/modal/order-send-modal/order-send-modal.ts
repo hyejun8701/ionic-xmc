@@ -4,14 +4,6 @@ import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
 
-import { CallNumber } from '@ionic-native/call-number';
-import { Contacts } from '@ionic-native/contacts';
-
-export interface PhoneAddressInterface {
-  displayName: string;
-  phoneNumber: string;
-}
-
 @IonicPage()
 @Component({
   selector: 'page-order-send-modal',
@@ -22,9 +14,6 @@ export class OrderSendModalPage {
   receiverSetType: string;
   receivers: Array<string> = [];
   @ViewChild('myInput') myInput: ElementRef;
-  myContacts;
-
-  phoneAddress: PhoneAddressInterface[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -33,16 +22,14 @@ export class OrderSendModalPage {
               private orderSendProvider: OrderSendProvider,
               private btobMemberCreditProvider: BtobMemberCreditProvider,
               private viewCtrl: ViewController,
-              private alertCtrl: AlertController,
-              private callNumber: CallNumber,
-              private contacts: Contacts
+              private alertCtrl: AlertController
             ) {
     this.goods = navParams.get("item");
-    console.log(this.goods);
+    //console.log(this.goods);
   }
 
   createReceiverModal(type) {
-    console.log(type);
+    //console.log(type);
     if(type == 'input') {
       let modal = this.modalCtrl.create('OrderReceiverInputModalPage');
       modal.onDidDismiss(data => {
@@ -57,34 +44,18 @@ export class OrderSendModalPage {
       });
       modal.present();
     } else if(type == 'address') {
-      // this.contacts.pickContact()
-      // .then((res) => {
-      //   console.log(res);
-      //   alert(res.displayName);
-      // });
-
-      this.contacts.find(['*'], {multiple: true})
-      .then((res: any) => {
-        //alert(JSON.stringify(res));
-        this.phoneAddress = new Array();
-
-        for(let i = 0; i < res.length; i++) {
-          this.phoneAddress.push({displayName: res[i].displayName, phoneNumber: res[i].phoneNumbers[i].value});
-        }
-
-        let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {phoneAddress: this.phoneAddress});
-        modal.onDidDismiss(data => {
-          if(data != null) {
-            for(let i = 0; i < data.length; i++) {
-              if(!data[i]) {
-                continue;
-              }
-              this.receivers.push(data[i]);
+      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage');
+      modal.onDidDismiss(data => {
+        if(data != null) {
+          for(let i = 0; i < data.length; i++) {
+            if(!data[i]) {
+              continue;
             }
+            this.receivers.push(data[i]);
           }
-        });
-        modal.present();
+        }
       });
+      modal.present();
     }
   }
 
@@ -144,5 +115,4 @@ export class OrderSendModalPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderSendModalPage');
   }
-
 }
