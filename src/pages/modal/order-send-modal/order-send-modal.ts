@@ -7,6 +7,11 @@ import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-cr
 import { CallNumber } from '@ionic-native/call-number';
 import { Contacts } from '@ionic-native/contacts';
 
+export interface PhoneAddressInterface {
+  displayName: string;
+  phoneNumber: string;
+}
+
 @IonicPage()
 @Component({
   selector: 'page-order-send-modal',
@@ -18,6 +23,8 @@ export class OrderSendModalPage {
   receivers: Array<string> = [];
   @ViewChild('myInput') myInput: ElementRef;
   myContacts;
+
+  phoneAddress: PhoneAddressInterface[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -56,24 +63,27 @@ export class OrderSendModalPage {
       //   alert(res.displayName);
       // });
 
-      this.contacts.find(["displayName", "phoneNumbers"], {multiple: true})
-      .then((res) => {
+      this.contacts.find(['*'], {multiple: true})
+      .then((res: any) => {
         //alert(JSON.stringify(res));
-        //alert('a');
-        this.myContacts = JSON.stringify(res);
-        alert(this.myContacts);
-        //let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {contacts: this.myContacts});
-        // modal.onDidDismiss(data => {
-        //   if(data != null) {
-        //     for(let i = 0; i < data.length; i++) {
-        //       if(!data[i]) {
-        //         continue;
-        //       }
-        //       this.receivers.push(data[i]);
-        //     }
-        //   }
-        // });
-        //modal.present();
+        this.phoneAddress = new Array();
+
+        for(let i = 0; i < res.length; i++) {
+          this.phoneAddress.push({displayName: res[i].displayName, phoneNumber: res[i].phoneNumbers[i].value});
+        }
+
+        let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {phoneAddress: this.phoneAddress});
+        modal.onDidDismiss(data => {
+          if(data != null) {
+            for(let i = 0; i < data.length; i++) {
+              if(!data[i]) {
+                continue;
+              }
+              this.receivers.push(data[i]);
+            }
+          }
+        });
+        modal.present();
       });
     }
   }

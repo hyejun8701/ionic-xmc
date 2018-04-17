@@ -63,16 +63,11 @@ export class GoodsListPage {
   orderSend(goods) {
     let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
     modal.onDidDismiss(data => {
-      console.log(data);
-
-      // let modal = this.modalCtrl.create('OrderSendResultPage', data);
-      // modal.present();
+      //console.log(data);
       if(data != null) {
       }
     });
     modal.present();
-
-    //this.navCtrl.push('OrderSendPage', {item: goods});
   }
 
   ionViewDidLoad() {
