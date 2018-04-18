@@ -60,52 +60,31 @@ export class OrderReceiverContactsModalPage {
   }
   
   filterItems(ev: any) {
-    //this.setItems();
+    this.setItems();
 
     let val = ev.target.value;
 
     if (val && val.trim() !== '') {
-      //alert(Hangul.isConsonant(val.toLowerCase()));
-      
-      //alert(Hangul.disassemble(val.toLowerCase()));
-
-      if(Hangul.isConsonant(val.toLowerCase())) {
-        //let b = Hangul.disassemble(val.toLowerCase());
-        let result = false;
-
-        //alert(b.join());
-
+      if(Hangul.isConsonant(val.toLowerCase())) {        
         this.items = this.items.filter(item => {
-          //return item.displayName.toLowerCase().includes(val.toLowerCase());
-          //alert(Hangul.disassemble(item.displayName.toLowerCase()).join());
+          let schText = Hangul.disassemble(val.toLowerCase());
+          for (let i = 0; i < schText.length; i++) {
+            if(!Hangul.disassemble(item.displayName.toLowerCase()).includes(schText[i])) {
+              return false;
+            }
+          }
 
-          //alert(Hangul.disassemble(item.displayName.toLowerCase()).join());
-          //alert(val.toLowerCase());
-          //alert(Hangul.search(Hangul.disassemble(item.displayName.toLowerCase()).join(), val.toLowerCase()));
-
-          return Hangul.search(Hangul.disassemble(item.displayName.toLowerCase()).join(), val.toLowerCase()) > -1;
-          
-          //for (let i = 0; i < b.length; i++) {
-            //alert(Hangul.disassemble(item.displayName.toLowerCase()));
-            //alert((Hangul.disassemble(item.displayName.toLowerCase())).includes(b[i]));
-            
-            //result = (Hangul.disassemble(item.displayName.toLowerCase())).includes(b[i]);
-            //if(result) {
-              //return result;
-            //}
-          //}
-          
-          //return (Hangul.disassemble(item.displayName.toLowerCase()).join()).includes(Hangul.disassemble(val.toLowerCase()).join());
-          //return Hangul.search(item.displayName.toLowerCase(), Hangul.disassemble(val.toLowerCase())) > -1;
+          return true;
         });
       } else {
         this.items = this.items.filter(item => {
           return Hangul.search(item.displayName.toLowerCase(), val.toLowerCase()) > -1;
         });
       }
-    } else {
-       this.setItems();
     }
+    // else {
+    //    this.setItems();
+    // }
   }
 
   dismiss() {
