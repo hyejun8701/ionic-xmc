@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Contacts, Contact } from '@ionic-native/contacts';
+import * as Hangul from 'hangul-js';
 
 export interface PhoneAddressInterface {
   displayName: string;
@@ -17,11 +18,15 @@ export class OrderReceiverContactsModalPage {
   items: PhoneAddressInterface[];
   datas: Array<string>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private contacts: Contacts) {
-    this.setItems();
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public viewCtrl: ViewController,
+              private contacts: Contacts
+            ) {
+    this.setItems('init');
   }
 
-  setItems() {
+  setItems(setType?: string) {
     this.contacts.find(['*'], {multiple: true})
     .then((res) => {
       this.phoneAddress = new Array();
@@ -39,11 +44,15 @@ export class OrderReceiverContactsModalPage {
         });
       }
       
-      this.items = this.phoneAddress;
+      //this.items = this.phoneAddress;
 
-      this.items.sort((item1, item2) => {
+      this.phoneAddress.sort((item1, item2) => {
         return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0
       });
+
+      //if(setType == 'init') {
+        this.items = this.phoneAddress;
+      //}
     },
     err => {
       alert(err);
@@ -56,11 +65,46 @@ export class OrderReceiverContactsModalPage {
     let val = ev.target.value;
 
     if (val && val.trim() !== '') {
-      this.items = this.items.filter(item => {
-        return item.displayName.toLowerCase().includes(val.toLowerCase());
-      });
+      //alert(Hangul.isConsonant(val.toLowerCase()));
+      
+      //alert(Hangul.disassemble(val.toLowerCase()));
+
+      if(Hangul.isConsonant(val.toLowerCase())) {
+        //let b = Hangul.disassemble(val.toLowerCase());
+        let result = false;
+
+        //alert(b.join());
+
+        this.items = this.items.filter(item => {
+          //return item.displayName.toLowerCase().includes(val.toLowerCase());
+          //alert(Hangul.disassemble(item.displayName.toLowerCase()).join());
+
+          //alert(Hangul.disassemble(item.displayName.toLowerCase()).join());
+          //alert(val.toLowerCase());
+          //alert(Hangul.search(Hangul.disassemble(item.displayName.toLowerCase()).join(), val.toLowerCase()));
+
+          return Hangul.search(Hangul.disassemble(item.displayName.toLowerCase()).join(), val.toLowerCase()) > -1;
+          
+          //for (let i = 0; i < b.length; i++) {
+            //alert(Hangul.disassemble(item.displayName.toLowerCase()));
+            //alert((Hangul.disassemble(item.displayName.toLowerCase())).includes(b[i]));
+            
+            //result = (Hangul.disassemble(item.displayName.toLowerCase())).includes(b[i]);
+            //if(result) {
+              //return result;
+            //}
+          //}
+          
+          //return (Hangul.disassemble(item.displayName.toLowerCase()).join()).includes(Hangul.disassemble(val.toLowerCase()).join());
+          //return Hangul.search(item.displayName.toLowerCase(), Hangul.disassemble(val.toLowerCase())) > -1;
+        });
+      } else {
+        this.items = this.items.filter(item => {
+          return Hangul.search(item.displayName.toLowerCase(), val.toLowerCase()) > -1;
+        });
+      }
     } else {
-      this.setItems();
+       this.setItems();
     }
   }
 
