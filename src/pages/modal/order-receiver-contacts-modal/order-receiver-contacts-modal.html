@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar no-border-top>
-    <ion-searchbar placeholder="검색" (input)="filterItems($event)"></ion-searchbar>
+    <ion-searchbar placeholder="검색" (ionInput)="filterItems($event)"></ion-searchbar>
     <ion-buttons end>
 			<button ion-button icon-only (click)="dismiss()">
 				<ion-icon name="checkmark-circle-outline"></ion-icon>

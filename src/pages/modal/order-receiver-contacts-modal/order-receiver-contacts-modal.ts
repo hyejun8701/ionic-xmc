@@ -50,9 +50,9 @@ export class OrderReceiverContactsModalPage {
         return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0
       });
 
-      //if(setType == 'init') {
+      if(setType == 'init') {
         this.items = this.phoneAddress;
-      //}
+      }
     },
     err => {
       alert(err);
@@ -61,18 +61,34 @@ export class OrderReceiverContactsModalPage {
   
   filterItems(ev: any) {
     this.setItems();
+    this.items = this.phoneAddress;
 
     let val = ev.target.value;
-
+    
     if (val && val.trim() !== '') {
-      if(Hangul.isConsonant(val.toLowerCase())) {        
+      if(Hangul.isConsonant(val.toLowerCase())) {
         this.items = this.items.filter(item => {
+          let targetText = Hangul.disassemble(item.displayName.toLowerCase());
           let schText = Hangul.disassemble(val.toLowerCase());
+          let matchCnt = 0;
+
           for (let i = 0; i < schText.length; i++) {
-            if(!Hangul.disassemble(item.displayName.toLowerCase()).includes(schText[i])) {
+            if(!targetText.includes(schText[i])) {
               return false;
             }
           }
+          
+          // let arr = Hangul.rangeSearch(targetText.join(""), schText.join(""));
+          // let uniq = new Array();
+
+          // for (let j = 0; j < arr.length; j++) {
+          //   //console.log(arr[j]);
+          //   uniq.push(...arr[j]);
+          // }
+
+          // if(schText.length != Array.from(new Set(uniq)).length) {
+          //   return false;
+          // }
 
           return true;
         });
@@ -82,9 +98,6 @@ export class OrderReceiverContactsModalPage {
         });
       }
     }
-    // else {
-    //    this.setItems();
-    // }
   }
 
   dismiss() {
