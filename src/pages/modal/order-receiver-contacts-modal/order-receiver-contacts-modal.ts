@@ -3,9 +3,11 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { Contacts, Contact } from '@ionic-native/contacts';
 import * as Hangul from 'hangul-js';
 
-export interface PhoneAddressInterface {
+export interface ContactsInterface {
+  id: string;
   displayName: string;
   phoneNumber: string;
+  checked?: boolean;
 }
 
 @IonicPage()
@@ -14,8 +16,8 @@ export interface PhoneAddressInterface {
   templateUrl: 'order-receiver-contacts-modal.html',
 })
 export class OrderReceiverContactsModalPage {
-  phoneAddress: PhoneAddressInterface[];
-  items: PhoneAddressInterface[];
+  Contacts: ContactsInterface[];
+  items: ContactsInterface[];
   datas: Array<string>;
 
   constructor(public navCtrl: NavController,
@@ -24,12 +26,13 @@ export class OrderReceiverContactsModalPage {
               private contacts: Contacts
             ) {
     this.setItems('init');
+    this.datas = new Array();
   }
 
   setItems(setType?: string) {
     this.contacts.find(['*'], {multiple: true})
     .then((res) => {
-      this.phoneAddress = new Array();
+      this.Contacts = new Array();
       for(let i = 0; i < res.length; i++) {
         if(res[i].displayName == null || res[i].phoneNumbers == null) {
           continue;
@@ -38,18 +41,19 @@ export class OrderReceiverContactsModalPage {
         let value = res[i].phoneNumbers[0].value;
         value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
 
-        this.phoneAddress.push({
+        this.Contacts.push({
+          id: res[i].id,
           displayName: res[i].displayName,
           phoneNumber: value
         });
       }
       
-      this.phoneAddress.sort((item1, item2) => {
+      this.Contacts.sort((item1, item2) => {
         return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0
       });
 
       if(setType == 'init') {
-        this.items = this.phoneAddress;
+        this.items = this.Contacts;
       }
     },
     err => {
@@ -59,7 +63,7 @@ export class OrderReceiverContactsModalPage {
   
   filterItems(ev: any) {
     this.setItems();
-    this.items = this.phoneAddress;
+    this.items = this.Contacts;
 
     let val = ev.target.value;
     
@@ -127,6 +131,11 @@ export class OrderReceiverContactsModalPage {
         });
       }
     }
+  }
+
+  addReceivermoiles(ev: any, item: ContactsInterface) {
+    console.log(`${ev.checked}, ${JSON.stringify(item)}`);
+    this.datas.push(item.phoneNumber);
   }
 
   dismiss() {

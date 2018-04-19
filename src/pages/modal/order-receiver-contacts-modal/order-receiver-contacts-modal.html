@@ -14,7 +14,7 @@
     <ion-item *ngFor="let item of items">
       <ion-label><h2>{{item.displayName}}</h2></ion-label>
       <ion-note item-end><h2>{{item.phoneNumber}}</h2></ion-note>
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox (ionChange)="addReceivermoiles($event, item)"></ion-checkbox>
     </ion-item>
   </ion-list>
 </ion-content>
