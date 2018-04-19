@@ -44,8 +44,6 @@ export class OrderReceiverContactsModalPage {
         });
       }
       
-      //this.items = this.phoneAddress;
-
       this.phoneAddress.sort((item1, item2) => {
         return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0
       });
@@ -68,27 +66,58 @@ export class OrderReceiverContactsModalPage {
     if (val && val.trim() !== '') {
       if(Hangul.isConsonant(val.toLowerCase())) {
         this.items = this.items.filter(item => {
-          let targetText = Hangul.disassemble(item.displayName.toLowerCase());
+          let origin = item.displayName.toLowerCase();
+          let preTarget = new Array();
+          let target = new Array();
+
+          for(let i = 0; i < origin.length; i++) {
+            //console.log(origin[i]);
+            
+            let temp = Hangul.disassemble(origin[i]);
+            if(Hangul.endsWithConsonant(origin[i])) {// 1. 종성이 포함되어있는지 판단해서 제외처리
+              for (let j = 0; j < temp.length; j++) {
+                if(j != 2) {
+                  preTarget.push(temp[j]);
+                }
+              }
+            } else {
+              preTarget.push(...temp);
+            }
+          }
+
+          //console.log('=============> ' + preTarget);
+
+          for (let k = 0; k < preTarget.length; k++) {
+            if(!Hangul.isVowel(preTarget[k])) {// 2. 모음인지 판단해서 제외처리
+              target.push(preTarget[k]);
+            }
+          }
+
+          //console.log('=============> ' + target);
+
           let schText = Hangul.disassemble(val.toLowerCase());
           let matchCnt = 0;
 
           for (let i = 0; i < schText.length; i++) {
-            if(!targetText.includes(schText[i])) {
+            if(!(target.indexOf(schText[i]) > -1)) {// 3. 해당 자음 포함하지 않으면 실패
               return false;
+            } else {
+              let arr = Hangul.rangeSearch(target.join(""), schText.join(""));// 4. 범위를 비교해서 일치하지 않으면 실패
+              //console.log('=============> ' + arr);
+
+              if(arr == null || arr == "") {
+                return false;
+              } else {
+                matchCnt++;
+              }
             }
           }
-          
-          // let arr = Hangul.rangeSearch(targetText.join(""), schText.join(""));
-          // let uniq = new Array();
 
-          // for (let j = 0; j < arr.length; j++) {
-          //   //console.log(arr[j]);
-          //   uniq.push(...arr[j]);
-          // }
+          //console.log('=============> ' + matchCnt);
 
-          // if(schText.length != Array.from(new Set(uniq)).length) {
-          //   return false;
-          // }
+          if(schText.length != matchCnt) {
+            return false;
+          }
 
           return true;
         });
