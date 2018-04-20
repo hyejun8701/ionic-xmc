@@ -44,14 +44,14 @@ export class OrderSendModalPage {
       });
       modal.present();
     } else if(type == 'address') {
-      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage');
+      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {currReceiverCnt: this.receivers.length});
       modal.onDidDismiss(data => {
         if(data != null) {
           for(let i = 0; i < data.length; i++) {
             if(!data[i]) {
               continue;
             }
-            this.receivers.push(data[i]);
+            this.receivers.push(data[i].phoneNumber);
           }
         }
       });
@@ -97,7 +97,6 @@ export class OrderSendModalPage {
       });
     } else {
       let alert = this.alertCtrl.create({
-        //title: '비밀번호요청결과',
         subTitle: '수신자를 입력하세요',
         buttons: [
           {text: '확인'}

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { Contacts, Contact } from '@ionic-native/contacts';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { Contacts } from '@ionic-native/contacts';
 import * as Hangul from 'hangul-js';
 
 export interface ContactsInterface {
@@ -16,23 +16,26 @@ export interface ContactsInterface {
   templateUrl: 'order-receiver-contacts-modal.html',
 })
 export class OrderReceiverContactsModalPage {
-  Contacts: ContactsInterface[];
+  contacts: ContactsInterface[];
   items: ContactsInterface[];
-  datas: Array<string>;
+  datas: ContactsInterface[];
+  possibleCnt: number = 4;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viewCtrl: ViewController,
-              private contacts: Contacts
+              private deviceContacts: Contacts,
+              private alertCtrl: AlertController
             ) {
+    this.possibleCnt -= navParams.get('currReceiverCnt');
     this.setItems('init');
     this.datas = new Array();
   }
 
   setItems(setType?: string) {
-    this.contacts.find(['*'], {multiple: true})
+    this.deviceContacts.find(['*'], {multiple: true})
     .then((res) => {
-      this.Contacts = new Array();
+      this.contacts = new Array();
       for(let i = 0; i < res.length; i++) {
         if(res[i].displayName == null || res[i].phoneNumbers == null) {
           continue;
@@ -41,19 +44,27 @@ export class OrderReceiverContactsModalPage {
         let value = res[i].phoneNumbers[0].value;
         value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
 
-        this.Contacts.push({
+        let checked = false;
+        for (let j = 0; j < this.datas.length; j++) {
+          if(res[i].id === this.datas[j].id) {
+            checked = true;
+          }
+        }
+
+        this.contacts.push({
           id: res[i].id,
           displayName: res[i].displayName,
-          phoneNumber: value
+          phoneNumber: value,
+          checked: checked
         });
       }
       
-      this.Contacts.sort((item1, item2) => {
+      this.contacts.sort((item1, item2) => {
         return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0
       });
 
       if(setType == 'init') {
-        this.items = this.Contacts;
+        this.items = this.contacts;
       }
     },
     err => {
@@ -63,7 +74,7 @@ export class OrderReceiverContactsModalPage {
   
   filterItems(ev: any) {
     this.setItems();
-    this.items = this.Contacts;
+    this.items = this.contacts;
 
     let val = ev.target.value;
     
@@ -133,9 +144,47 @@ export class OrderReceiverContactsModalPage {
     }
   }
 
-  addReceivermoiles(ev: any, item: ContactsInterface) {
+  setDatas(ev: any, item: ContactsInterface) {
     console.log(`${ev.checked}, ${JSON.stringify(item)}`);
-    this.datas.push(item.phoneNumber);
+    item.checked = ev.checked;
+
+    if(ev.checked) {
+      if(this.possibleCnt === 0) {
+        // let alert = this.alertCtrl.create({
+        //   subTitle: '수신자는 최대 10명 입니다.',
+        //   buttons: [
+        //     {text: '확인'}
+        //   ]
+        // });
+        // alert.present();
+
+        console.log("before => " + JSON.stringify(item));
+
+        this.changeChecked(item);
+      } else {
+        this.datas.push(item);
+        this.possibleCnt--;
+      }
+    } else {
+      this.removeDatas(item);
+      this.possibleCnt++;
+    }
+
+    //console.log(this.possibleCnt);
+  }
+
+  removeDatas(item: ContactsInterface) {
+    this.datas = this.datas.filter(data => data.id !== item.id);
+    this.changeChecked(item);
+  }
+
+  changeChecked(item: ContactsInterface) {
+    this.items.forEach(element => {
+      if((element.id === item.id) && element.checked == true) {
+        element.checked = false;
+        console.log("element => " + JSON.stringify(element));
+      }
+    });
   }
 
   dismiss() {
