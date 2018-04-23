@@ -10,6 +10,8 @@ export interface ContactsInterface {
   checked?: boolean;
 }
 
+export const RECEIVER_POSSIBLE_COUNT_DEFAULT = 4;
+
 @IonicPage()
 @Component({
   selector: 'page-order-receiver-contacts-modal',
@@ -19,7 +21,8 @@ export class OrderReceiverContactsModalPage {
   contacts: ContactsInterface[];
   items: ContactsInterface[];
   datas: ContactsInterface[];
-  possibleCnt: number = 4;
+  possibleCnt: number;
+  alreadyUse: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -27,7 +30,8 @@ export class OrderReceiverContactsModalPage {
               private deviceContacts: Contacts,
               private alertCtrl: AlertController
             ) {
-    this.possibleCnt -= navParams.get('currReceiverCnt');
+    this.alreadyUse = navParams.get('receivers');
+    this.possibleCnt = RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
     this.setItems('init');
     this.datas = new Array();
   }
@@ -60,7 +64,7 @@ export class OrderReceiverContactsModalPage {
       }
       
       this.contacts.sort((item1, item2) => {
-        return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0
+        return item1.displayName < item2.displayName ? -1 : item1.displayName > item2.displayName ? 1 : 0;
       });
 
       if(setType == 'init') {
@@ -86,8 +90,6 @@ export class OrderReceiverContactsModalPage {
           let target = new Array();
 
           for(let i = 0; i < origin.length; i++) {
-            //console.log(origin[i]);
-            
             let temp = Hangul.disassemble(origin[i]);
             if(Hangul.endsWithConsonant(origin[i])) {// 1. 종성이 포함되어있는지 판단해서 제외처리
               for (let j = 0; j < temp.length; j++) {
@@ -100,15 +102,11 @@ export class OrderReceiverContactsModalPage {
             }
           }
 
-          //console.log('=============> ' + preTarget);
-
           for (let k = 0; k < preTarget.length; k++) {
             if(!Hangul.isVowel(preTarget[k])) {// 2. 모음인지 판단해서 제외처리
               target.push(preTarget[k]);
             }
           }
-
-          //console.log('=============> ' + target);
 
           let schText = Hangul.disassemble(val.toLowerCase());
           let matchCnt = 0;
@@ -118,7 +116,6 @@ export class OrderReceiverContactsModalPage {
               return false;
             } else {
               let arr = Hangul.rangeSearch(target.join(""), schText.join(""));// 4. 범위를 비교해서 일치하지 않으면 실패
-              //console.log('=============> ' + arr);
 
               if(arr == null || arr == "") {
                 return false;
@@ -127,8 +124,6 @@ export class OrderReceiverContactsModalPage {
               }
             }
           }
-
-          //console.log('=============> ' + matchCnt);
 
           if(schText.length != matchCnt) {
             return false;
@@ -145,36 +140,60 @@ export class OrderReceiverContactsModalPage {
   }
 
   setDatas(ev: any, item: ContactsInterface) {
-    console.log(`${ev.checked}, ${JSON.stringify(item)}`);
+    //console.log(`${ev.checked}, ${JSON.stringify(item)}`);
     item.checked = ev.checked;
 
     if(ev.checked) {
       if(this.possibleCnt === 0) {
-        // let alert = this.alertCtrl.create({
-        //   subTitle: '수신자는 최대 10명 입니다.',
-        //   buttons: [
-        //     {text: '확인'}
-        //   ]
-        // });
-        // alert.present();
-
-        console.log("before => " + JSON.stringify(item));
-
-        this.changeChecked(item);
+        let alert = this.alertCtrl.create({
+          subTitle: '수신자는 최대 10명 입니다.',
+          buttons: [
+            {
+              text: '확인',
+              handler: () => {
+                ev.checked = false;
+              }
+            }
+          ]
+        });
+        alert.present();
       } else {
-        this.datas.push(item);
-        this.possibleCnt--;
+        if(this.alreadyUse.indexOf(item.phoneNumber) > -1) {
+          let alert = this.alertCtrl.create({
+            subTitle: '이미 수신자에 포함된 번호입니다.<br/>그래도 추가하시겠습니까?',
+            buttons: [
+              {
+                text: '추가',
+                handler: () => {
+                  this.pushDatas(item);
+                }
+              },
+              {
+                text: '취소',
+                handler: () => {
+                  ev.checked = false;
+                }
+              }
+            ]
+          });
+          alert.present();
+        } else {
+          this.pushDatas(item);
+        }
       }
     } else {
       this.removeDatas(item);
-      this.possibleCnt++;
     }
+  }
 
-    //console.log(this.possibleCnt);
+  pushDatas(item: ContactsInterface) {
+    this.datas.push(item);
+    this.possibleCnt--;
   }
 
   removeDatas(item: ContactsInterface) {
     this.datas = this.datas.filter(data => data.id !== item.id);
+    this.possibleCnt = (RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length) - this.datas.length;
     this.changeChecked(item);
   }
 

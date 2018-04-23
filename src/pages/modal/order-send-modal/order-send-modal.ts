@@ -44,7 +44,7 @@ export class OrderSendModalPage {
       });
       modal.present();
     } else if(type == 'address') {
-      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {currReceiverCnt: this.receivers.length});
+      let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {receivers: this.receivers});
       modal.onDidDismiss(data => {
         if(data != null) {
           for(let i = 0; i < data.length; i++) {
