@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { Contacts } from '@ionic-native/contacts';
 import * as Hangul from 'hangul-js';
+import * as GlobalConstants from '../../../common/global-constants';
+import * as CommonFuntions from '../../../common/common-funtions';
 
 export interface ContactsInterface {
   id: string;
@@ -9,8 +11,6 @@ export interface ContactsInterface {
   phoneNumber: string;
   checked?: boolean;
 }
-
-export const RECEIVER_POSSIBLE_COUNT_DEFAULT = 4;
 
 @IonicPage()
 @Component({
@@ -31,7 +31,7 @@ export class OrderReceiverContactsModalPage {
               private alertCtrl: AlertController
             ) {
     this.alreadyUse = navParams.get('receivers');
-    this.possibleCnt = RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
+    this.possibleCnt = GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
     this.setItems('init');
     this.datas = new Array();
   }
@@ -46,7 +46,7 @@ export class OrderReceiverContactsModalPage {
         }
 
         let value = res[i].phoneNumbers[0].value;
-        value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
+        value = CommonFuntions.fnChangeToCallNumberFormat(value);
 
         let checked = false;
         for (let j = 0; j < this.datas.length; j++) {
@@ -193,7 +193,7 @@ export class OrderReceiverContactsModalPage {
 
   removeDatas(item: ContactsInterface) {
     this.datas = this.datas.filter(data => data.id !== item.id);
-    this.possibleCnt = (RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length) - this.datas.length;
+    this.possibleCnt = (GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length) - this.datas.length;
     this.changeChecked(item);
   }
 
@@ -201,7 +201,7 @@ export class OrderReceiverContactsModalPage {
     this.items.forEach(element => {
       if((element.id === item.id) && element.checked == true) {
         element.checked = false;
-        console.log("element => " + JSON.stringify(element));
+        //console.log("element => " + JSON.stringify(element));
       }
     });
   }

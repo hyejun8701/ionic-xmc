@@ -1,0 +1,1 @@
+export const RECEIVER_POSSIBLE_COUNT_DEFAULT: number = 10;

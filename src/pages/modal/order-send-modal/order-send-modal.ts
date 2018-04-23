@@ -31,7 +31,7 @@ export class OrderSendModalPage {
   createReceiverModal(type) {
     //console.log(type);
     if(type == 'input') {
-      let modal = this.modalCtrl.create('OrderReceiverInputModalPage');
+      let modal = this.modalCtrl.create('OrderReceiverInputModalPage', {receivers: this.receivers});
       modal.onDidDismiss(data => {
         if(data != null) {
           for(let i = 0; i < data.length; i++) {
@@ -45,7 +45,7 @@ export class OrderSendModalPage {
       modal.present();
     } else if(type == 'address') {
       let modal = this.modalCtrl.create('OrderReceiverContactsModalPage', {receivers: this.receivers});
-      modal.onDidDismiss(data => {
+      modal.onDidDismiss(data => {// 추후 이름표시 요구 없을경우 onDidDismiss 를 input type modal 과 통합
         if(data != null) {
           for(let i = 0; i < data.length; i++) {
             if(!data[i]) {
@@ -54,7 +54,7 @@ export class OrderSendModalPage {
             this.receivers.push(data[i].phoneNumber);
           }
         }
-      });
+      });//
       modal.present();
     }
   }
