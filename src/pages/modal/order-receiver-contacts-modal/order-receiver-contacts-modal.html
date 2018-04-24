@@ -10,10 +10,12 @@
 </ion-header>
 
 <ion-content>
-    <button ion-button *ngFor="let data of datas" color="danger" icon-start (click)="removeDatas(data)" icon-right>
-      {{data.displayName}} 
-      <ion-icon name='backspace'></ion-icon>
-    </button>
+    <ion-scroll *ngIf="datas?.length > 0" scrollX="true" style="height: 7vh; white-space: nowrap;">
+      <button ion-button *ngFor="let data of datas" style="padding: 0 1%" color="dark" outline icon-start (click)="removeDatas(data)" icon-right>
+        {{data.displayName}} 
+        <ion-icon name='backspace'></ion-icon>
+      </button>
+    </ion-scroll>
   <ion-list>
     <ion-item *ngFor="let item of items">
       <ion-label><h2>{{item.displayName}}</h2></ion-label>

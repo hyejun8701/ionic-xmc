@@ -53,9 +53,7 @@ export class OrderReceiverInputModalPage {
         }
       });
 
-      //1. input to call fotmat
       //2. already cnt check alert
-
 
       if((this.alreadyUse.indexOf(value) > -1) || (alreadyCnt > 1)) {
         let alert = this.alertCtrl.create({
@@ -64,7 +62,7 @@ export class OrderReceiverInputModalPage {
             {
               text: '추가',
               handler: () => {
-                data = value;
+                event.target.value = value;
               }
             },
             {
@@ -77,7 +75,7 @@ export class OrderReceiverInputModalPage {
         });
         alert.present();
       } else {
-        data = value;
+        event.target.value = value;
       }
     }
   }
@@ -92,6 +90,10 @@ export class OrderReceiverInputModalPage {
   }
 
   dismiss() {
+    this.datas.forEach((element, idx, array) => {
+      array[idx] = CommonFuntions.fnChangeToCallNumberFormat(element);
+    });
+
     this.viewCtrl.dismiss(this.datas);
   }
 

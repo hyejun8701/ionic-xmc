@@ -1,3 +1,22 @@
 page-order-receiver-contacts-modal {
-
+    ::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+    
+    ::-webkit-scrollbar:vertical {
+        width: 0px;
+    }
+    
+    ::-webkit-scrollbar:horizontal {
+        height: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        border: 1px solid white;
+        background-color: rgba(0, 0, 0, .5);
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, .1);
+    }
 }
