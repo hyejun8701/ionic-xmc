@@ -60,14 +60,18 @@ export class LoginPage {
   doLogin() {   
     this.btobLoginProvider.authenticate(this.memberId, this.password)
     .subscribe((res: any) => {
-      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000' && res.token != null) {
         this.btobMember = new BtobMember();
         this.btobMember.memberId = res.result_data.member_id;
         this.btobMember.memberName = res.result_data.member_name;
         this.btobMember.point = res.result_data.credit_balance;
         this.btobMember.lastLoginDate = res.result_data.last_login_date;
+
+        localStorage.setItem('token', res.token);
       } else {
         this.btobMember = null;
+
+        localStorage.removeItem('token');
       }
       
       this.btobLoginProvider.setLoginInfo(this.btobMember);// 응답결과 set

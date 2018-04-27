@@ -34,30 +34,38 @@ export class GoodsListPage {
               private btobEventGoodsProvider: BtobEventGoodsProvider
               ) {
     if(btobLoginProvider.isLogin()) {
-      btobEventGoodsProvider.getEventGoodsList(btobLoginProvider.getLoginInfo().memberId)
-      .subscribe((res: any) => {
-        //console.log(res);
-        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-          this.goodsList = new Array();
-          
-          for(let i = 0; i < res.result_data.length; i++) {
-            //console.log(res.result_data[i]);
-            this.goodsList.push(
-              {
-                goodsId: res.result_data[i].goods_id,
-                goodsName: res.result_data[i].goods_name,
-                goodsPrice: res.result_data[i].goods_price,
-                goodsImg: `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name
-              }
-            );
-          }
-        }
-      });
+      this.getGoodsList();
     }
   }
 
   ionViewCanEnter(): boolean {
     return this.btobLoginProvider.isLogin();
+  }
+
+  getGoodsList() {
+    this.btobEventGoodsProvider.getEventGoodsList(this.btobLoginProvider.getLoginInfo().memberId)
+    .subscribe((res: any) => {
+      //console.log(res);
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+        this.goodsList = new Array();
+        
+        for(let i = 0; i < res.result_data.length; i++) {
+          //console.log(res.result_data[i]);
+          this.goodsList.push(
+            {
+              goodsId: res.result_data[i].goods_id,
+              goodsName: res.result_data[i].goods_name,
+              goodsPrice: res.result_data[i].goods_price,
+              goodsImg: `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name
+            }
+          );
+        }
+
+        localStorage.setItem('token', res.token);
+      }
+    }, error => {}
+    //, () => { this.btobEventGoodsProvider.deleteTokenHeader(); }
+  );
   }
 
   goOrder(goods) {
