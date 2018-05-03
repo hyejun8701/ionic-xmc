@@ -53,32 +53,34 @@ export class LoginPage {
 
       this.memberId = rememberInfo.memberId;
       this.password = rememberInfo.password;
-      this.doLogin();
+      this.doLogin('A');
     }
   }
 
-  doLogin() {   
-    this.btobLoginProvider.authenticate(this.memberId, this.password)
+  doLogin(loginType: string) {
+    this.btobLoginProvider.authenticate(this.memberId, this.password, loginType)
     .subscribe((res: any) => {
-      if(res.result_code == 'APP_LINK_SUCCESS_S0000' && res.token != null) {
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000' && res.access_token != null) {
         this.btobMember = new BtobMember();
         this.btobMember.memberId = res.result_data.member_id;
         this.btobMember.memberName = res.result_data.member_name;
         this.btobMember.point = res.result_data.credit_balance;
         this.btobMember.lastLoginDate = res.result_data.last_login_date;
 
-        localStorage.setItem('token', res.token);
+        if(res.refresh_token != null) {
+          localStorage.setItem('refreshToken', res.refresh_token);
+        }
+
+        localStorage.setItem('accessToken', res.access_token);
       } else {
         this.btobMember = null;
-
-        localStorage.removeItem('token');
       }
       
       this.btobLoginProvider.setLoginInfo(this.btobMember);// 응답결과 set
       
       this.resResult = new ResResult();
       this.resResult.setResCode(res.result_code);
-      this.resResult.setResMsg(decodeURIComponent((res.result_msg).toString().replace(/\+/g, '%20')));
+      this.resResult.setResMsg(res.result_msg);
         
       if(this.btobLoginProvider.isLogin()) {
         let loader = this.loadingCtrl.create({
@@ -185,7 +187,7 @@ export class LoginPage {
                 //console.log(data);
                 this.resResult = new ResResult();
                 this.resResult.setResCode(res.result_code);
-                this.resResult.setResMsg(decodeURIComponent((res.result_msg).toString().replace(/\+/g, '%20')));
+                this.resResult.setResMsg(res.result_msg);
                 
                 let alert = this.alertCtrl.create({
                   title: '비밀번호요청결과',

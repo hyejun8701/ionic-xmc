@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav, ModalController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { environment } from '../../environments/environment';
+import { ResResult } from '../../models/res-result';
 
 export interface EventGoodsInterface {
   goodsId: string;
@@ -17,8 +18,7 @@ export interface EventGoodsInterface {
   templateUrl: 'goods-list.html',
 })
 export class GoodsListPage {
-  @ViewChild(Nav) nav: Nav;
-  
+  resResult: ResResult;
   private goodsList: EventGoodsInterface[];
   
   /* goodsList: EventGoodsInterface[] = [
@@ -29,9 +29,10 @@ export class GoodsListPage {
   
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public modalCtrl: ModalController,
+              private modalCtrl: ModalController,
               private btobLoginProvider: BtobLoginProvider,
-              private btobEventGoodsProvider: BtobEventGoodsProvider
+              private btobEventGoodsProvider: BtobEventGoodsProvider,
+              private alertCtrl: AlertController
               ) {
     if(btobLoginProvider.isLogin()) {
       this.getGoodsList();
@@ -45,7 +46,10 @@ export class GoodsListPage {
   getGoodsList() {
     this.btobEventGoodsProvider.getEventGoodsList(this.btobLoginProvider.getLoginInfo().memberId)
     .subscribe((res: any) => {
-      //console.log(res);
+      this.resResult = new ResResult();
+      this.resResult.setResCode(res.result_code);
+      this.resResult.setResMsg(res.result_msg);
+
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.goodsList = new Array();
         
@@ -60,8 +64,13 @@ export class GoodsListPage {
             }
           );
         }
-
-        localStorage.setItem('token', res.token);
+      } else {
+        let alert = this.alertCtrl.create({
+          title: this.resResult.getResCode(),
+          subTitle: this.resResult.getResMsg(),
+          buttons: ['확인']
+        });
+        alert.present();
       }
     }, error => {}
     //, () => { this.btobEventGoodsProvider.deleteTokenHeader(); }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BtobMember } from '../../models/btob-member';
 import { BaseProvider } from '../base-provider';
@@ -11,11 +11,18 @@ export class BtobLoginProvider extends BaseProvider {
     super();
   }
   
-  authenticate(memberId: string, password: string) {
+  authenticate(memberId: string, password: string, loginType: string) {
+    let headers: HttpHeaders;
+    if(loginType === 'A') {// 자동 로그인일 경우 refresh 토큰 헤더에 추가
+      headers = this.headers.append('refreshToken', localStorage.getItem('refreshToken'));
+    } else {
+      headers = this.headers;
+    }
+    
     return this.http.post(
       this.SERVER + '/login.do',
-      JSON.stringify({'memberId': memberId, 'password': password}),
-      {headers: this.headers}
+      JSON.stringify({'memberId': memberId, 'password': password, 'loginType': loginType}),
+      {headers: headers}
     );
   }
 

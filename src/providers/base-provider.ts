@@ -12,6 +12,7 @@ export class BaseProvider {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'accessToken': localStorage.getItem('accessToken')
         });
     }
 }

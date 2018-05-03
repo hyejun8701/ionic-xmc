@@ -15,6 +15,10 @@ export class ResResult {
     }
 
     setResMsg(resMsg) {
-     this.resMsg = resMsg;
+      if(resMsg != null && resMsg != "") {
+        this.resMsg = decodeURIComponent((resMsg).toString().replace(/\+/g, '%20'));
+      } else {
+        this.resMsg = "";
+      }
     }
   }

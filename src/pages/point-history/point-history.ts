@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
 
 import * as moment from 'moment';
 import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
+import { ResResult } from '../../models/res-result';
 
 export interface PointHistoryInterface {
   datecreated: string;
@@ -25,13 +26,15 @@ export class PointHistoryPage {
   startDate = this.currDate;
   endDate = this.currDate;
 
+  resResult: ResResult;
   pointHistory: PointHistoryInterface[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private btobLoginProvider: BtobLoginProvider,
               private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider,
-              private menuCtrl: MenuController
+              private menuCtrl: MenuController,
+              private alertCtrl: AlertController
             ) {
               this.menuCtrl.enable(true);
     //console.log(this.currDate);
@@ -77,6 +80,13 @@ export class PointHistoryPage {
             }
           );
         }
+      } else {
+        let alert = this.alertCtrl.create({
+          title: this.resResult.getResCode(),
+          subTitle: this.resResult.getResMsg(),
+          buttons: ['확인']
+        });
+        alert.present();
       }
     });
   }

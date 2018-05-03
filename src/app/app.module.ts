@@ -18,6 +18,7 @@ import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
 import { CallNumber } from '@ionic-native/call-number';
 import { Contacts } from '@ionic-native/contacts';
+import { OrderSendAuthProvider } from '../providers/order/order-send-auth';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { Contacts } from '@ionic-native/contacts';
     BtobLoginProvider,
     BtobEventGoodsProvider,
     OrderSendProvider,
+    OrderSendAuthProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,
     CallNumber,
