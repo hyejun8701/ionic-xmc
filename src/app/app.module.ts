@@ -12,13 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { BtobMemberProvider } from '../providers/btob/btob-member';
 import { BtobLoginProvider } from '../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../providers/btob/btob-event-goods';
+import { OrderSendAuthProvider } from '../providers/order/order-send-auth';
 import { OrderSendProvider } from '../providers/order/order-send';
 import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-member-credit-use-history';
 import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
 import { CallNumber } from '@ionic-native/call-number';
 import { Contacts } from '@ionic-native/contacts';
-import { OrderSendAuthProvider } from '../providers/order-send-auth/order-send-auth';
 
 @NgModule({
   declarations: [
@@ -42,12 +42,12 @@ import { OrderSendAuthProvider } from '../providers/order-send-auth/order-send-a
     BtobMemberProvider,
     BtobLoginProvider,
     BtobEventGoodsProvider,
+    OrderSendAuthProvider,
     OrderSendProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,
     CallNumber,
-    Contacts,
-    OrderSendAuthProvider
+    Contacts
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

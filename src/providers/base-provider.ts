@@ -16,4 +16,19 @@ export class BaseProvider {
             'accessToken': localStorage.getItem('accessToken')
         });
     }
+
+    // setAccessToken(): HttpHeaders {
+    //     let headers: HttpHeaders;
+    //     let accessToken = localStorage.getItem('accessToken');
+
+    //     console.log(accessToken);
+
+    //     if(accessToken != null) {
+    //         headers = this.headers.append('accessToken', localStorage.getItem('accessToken'));
+    //     } else {
+    //         headers = this.headers;
+    //     }
+
+    //     return headers;
+    // }
 }

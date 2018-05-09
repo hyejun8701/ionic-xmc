@@ -1,10 +1,10 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController } from 'ionic-angular';
+import { OrderSendAuthProvider } from '../../../providers/order/order-send-auth';
 import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
 import * as GlobalConstants from '../../../common/global-constants';
-import { OrderSendAuthProvider } from '../../../providers/order-send-auth/order-send-auth';
 
 @IonicPage()
 @Component({
@@ -85,46 +85,17 @@ export class OrderSendModalPage {
       this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
   }
 
-  // createdAuthNum() {
-  //   if(this.receivers.length > 0) {
-
-  //     this.orderSendProvider.orderSend(
-  //       this.btobLoginProvider.getLoginInfo().memberId,
-  //       this.goods.goodsId,
-  //       JSON.parse(JSON.stringify(this.receivers)),
-  //       'Z',
-  //       this.myInput['_value']
-  //     ).subscribe((res: any) => {
-  //       console.log(res);
-        
-  //       this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
-  //       .subscribe((res: any) => {
-  //         console.log(res);
-  
-  //         if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-  //           this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
-  //         }
-  //       });
-  //     });
-  //   } else {
-  //     let alert = this.alertCtrl.create({
-  //       subTitle: '수신자를 입력하세요',
-  //       buttons: [
-  //         {text: '확인'}
-  //       ]
-  //     });
-      
-  //     alert.present();
-  //   }
-  // }
-
-  orderSendAuth() {
+  orderSendA() {
     this.orderSendAuthProvider.orderSendAuth(
       this.btobLoginProvider.getLoginInfo().memberId
     ).subscribe((res: any) => {
       alert();
+    }, (err: any) => {
+      console.error('orderSEndAuth err!!');
+      console.error(err)
+      console.error(JSON.stringify(err));
+      console.error(err.message)
     });
-    //alert();
   }
 
   orderSend() {
