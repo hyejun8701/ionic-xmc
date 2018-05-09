@@ -18,7 +18,7 @@ import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
 import { CallNumber } from '@ionic-native/call-number';
 import { Contacts } from '@ionic-native/contacts';
-import { OrderSendAuthProvider } from '../providers/order/order-send-auth';
+import { OrderSendAuthProvider } from '../providers/order-send-auth/order-send-auth';
 
 @NgModule({
   declarations: [
@@ -43,11 +43,11 @@ import { OrderSendAuthProvider } from '../providers/order/order-send-auth';
     BtobLoginProvider,
     BtobEventGoodsProvider,
     OrderSendProvider,
-    OrderSendAuthProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,
     CallNumber,
-    Contacts
+    Contacts,
+    OrderSendAuthProvider
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })

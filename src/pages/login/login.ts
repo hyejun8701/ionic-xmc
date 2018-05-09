@@ -72,16 +72,18 @@ export class LoginPage {
         }
 
         localStorage.setItem('accessToken', res.access_token);
+      
+        this.btobLoginProvider.setLoginInfo(this.btobMember);// 응답결과 set
       } else {
         this.btobMember = null;
       }
-      
-      this.btobLoginProvider.setLoginInfo(this.btobMember);// 응답결과 set
-      
+            
       this.resResult = new ResResult();
       this.resResult.setResCode(res.result_code);
       this.resResult.setResMsg(res.result_msg);
-        
+      
+      console.log(`login status => ${this.btobLoginProvider.isLogin()}`);
+
       if(this.btobLoginProvider.isLogin()) {
         let loader = this.loadingCtrl.create({
           content: "Please wait..."

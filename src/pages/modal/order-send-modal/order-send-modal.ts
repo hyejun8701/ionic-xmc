@@ -4,6 +4,7 @@ import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
 import * as GlobalConstants from '../../../common/global-constants';
+import { OrderSendAuthProvider } from '../../../providers/order-send-auth/order-send-auth';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class OrderSendModalPage {
               private orderSendProvider: OrderSendProvider,
               private btobMemberCreditProvider: BtobMemberCreditProvider,
               private viewCtrl: ViewController,
-              private alertCtrl: AlertController
+              private alertCtrl: AlertController,
+              private orderSendAuthProvider: OrderSendAuthProvider
             ) {
     this.goods = navParams.get("item");
   }
@@ -83,41 +85,72 @@ export class OrderSendModalPage {
       this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
   }
 
-  orderSend() {
-    if(this.receivers.length > 0) { 
-        this.orderSendProvider.orderSend(
-        this.btobLoginProvider.getLoginInfo().memberId,
-        this.goods.goodsId,
-        JSON.parse(JSON.stringify(this.receivers)),
-        'Z',
-        this.myInput['_value']
-      ).subscribe((res: any) => {
-        console.log(res);
+  // createdAuthNum() {
+  //   if(this.receivers.length > 0) {
+
+  //     this.orderSendProvider.orderSend(
+  //       this.btobLoginProvider.getLoginInfo().memberId,
+  //       this.goods.goodsId,
+  //       JSON.parse(JSON.stringify(this.receivers)),
+  //       'Z',
+  //       this.myInput['_value']
+  //     ).subscribe((res: any) => {
+  //       console.log(res);
         
-        this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
-        .subscribe((res: any) => {
-          console.log(res);
-
-          if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-            this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
-          }
-        });
-      });
-
-      let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
-      modal.present().then(() => {
-        this.viewCtrl.dismiss();
-      });
-    } else {
-      let alert = this.alertCtrl.create({
-        subTitle: '수신자를 입력하세요',
-        buttons: [
-          {text: '확인'}
-        ]
-      });
+  //       this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+  //       .subscribe((res: any) => {
+  //         console.log(res);
+  
+  //         if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+  //           this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
+  //         }
+  //       });
+  //     });
+  //   } else {
+  //     let alert = this.alertCtrl.create({
+  //       subTitle: '수신자를 입력하세요',
+  //       buttons: [
+  //         {text: '확인'}
+  //       ]
+  //     });
       
-      alert.present();
-    }
+  //     alert.present();
+  //   }
+  // }
+
+  orderSendAuth() {
+    this.orderSendAuthProvider.orderSendAuth(
+      this.btobLoginProvider.getLoginInfo().memberId
+    ).subscribe((res: any) => {
+      alert();
+    });
+    //alert();
+  }
+
+  orderSend() {
+    this.orderSendProvider.orderSend(
+      this.btobLoginProvider.getLoginInfo().memberId,
+      this.goods.goodsId,
+      JSON.parse(JSON.stringify(this.receivers)),
+      'Z',
+      this.myInput['_value']
+    ).subscribe((res: any) => {
+      console.log(res);
+      
+      this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+      .subscribe((res: any) => {
+        console.log(res);
+
+        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+          this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
+        }
+      });
+    });
+
+    let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
+    modal.present().then(() => {
+      this.viewCtrl.dismiss();
+    });
   }
 
   goBack() {

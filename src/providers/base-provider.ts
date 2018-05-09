@@ -1,5 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 import { environment } from "../environments/environment";
+import { Header } from "ionic-angular";
 
 export class BaseProvider {
     protected SERVER: string;

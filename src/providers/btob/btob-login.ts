@@ -13,6 +13,7 @@ export class BtobLoginProvider extends BaseProvider {
   
   authenticate(memberId: string, password: string, loginType: string) {
     let headers: HttpHeaders;
+
     if(loginType === 'A') {// 자동 로그인일 경우 refresh 토큰 헤더에 추가
       headers = this.headers.append('refreshToken', localStorage.getItem('refreshToken'));
     } else {

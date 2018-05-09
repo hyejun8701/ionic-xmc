@@ -6,17 +6,16 @@ import { BaseProvider } from '../base-provider';
 export class OrderSendAuthProvider extends BaseProvider {
 
   constructor(public http: HttpClient) {
-    super();  
+    super();
+    console.log('Hello OrderSendAuthProvider Provider');
   }
 
-  orderSendAuth(memberId: string, reqType: string, authNum: string) {
+  orderSendAuth(memberId: string) {
     return this.http.post(
       this.SERVER + '/orderSendAuth.do',
       JSON.stringify(
         {
-          'memberId': memberId,
-          'reqType': reqType,
-          'authNum': authNum
+          'memberId': memberId
         }),
       {headers: this.headers}
     );
