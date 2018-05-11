@@ -17,98 +17,78 @@ export class OrderReceiverInputModalPage extends BasePage{
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private alertCtrl: AlertController) {
     super(alertCtrl);
+
     this.alreadyUse = navParams.get('receivers');
     this.datas = ["", "", ""];
     this.possibleCnt = GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
-    // 1. 발송가능수량은 기본수량 10 에서 입력창 이전화면에서 넘어온 수량을 뺀 나머지
-
-    console.log("모달표시 시점 발송가능수량 => " + this.possibleCnt);
-
   }
 
   inputAdd() {
-    if(this.possibleCnt < 1) {// 이미 max 인데 인풋창추가버튼을 누를때
-      this.alert(CommonTextsKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG);
-    } else {
-      let remainCnt = 1;
-
-      this.datas.forEach((data) => {
-        if(data === "") {
-          remainCnt++;
-        }
-      });
-  
-      console.log("remainCnt => " + remainCnt);
-
-      this.datas.push("");
-      //this.possibleCnt--;
-    }
-  }
-  
-  inputFocusout(event: any, data) {
-    let value = event.target.value;
-
-    console.log("value ================> " + value);
-    console.log("possibleCnt ================> " + this.possibleCnt);
-
-    let remainCnt = 0;
-    
+    let remainCnt = 1;
     this.datas.forEach((data) => {
       if(data === "") {
         remainCnt++;
       }
     });
 
-    // console.log("remainCnt => " + remainCnt);
-
-    // if((this.possibleCnt + remainCnt) < 1) {
-    //   this.receiversMaxOverAlert();
-    //   event.target.value = "";
-    // } else 
+    if(this.possibleCnt < 1 || this.possibleCnt < remainCnt) {
+      this.alert(CommonTextsKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG);
+    } else {
+      this.datas.push("");
+    }
+  }
+  
+  inputFocusout(event: any, idx) {
+    let value = event.target.value;
+    console.log("possibleCnt ================> " + this.possibleCnt);
     
     if (value && value.trim() !== '') {
-      value = CommonFuntions.fnChangeToCallNumberFormat(value);
-      
-      let alreadyCnt = 0;
-      this.datas.forEach((element, idx) => {
-        console.log(JSON.stringify(this.datas));
-        console.log(element);
-        console.log(idx);
-        if(element === value) {
-          alreadyCnt++;
-        }
-      });
+      if(this.possibleCnt < 1) {
+        event.target.value = "";
+        this.datas[idx] = "";
 
-      console.log("alreadyCnt => " + alreadyCnt);
-
-      //1. already cnt check alert
-      //2. already + datas length, add/remove input  check
-
-      if((this.alreadyUse.indexOf(value) > -1) || (alreadyCnt > 1)) {
-        let alert = this.alertCtrl.create({
-          subTitle: CommonTextsKo.MSG_NUMBER_ALREADY_INCLUDED_IN_THE_RECIPIENT,
-          buttons: [
-            {
-              text: CommonTextsKo.LBL_ADD,
-              handler: () => {
-                event.target.value = value;
-                this.possibleCnt--;
-              }
-            },
-            {
-              text: CommonTextsKo.LBL_CANCEL,
-              handler: () => {
-                event.target.value = "";
-              }
-            }
-          ]
-        });
-        alert.present();
+        this.alert(CommonTextsKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG);
       } else {
-        event.target.value = value;
-        this.possibleCnt--;
+        value = CommonFuntions.fnChangeToCallNumberFormat(value);
+        
+        let alreadyCnt = 0;
+        this.datas.forEach((data, index, array) => {
+          if(array[index] === value) {
+            alreadyCnt++;
+          }
+        });
+
+        console.log("alreadyCnt => " + alreadyCnt);
+
+        //1. already cnt check alert
+        //2. already + datas length, add/remove input  check
+
+        if((this.alreadyUse.indexOf(value) > -1) || (alreadyCnt > 1)) {
+          let alert = this.alertCtrl.create({
+            subTitle: CommonTextsKo.MSG_NUMBER_ALREADY_INCLUDED_IN_THE_RECIPIENT,
+            buttons: [
+              {
+                text: CommonTextsKo.LBL_ADD,
+                handler: () => {
+                  event.target.value = value;
+                }
+              },
+              {
+                text: CommonTextsKo.LBL_CANCEL,
+                handler: () => {
+                  event.target.value = "";
+                  this.datas[idx] = "";
+                }
+              }
+            ]
+          });
+          alert.present();
+        } else {
+          event.target.value = value;
+        }
       }
     }
+    this.setPossibleCnt();
   }
 
   trackByFn(i) {
@@ -118,11 +98,24 @@ export class OrderReceiverInputModalPage extends BasePage{
   inputRemove(i) {
     this.datas.splice(i , 1);
     
-    console.log("this.datas.length => " + this.datas.length);
-
-    this.possibleCnt = (GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length) - this.datas.length;
-
     console.log("this.possibleCnt => " + this.possibleCnt);
+    this.setPossibleCnt();
+  }
+
+  setPossibleCnt() {
+    this.possibleCnt = (GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length) - this.getInputUseCnt();
+    console.log("after => " + this.possibleCnt);
+  }
+
+  getInputUseCnt(): number {
+    let useCnt = 0;
+    
+    this.datas.forEach((data) => {
+      if(data != "") {
+        useCnt++;
+      }
+    });
+    return useCnt;
   }
 
   dismiss() {
@@ -130,7 +123,7 @@ export class OrderReceiverInputModalPage extends BasePage{
       array[idx] = CommonFuntions.fnChangeToCallNumberFormat(element);
     });
 
-    this.viewCtrl.dismiss(this.datas);
+    this.viewCtrl.dismiss(this.datas.slice(0, this.getInputUseCnt()));
   }
 
   closeModal() {
@@ -138,6 +131,6 @@ export class OrderReceiverInputModalPage extends BasePage{
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderReceiverInputModalPage');
+    //console.log('ionViewDidLoad OrderReceiverInputModalPage');
   }
 }
