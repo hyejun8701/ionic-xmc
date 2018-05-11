@@ -46,9 +46,7 @@ export class GoodsListPage {
   getGoodsList() {
     this.btobEventGoodsProvider.getEventGoodsList(this.btobLoginProvider.getLoginInfo().memberId)
     .subscribe((res: any) => {
-      this.resResult = new ResResult();
-      this.resResult.setResCode(res.result_code);
-      this.resResult.setResMsg(res.result_msg);
+      this.resResult = new ResResult(res);
 
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.goodsList = new Array();

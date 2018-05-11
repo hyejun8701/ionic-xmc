@@ -8,12 +8,14 @@ export class OrderSendAuthProvider extends BaseProvider {
     super();
   }
 
-  orderSendAuth(memberId: string) {
+  orderSendAuth(memberId: string, reqType: string, authNum: string) {
     return this.http.post(
-      this.SERVER + 'orderSendAuth.do',
+      this.SERVER + '/orderSendAuth.do',
       JSON.stringify(
         {
-          'memberId': memberId
+          'memberId': memberId,
+          'reqType': reqType,
+          'authNum': authNum
         }),
       {headers: this.headers}
     );

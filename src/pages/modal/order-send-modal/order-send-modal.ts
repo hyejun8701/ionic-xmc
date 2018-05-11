@@ -5,6 +5,9 @@ import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
 import * as GlobalConstants from '../../../common/global-constants';
+import * as CommonMessageKo from '../../../common/common-message-ko';
+import { BasePage } from '../../base-page';
+import { ResResult } from '../../../models/res-result';
 
 @IonicPage()
 @Component({
@@ -12,6 +15,7 @@ import * as GlobalConstants from '../../../common/global-constants';
   templateUrl: 'order-send-modal.html',
 })
 export class OrderSendModalPage {
+  resResult: ResResult;
   goods: any;
   receiverSetType: string;
   receivers: Array<string> = [];
@@ -19,24 +23,25 @@ export class OrderSendModalPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private modalCtrl: ModalController,
               private btobLoginProvider: BtobLoginProvider,
               private orderSendProvider: OrderSendProvider,
               private btobMemberCreditProvider: BtobMemberCreditProvider,
               private viewCtrl: ViewController,
-              private alertCtrl: AlertController,
-              private orderSendAuthProvider: OrderSendAuthProvider
+              private orderSendAuthProvider: OrderSendAuthProvider,
+              private modalCtrl: ModalController,
+              private alertCtrl: AlertController
             ) {
+    //super(alertCtrl);
     this.goods = navParams.get("item");
   }
 
   createReceiverModal(type) {
     if(type != null && (this.receivers.length === GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT)) {
       let alert = this.alertCtrl.create({
-        subTitle: '수신자는 최대 10명 입니다.',
+        subTitle: CommonMessageKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG,
         buttons: [
           {
-            text: '확인',
+            text: CommonMessageKo.MSG_CHECK_OK,
             handler: () => {
             }
           }
@@ -85,17 +90,65 @@ export class OrderSendModalPage {
       this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
   }
 
-  orderSendA() {
-    this.orderSendAuthProvider.orderSendAuth(
-      this.btobLoginProvider.getLoginInfo().memberId
-    ).subscribe((res: any) => {
-      alert();
-    }, (err: any) => {
-      console.error('orderSEndAuth err!!');
-      console.error(err)
-      console.error(JSON.stringify(err));
-      console.error(err.message)
-    });
+  orderSendAuth() {
+    if(this.receivers.length > 0) {
+      this.orderSendAuthProvider.orderSendAuth(
+        this.btobLoginProvider.getLoginInfo().memberId,
+        'C',
+        ''
+      ).subscribe((res: any) => {
+        console.log(res)
+        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+          let alert = this.alertCtrl.create({
+            subTitle: '인증번호를 입력하세요.<br/>(2분30초 이내)',
+            inputs: [
+              {type: 'text', name: 'authNum', placeholder: '인증번호'}
+            ],
+            buttons: [
+              {
+                text: CommonMessageKo.MSG_CHECK_OK,
+                handler: data => {
+                console.log('Input data:', data);
+                if(!data.authNum) {
+                  return false;
+                } else {
+                  this.orderSendAuthProvider.orderSendAuth(
+                    this.btobLoginProvider.getLoginInfo().memberId,
+                    'V',
+                    data.authNum
+                  ).subscribe((res: any) => {
+                    this.resResult = new ResResult(res);
+
+                    if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+                      this.orderSend();
+                    } else {
+                      let alert = this.alertCtrl.create({
+                        title: '인증실패',
+                        subTitle: this.resResult.getResMsg(),
+                        buttons: [CommonMessageKo.MSG_CHECK_OK]
+                      });
+                      alert.present();
+                    }
+                  });
+                }
+              }
+            }]
+          });
+          alert.present();
+        }
+      }, err => {
+        console.error(JSON.stringify(err));
+      });
+    } else {
+      let alert = this.alertCtrl.create({
+        subTitle: '수신자를 입력하세요.',
+        buttons: [
+          {text: CommonMessageKo.MSG_CHECK_OK}
+        ]
+      });
+      
+      alert.present();
+    }
   }
 
   orderSend() {
@@ -106,21 +159,30 @@ export class OrderSendModalPage {
       'Z',
       this.myInput['_value']
     ).subscribe((res: any) => {
-      console.log(res);
-      
-      this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
-      .subscribe((res: any) => {
-        console.log(res);
+      this.resResult = new ResResult(res);
 
-        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-          this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
-        }
-      });
-    });
-
-    let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
-    modal.present().then(() => {
-      this.viewCtrl.dismiss();
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+        let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
+        modal.present().then(() => {
+          this.viewCtrl.dismiss();
+        });
+        
+        this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+        .subscribe((res: any) => {
+          console.log(res);
+          
+          if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+            this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
+          }
+        });
+      } else {
+        let alert = this.alertCtrl.create({
+          title: '발송실패',
+          subTitle: this.resResult.getResMsg(),
+          buttons: [CommonMessageKo.MSG_CHECK_OK]
+        });
+        alert.present();
+      }
     });
   }
 

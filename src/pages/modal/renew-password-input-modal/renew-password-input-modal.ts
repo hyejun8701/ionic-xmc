@@ -54,10 +54,8 @@ export class RenewPasswordInputModalPage {
       alert.present();
     } else {
       this.btobMemberProvider.renewPassword(this.memberId, this.password, this.newPassword)
-      .subscribe((data: any) => {
-        this.resResult = new ResResult();
-        this.resResult.setResCode(data.result_code);
-        this.resResult.setResMsg(decodeURIComponent((data.result_msg).toString().replace(/\+/g, '%20')));
+      .subscribe((res: any) => {
+        this.resResult = new ResResult(res);
         
         let alert = this.alertCtrl.create({
           title: '비밀번호변경결과',

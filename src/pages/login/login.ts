@@ -78,9 +78,7 @@ export class LoginPage {
         this.btobMember = null;
       }
             
-      this.resResult = new ResResult();
-      this.resResult.setResCode(res.result_code);
-      this.resResult.setResMsg(res.result_msg);
+      this.resResult = new ResResult(res);
       
       console.log(`login status => ${this.btobLoginProvider.isLogin()}`);
 
@@ -148,7 +146,7 @@ export class LoginPage {
       }
     },
     err => {
-      console.log(err);
+      console.log(JSON.stringify(err));
       let alert = this.alertCtrl.create({
         title: '로그인실패',
         subTitle: '서버에서 에러가 발생했습니다.<br/>잠시후 다시 시도해 주세요.',
@@ -187,9 +185,7 @@ export class LoginPage {
               this.btobMemberProvider.lostPassword(data.memberId, data.memberName, data.chargeMobile)
               .subscribe((res: any) => {
                 //console.log(data);
-                this.resResult = new ResResult();
-                this.resResult.setResCode(res.result_code);
-                this.resResult.setResMsg(res.result_msg);
+                this.resResult = new ResResult(res);
                 
                 let alert = this.alertCtrl.create({
                   title: '비밀번호요청결과',

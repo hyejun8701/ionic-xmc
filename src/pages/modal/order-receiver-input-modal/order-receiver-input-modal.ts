@@ -20,6 +20,10 @@ export class OrderReceiverInputModalPage {
     this.alreadyUse = navParams.get('receivers');
     this.datas = ["", "", ""];
     this.possibleCnt = GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
+    // 1. 발송가능수량은 기본수량 10 에서 입력창 이전화면에서 넘어온 수량을 뺀 나머지
+
+    console.log("모달표시 시점 발송가능수량 => " + this.possibleCnt);
+
   }
 
   receiversMaxOverAlert() {
@@ -31,18 +35,29 @@ export class OrderReceiverInputModalPage {
   }
 
   inputAdd() {
-    if(this.possibleCnt < 1) {
+    if(this.possibleCnt < 1) {// 이미 max 인데 인풋창추가버튼을 누를때
       this.receiversMaxOverAlert();
     } else {
+      let remainCnt = 1;
+
+      this.datas.forEach((data) => {
+        if(data === "") {
+          remainCnt++;
+        }
+      });
+  
+      console.log("remainCnt => " + remainCnt);
+
       this.datas.push("");
-      this.possibleCnt--;
+      //this.possibleCnt--;
     }
   }
   
   inputFocusout(event: any, data) {
     let value = event.target.value;
 
-    console.log("================> " + this.possibleCnt);
+    console.log("value ================> " + value);
+    console.log("possibleCnt ================> " + this.possibleCnt);
 
     let remainCnt = 0;
     
@@ -52,20 +67,27 @@ export class OrderReceiverInputModalPage {
       }
     });
 
-    console.log("remainCnt => " + remainCnt);
+    // console.log("remainCnt => " + remainCnt);
 
-    if((this.possibleCnt + remainCnt) < 1) {
-      this.receiversMaxOverAlert();
-      event.target.value = "";
-    } else if (value && value.trim() !== '') {
+    // if((this.possibleCnt + remainCnt) < 1) {
+    //   this.receiversMaxOverAlert();
+    //   event.target.value = "";
+    // } else 
+    
+    if (value && value.trim() !== '') {
       value = CommonFuntions.fnChangeToCallNumberFormat(value);
       
       let alreadyCnt = 0;
-      // this.datas.forEach((element, idx) => {
-      //   if(element[idx] === value) {
-      //     alreadyCnt++;
-      //   }
-      // });
+      this.datas.forEach((element, idx) => {
+        console.log(JSON.stringify(this.datas));
+        console.log(element);
+        console.log(idx);
+        if(element === value) {
+          alreadyCnt++;
+        }
+      });
+
+      console.log("alreadyCnt => " + alreadyCnt);
 
       //1. already cnt check alert
       //2. already + datas length, add/remove input  check
@@ -78,6 +100,7 @@ export class OrderReceiverInputModalPage {
               text: '추가',
               handler: () => {
                 event.target.value = value;
+                this.possibleCnt--;
               }
             },
             {
@@ -91,6 +114,7 @@ export class OrderReceiverInputModalPage {
         alert.present();
       } else {
         event.target.value = value;
+        this.possibleCnt--;
       }
     }
   }
