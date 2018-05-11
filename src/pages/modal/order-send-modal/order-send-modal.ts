@@ -5,7 +5,7 @@ import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
 import * as GlobalConstants from '../../../common/global-constants';
-import * as CommonMessageKo from '../../../common/common-message-ko';
+import * as CommonTextsKo from '../../../common/common-texts-ko';
 import { BasePage } from '../../base-page';
 import { ResResult } from '../../../models/res-result';
 
@@ -14,7 +14,7 @@ import { ResResult } from '../../../models/res-result';
   selector: 'page-order-send-modal',
   templateUrl: 'order-send-modal.html',
 })
-export class OrderSendModalPage {
+export class OrderSendModalPage extends BasePage {
   resResult: ResResult;
   goods: any;
   receiverSetType: string;
@@ -31,23 +31,13 @@ export class OrderSendModalPage {
               private modalCtrl: ModalController,
               private alertCtrl: AlertController
             ) {
-    //super(alertCtrl);
+    super(alertCtrl);
     this.goods = navParams.get("item");
   }
 
   createReceiverModal(type) {
     if(type != null && (this.receivers.length === GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT)) {
-      let alert = this.alertCtrl.create({
-        subTitle: CommonMessageKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG,
-        buttons: [
-          {
-            text: CommonMessageKo.MSG_CHECK_OK,
-            handler: () => {
-            }
-          }
-        ]
-      });
-      alert.present();
+      this.alert(CommonTextsKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG);
     } else {
       if(type == 'input') {
         let modal = this.modalCtrl.create('OrderReceiverInputModalPage', {receivers: this.receivers});
@@ -84,10 +74,10 @@ export class OrderSendModalPage {
   }
 
   resize() {
-      var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
-      var scrollHeight = element.scrollHeight;
-      element.style.height = scrollHeight + 'px';
-      this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
+    var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
+    var scrollHeight = element.scrollHeight;
+    element.style.height = scrollHeight + 'px';
+    this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
   }
 
   orderSendAuth() {
@@ -100,15 +90,13 @@ export class OrderSendModalPage {
         console.log(res)
         if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
           let alert = this.alertCtrl.create({
-            subTitle: '인증번호를 입력하세요.<br/>(2분30초 이내)',
-            inputs: [
-              {type: 'text', name: 'authNum', placeholder: '인증번호'}
-            ],
+            title: CommonTextsKo.MSG_ENTER_AUTH_NUM,
+            inputs: [{type: 'text', name: 'authNum', placeholder: CommonTextsKo.LBL_AUTH_NUM}],
             buttons: [
               {
-                text: CommonMessageKo.MSG_CHECK_OK,
+                text: CommonTextsKo.LBL_OK,
                 handler: data => {
-                console.log('Input data:', data);
+                //console.log('Input data:', data);
                 if(!data.authNum) {
                   return false;
                 } else {
@@ -122,13 +110,10 @@ export class OrderSendModalPage {
                     if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
                       this.orderSend();
                     } else {
-                      let alert = this.alertCtrl.create({
-                        title: '인증실패',
-                        subTitle: this.resResult.getResMsg(),
-                        buttons: [CommonMessageKo.MSG_CHECK_OK]
-                      });
-                      alert.present();
+                      this.alert(CommonTextsKo.MSG_AUTH_NUM_VERIFY_FAILED);
                     }
+                  }, err => {
+                    this.alert(CommonTextsKo.MSG_AUTH_NUM_VERIFY_FAILED);
                   });
                 }
               }
@@ -138,16 +123,10 @@ export class OrderSendModalPage {
         }
       }, err => {
         console.error(JSON.stringify(err));
+        this.alert(CommonTextsKo.MSG_AUTH_NUM_CREATE_FAILED);
       });
     } else {
-      let alert = this.alertCtrl.create({
-        subTitle: '수신자를 입력하세요.',
-        buttons: [
-          {text: CommonMessageKo.MSG_CHECK_OK}
-        ]
-      });
-      
-      alert.present();
+      this.alert(CommonTextsKo.MSG_ENTER_RECIPIENT);
     }
   }
 
@@ -176,13 +155,10 @@ export class OrderSendModalPage {
           }
         });
       } else {
-        let alert = this.alertCtrl.create({
-          title: '발송실패',
-          subTitle: this.resResult.getResMsg(),
-          buttons: [CommonMessageKo.MSG_CHECK_OK]
-        });
-        alert.present();
+        this.alert(CommonTextsKo.LBL_ORDER_SEND_FAILED);
       }
+    }, err => {
+      this.alert(CommonTextsKo.LBL_ORDER_SEND_FAILED);
     });
   }
 

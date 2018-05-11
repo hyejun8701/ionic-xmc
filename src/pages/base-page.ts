@@ -1,15 +1,20 @@
-import { AlertController } from 'ionic-angular';
+import { AlertController, AlertOptions } from 'ionic-angular';
+import * as CommonTextsKo from '../common/common-texts-ko';
 
 export class BasePage {
-    constructor(private baseAlertCtrl: AlertController) {
+    constructor(private alertController: AlertController, private opts: AlertOptions = {}) {
     }
 
-    errAlert(errCode, errMsg) {
-        let alert = this.baseAlertCtrl.create({
-            title: errCode,
-            subTitle: errMsg,
-            buttons: ['확인']
-        });
+    alert(title: string, subTitle?: string) {
+        this.opts.title = title;
+
+        if(subTitle != null && subTitle != '') {
+            this.opts.subTitle = subTitle;
+        }
+
+        this.opts.buttons = [CommonTextsKo.LBL_OK];
+
+        let alert = this.alertController.create(this.opts);
         alert.present();
     }
 }
