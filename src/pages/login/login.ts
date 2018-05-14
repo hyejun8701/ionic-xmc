@@ -110,16 +110,14 @@ export class LoginPage extends BasePage {
           if(moment.utc(last).isBefore(curr)) {
             let alert = this.alertCtrl.create({
               //title: '로그인 후 3개월 기간경과 시 비밀번호 변경',
-              message: '고객님의 소중한 정보를 위하여<br/>비밀번호를 변경하여 주세요.',
+              message: CommonTextsKo.MSG_PLEASE_CHANGE_YOUR_PASSWORD,
               buttons: [
-                {
-                  text: '다음에',
+                {text: CommonTextsKo.LBL_NEXT_TIME,
                   handler: () => {
                     console.log('Disagree clicked');
                   }
                 },
-                {
-                  text: '지금 변경하기',
+                {text: CommonTextsKo.LBL_CHANGE_NOW,
                   handler: () => {
                     console.log('Agree clicked');
                     this.navCtrl.push('RenewPasswordInputModalPage', {'memberId': this.memberId});
@@ -146,6 +144,7 @@ export class LoginPage extends BasePage {
       //   buttons: ['확인']
       // });
       // alert.present();
+      this.alert(CommonTextsKo.LBL_LOGIN_FAILED);
     });
   }
 

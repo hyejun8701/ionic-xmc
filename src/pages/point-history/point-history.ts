@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { ResResult } from '../../models/res-result';
+import { BasePage } from '../base-page';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 export interface PointHistoryInterface {
   datecreated: string;
@@ -21,7 +23,7 @@ export interface PointHistoryInterface {
   selector: 'page-point-history',
   templateUrl: 'point-history.html',
 })
-export class PointHistoryPage {
+export class PointHistoryPage extends BasePage {
   currDate = moment(new Date()).format('YYYY-MM-DD');
   startDate = this.currDate;
   endDate = this.currDate;
@@ -29,15 +31,12 @@ export class PointHistoryPage {
   resResult: ResResult;
   pointHistory: PointHistoryInterface[];
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private btobLoginProvider: BtobLoginProvider,
-              private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider,
-              private menuCtrl: MenuController,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private btobLoginProvider: BtobLoginProvider,
+              private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider, private menuCtrl: MenuController,
               private alertCtrl: AlertController
             ) {
-              this.menuCtrl.enable(true);
-    //console.log(this.currDate);
+    super(alertCtrl);
+    this.menuCtrl.enable(true);
   }
 
   setDate(type: string) {
@@ -60,14 +59,13 @@ export class PointHistoryPage {
       this.btobLoginProvider.getLoginInfo().memberId,
       this.startDate,
       this.endDate
-    )
-    .subscribe((res: any) => {
-      //console.log(res);
+    ).subscribe((res: any) => {
+      this.resResult = new ResResult(res);
+
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.pointHistory = new Array();
         
         for(let i = 0; i < res.result_data.length; i++) {
-          //console.log(res.result_data[i]);
           this.pointHistory.push(
             {
               datecreated: res.result_data[i].datecreated,
@@ -81,19 +79,9 @@ export class PointHistoryPage {
           );
         }
       } else {
-        let alert = this.alertCtrl.create({
-          title: this.resResult.getResCode(),
-          subTitle: this.resResult.getResMsg(),
-          buttons: ['확인']
-        });
-        alert.present();
+        this.alert(CommonTextsKo.LBL_GET_LIST_FAILED, this.resResult.getResMsg());
       }
     });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PointHistoryPage');
-    //console.log(this.navCtrl.parent);
   }
 
   ionViewDidEnter() {

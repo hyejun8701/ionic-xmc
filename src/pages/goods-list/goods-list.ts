@@ -4,6 +4,8 @@ import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { environment } from '../../environments/environment';
 import { ResResult } from '../../models/res-result';
+import { BasePage } from '../base-page';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 export interface EventGoodsInterface {
   goodsId: string;
@@ -17,23 +19,14 @@ export interface EventGoodsInterface {
   selector: 'page-goods-list',
   templateUrl: 'goods-list.html',
 })
-export class GoodsListPage {
+export class GoodsListPage extends BasePage {
   resResult: ResResult;
   private goodsList: EventGoodsInterface[];
   
-  /* goodsList: EventGoodsInterface[] = [
-    {goodsId: '0000001234', goodsName: '[스타벅스] 아메리카노', goodsPrice: '4,100', imgPath: '../assets/imgs/goods1.jpg'},
-    {goodsId: '0000001235', goodsName: '[설빙] 팥빙수', goodsPrice: '6,000', imgPath: '../assets/imgs/goods2.jpg'},
-    {goodsId: '0000001236', goodsName: '[투썸플레이스] 아메리카노', goodsPrice: '4,900', imgPath: '../assets/imgs/goods3.jpg'},
-  ]; */
-  
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private modalCtrl: ModalController,
-              private btobLoginProvider: BtobLoginProvider,
-              private btobEventGoodsProvider: BtobEventGoodsProvider,
-              private alertCtrl: AlertController
+  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private btobLoginProvider: BtobLoginProvider,
+              private btobEventGoodsProvider: BtobEventGoodsProvider, private alertCtrl: AlertController
               ) {
+    super(alertCtrl);
     if(btobLoginProvider.isLogin()) {
       this.getGoodsList();
     }
@@ -52,7 +45,6 @@ export class GoodsListPage {
         this.goodsList = new Array();
         
         for(let i = 0; i < res.result_data.length; i++) {
-          //console.log(res.result_data[i]);
           this.goodsList.push(
             {
               goodsId: res.result_data[i].goods_id,
@@ -63,41 +55,14 @@ export class GoodsListPage {
           );
         }
       } else {
-        let alert = this.alertCtrl.create({
-          title: this.resResult.getResCode(),
-          subTitle: this.resResult.getResMsg(),
-          buttons: ['확인']
-        });
-        alert.present();
+        this.alert(CommonTextsKo.LBL_GET_LIST_FAILED, this.resResult.getResMsg());
       }
     }, error => {}
-    //, () => { this.btobEventGoodsProvider.deleteTokenHeader(); }
   );
   }
 
   goOrder(goods) {
     let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
-    // modal.onDidDismiss(data => {
-    //   //console.log(data);
-    //   if(data != null) {
-    //   }
-    // });
     modal.present();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GoodsListPage');
-  }
-
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave GoodsListPage');
-  }
-
-  ionViewDidLeave() {
-    console.log('ionViewDidLeave GoodsListPage');
-  }
-
-  ionViewWillUnload() {
-    console.log('ionViewWillUnload GoodsListPage');
   }
 }

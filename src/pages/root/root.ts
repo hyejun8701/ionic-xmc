@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 export interface PageInterface {
   title: string;
@@ -19,8 +20,8 @@ export class RootPage {
   rootPage: string;
 
   pages: PageInterface[] = [
-    {title: '상품리스트', component: 'GoodsListPage', icon:'home'},
-    {title: '포인트관리', component: 'PointHistoryPage', icon:'card'}
+    {title: CommonTextsKo.LBL_GOODS_LIST, component: 'GoodsListPage', icon:'home'},
+    {title: CommonTextsKo.LBL_POINT_MANAGE, component: 'PointHistoryPage', icon:'card'}
   ]
 
   constructor(public navCtrl: NavController,
@@ -61,8 +62,6 @@ export class RootPage {
     console.log("ionViewDidEnter RootPage");
     const changePage = this.navParams.get('rootPage');
     if(changePage != null) {
-      //this.rootPage = changePage;
-      //console.log(this.pages[1].component);
       this.openPage(this.pages[1]);
       this.menuCtrl.enable(true);
     }
