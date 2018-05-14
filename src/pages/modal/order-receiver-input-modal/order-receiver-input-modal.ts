@@ -19,6 +19,11 @@ export class OrderReceiverInputModalPage extends BasePage{
     super(alertCtrl);
 
     this.alreadyUse = navParams.get('receivers');
+
+    // this.alreadyUse.forEach((element, idx, array) => {
+    //   array[idx] = element.replace(/\-/g, '');
+    // });
+
     this.datas = ["", "", ""];
     this.possibleCnt = GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
   }

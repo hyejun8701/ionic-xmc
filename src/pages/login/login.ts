@@ -5,15 +5,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ResResult } from '../../models/res-result';
 import { BtobMemberProvider } from '../../providers/btob/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 import * as moment from 'moment';
+import { BasePage } from '../base-page';
 
 @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class LoginPage {
+export class LoginPage extends BasePage {
   loginForm : FormGroup;
   memberId: string;
   password: string;
@@ -22,13 +24,9 @@ export class LoginPage {
   resResult: ResResult;
   btobMember: BtobMember;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private alertCtrl: AlertController,
-              private formBuilder: FormBuilder,
-              private btobLoginProvider: BtobLoginProvider,
-              private btobMemberProvider: BtobMemberProvider,
-              private loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private formBuilder: FormBuilder,
+              private btobLoginProvider: BtobLoginProvider, private btobMemberProvider: BtobMemberProvider, private loadingCtrl: LoadingController) {
+    super(alertCtrl);
     console.log('constructor LoginPage');
 
     /* form 체크 */
@@ -137,22 +135,17 @@ export class LoginPage {
         }, 1500);
 
       } else {
-        let alert = this.alertCtrl.create({
-          title: '로그인실패',
-          subTitle: this.resResult.getResMsg(),
-          buttons: ['확인']
-        });
-        alert.present();
+        this.alert(CommonTextsKo.LBL_LOGIN_FAILED, this.resResult.getResMsg());
       }
     },
     err => {
       console.log(JSON.stringify(err));
-      let alert = this.alertCtrl.create({
-        title: '로그인실패',
-        subTitle: '서버에서 에러가 발생했습니다.<br/>잠시후 다시 시도해 주세요.',
-        buttons: ['확인']
-      });
-      alert.present();
+      // let alert = this.alertCtrl.create({
+      //   title: '로그인실패',
+      //   subTitle: '서버에서 에러가 발생했습니다.<br/>잠시후 다시 시도해 주세요.',
+      //   buttons: ['확인']
+      // });
+      // alert.present();
     });
   }
 
@@ -162,45 +155,39 @@ export class LoginPage {
 
   lostPassword() {
     let alert = this.alertCtrl.create({
-      title: '비밀번호 요청하기',
+      title: CommonTextsKo.LBL_FIND_LOST_PASSWORD,
       inputs: [
-        {type: 'text', name: 'memberId', placeholder: '아이디'},
-        {type: 'text', name: 'memberName', placeholder: '이름'},
-        {type: 'tel', name: 'chargeMobile', placeholder: '휴대폰번호'}
+        {type: 'text', name: 'memberId', placeholder: CommonTextsKo.LBL_ID},
+        {type: 'text', name: 'memberName', placeholder: CommonTextsKo.LBL_NAME},
+        {type: 'tel', name: 'chargeMobile', placeholder: CommonTextsKo.LBL_MOBILE_NUM}
       ],
       buttons:[
-        /* {
-          text: '취소',
+        {
+          text: CommonTextsKo.LBL_CANCEL,
           role: 'cancel',
           handler: data => {
           }
-        }, */
+        },
         {
-          text: '관리자에게 정보 요청하기',
+          text: CommonTextsKo.LBL_REQ_TO_ADMIN,
           handler: data => {
             //console.log('Input data:', data);
-            if(!data.memberId || !data.memberName || data.chargeMobile) {
+            if(!data.memberId || !data.memberName || !data.chargeMobile) {
               return false;
             } else {
               this.btobMemberProvider.lostPassword(data.memberId, data.memberName, data.chargeMobile)
               .subscribe((res: any) => {
                 //console.log(data);
-                this.resResult = new ResResult(res);
-                
-                let alert = this.alertCtrl.create({
-                  title: '비밀번호요청결과',
-                  subTitle: this.resResult.getResMsg(),
-                  buttons: [
-                    {text: '확인'}
-                  ]
-                });
-                
-                alert.present();
+                //if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+                  this.resResult = new ResResult(res);
+                  this.alert(CommonTextsKo.LBL_LOST_PASSWORD_REQ_RESULT, this.resResult.getResMsg());
+                //}
               });
             }
           }
         }
-      ]
+      ],
+      enableBackdropDismiss: false
     });
 
     alert.present();

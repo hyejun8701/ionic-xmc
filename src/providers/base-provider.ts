@@ -7,13 +7,15 @@ export class BaseProvider {
     protected headers: HttpHeaders;
 
     constructor() {
-        this.SERVER = `${environment.HOST}`;
-        //this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
+        let accessToken = localStorage.getItem('accessToken') != null ? localStorage.getItem('accessToken') : "";
+
+        //this.SERVER = `${environment.HOST}`;
+        this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
         this.headers = new HttpHeaders({
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'accessToken': localStorage.getItem('accessToken')
+            'accessToken': accessToken
         });
     }
 

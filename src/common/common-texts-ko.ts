@@ -5,9 +5,16 @@ export const MSG_AUTH_NUM_CREATE_FAILED: string = '인증번호 생성이 실패
 export const MSG_AUTH_NUM_VERIFY_FAILED: string = '인증번호 검증이 실패하였습니다.';
 export const MSG_ENTER_AUTH_NUM: string = '인증번호를 입력하세요.<br/>(2분30초 이내)';
 
+export const LBL_REQ_TO_ADMIN: string = '관리자에게 정보 요청하기';
+export const LBL_LOGIN_FAILED: string = '로그인실패';
 export const LBL_ORDER_SEND_FAILED: string = '발송실패';
+export const LBL_LOST_PASSWORD_REQ_RESULT: string = '비밀번호요청결과';
+export const LBL_FIND_LOST_PASSWORD: string = '비밀번호 찾기';
+export const LBL_ID: string = '아이디';
+export const LBL_NAME: string = '이름';
 export const LBL_AUTH_NUM: string = '인증번호';
 export const LBL_AUTH_FAILED: string = '인증실패';
 export const LBL_ADD: string = '추가';
 export const LBL_CANCEL: string = '취소';
 export const LBL_OK: string = '확인';
+export const LBL_MOBILE_NUM: string = '휴대폰번호';

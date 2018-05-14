@@ -14,6 +14,8 @@ export class BasePage {
 
         this.opts.buttons = [CommonTextsKo.LBL_OK];
 
+        this.opts.enableBackdropDismiss = false;
+
         let alert = this.alertController.create(this.opts);
         alert.present();
     }

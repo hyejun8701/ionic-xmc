@@ -91,8 +91,14 @@ export class OrderSendModalPage extends BasePage {
         if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
           let alert = this.alertCtrl.create({
             title: CommonTextsKo.MSG_ENTER_AUTH_NUM,
-            inputs: [{type: 'text', name: 'authNum', placeholder: CommonTextsKo.LBL_AUTH_NUM}],
+            inputs: [{type: 'number', name: 'authNum', placeholder: CommonTextsKo.LBL_AUTH_NUM}],
             buttons: [
+              {
+                text: CommonTextsKo.LBL_CANCEL,
+                role: 'cancel',
+                handler: data => {
+                }
+              },
               {
                 text: CommonTextsKo.LBL_OK,
                 handler: data => {
@@ -117,7 +123,8 @@ export class OrderSendModalPage extends BasePage {
                   });
                 }
               }
-            }]
+            }],
+            enableBackdropDismiss: false
           });
           alert.present();
         }
@@ -135,7 +142,7 @@ export class OrderSendModalPage extends BasePage {
       this.btobLoginProvider.getLoginInfo().memberId,
       this.goods.goodsId,
       JSON.parse(JSON.stringify(this.receivers)),
-      'Z',
+      'M',
       this.myInput['_value']
     ).subscribe((res: any) => {
       this.resResult = new ResResult(res);
