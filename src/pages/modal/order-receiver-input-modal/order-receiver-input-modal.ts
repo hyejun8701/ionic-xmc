@@ -10,7 +10,7 @@ import { BasePage } from '../../base-page';
   selector: 'page-order-receiver-input-modal',
   templateUrl: 'order-receiver-input-modal.html',
 })
-export class OrderReceiverInputModalPage extends BasePage{
+export class OrderReceiverInputModalPage extends BasePage {
   possibleCnt: number;
   alreadyUse: any;
   datas: Array<string>;
@@ -42,19 +42,26 @@ export class OrderReceiverInputModalPage extends BasePage{
       this.datas.push("");
     }
   }
+
+  // inputFocus(event: any, idx) {
+  //   console.log(`this.datas[${idx}] ================> ${this.datas[idx]}`);
+  //   if(this.datas[idx] != null && this.datas[idx] != "") {
+
+  //   }
+  // }
   
   inputFocusout(event: any, idx) {
     let value = event.target.value;
     console.log("possibleCnt ================> " + this.possibleCnt);
     
     if (value && value.trim() !== '') {
-      if(this.possibleCnt < 1) {
+      if(this.possibleCnt < 0) {
         event.target.value = "";
         this.datas[idx] = "";
 
         this.alert(CommonTextsKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG);
       } else {
-        value = CommonFuntions.fnChangeToCallNumberFormat(value);
+        //value = CommonFuntions.fnChangeToCallNumberFormat(value);
         
         let alreadyCnt = 0;
         this.datas.forEach((data, index, array) => {
@@ -92,8 +99,9 @@ export class OrderReceiverInputModalPage extends BasePage{
           event.target.value = value;
         }
       }
+
+      this.setPossibleCnt();
     }
-    this.setPossibleCnt();
   }
 
   trackByFn(i) {
@@ -124,9 +132,9 @@ export class OrderReceiverInputModalPage extends BasePage{
   }
 
   dismiss() {
-    this.datas.forEach((element, idx, array) => {
-      array[idx] = CommonFuntions.fnChangeToCallNumberFormat(element);
-    });
+    // this.datas.forEach((element, idx, array) => {
+    //   array[idx] = CommonFuntions.fnChangeToCallNumberFormat(element);
+    // });
 
     this.viewCtrl.dismiss(this.datas.slice(0, this.getInputUseCnt()));
   }

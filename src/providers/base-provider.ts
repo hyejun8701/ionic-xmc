@@ -9,8 +9,12 @@ export class BaseProvider {
     constructor() {
         let accessToken = localStorage.getItem('accessToken') != null ? localStorage.getItem('accessToken') : "";
 
-        //this.SERVER = `${environment.HOST}`;
-        this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
+        // dev 빌드 시 사용
+        this.SERVER = `${environment.HOST}`;
+
+        // prod 빌드 시 사용
+        //this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
+
         this.headers = new HttpHeaders({
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',

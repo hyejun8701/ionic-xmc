@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, Platform, Navbar } from 'ionic-angular';
 
 import * as moment from 'moment';
 import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
@@ -31,12 +31,18 @@ export class PointHistoryPage extends BasePage {
   resResult: ResResult;
   pointHistory: PointHistoryInterface[];
 
+  @ViewChild(Navbar) navBar: Navbar;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private btobLoginProvider: BtobLoginProvider,
               private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider, private menuCtrl: MenuController,
-              private alertCtrl: AlertController
+              private alertCtrl: AlertController, private platform: Platform
             ) {
     super(alertCtrl);
     this.menuCtrl.enable(true);
+
+    this.platform.registerBackButtonAction(() => {
+      alert('app exit');
+    });
   }
 
   setDate(type: string) {

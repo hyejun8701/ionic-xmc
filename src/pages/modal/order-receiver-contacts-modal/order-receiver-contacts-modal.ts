@@ -4,6 +4,7 @@ import { Contacts } from '@ionic-native/contacts';
 import * as Hangul from 'hangul-js';
 import * as GlobalConstants from '../../../common/global-constants';
 import * as CommonFuntions from '../../../common/common-funtions';
+import * as CommonTextsKo from '../../../common/common-texts-ko';
 
 export interface ContactsInterface {
   id: string;
@@ -24,11 +25,8 @@ export class OrderReceiverContactsModalPage {
   possibleCnt: number;
   alreadyUse: any;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              private deviceContacts: Contacts,
-              private alertCtrl: AlertController
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController,
+              private deviceContacts: Contacts, private alertCtrl: AlertController
             ) {
     this.alreadyUse = navParams.get('receivers');
     this.possibleCnt = GlobalConstants.RECEIVER_POSSIBLE_COUNT_DEFAULT - this.alreadyUse.length;
@@ -146,10 +144,10 @@ export class OrderReceiverContactsModalPage {
     if(ev.checked) {
       if(this.possibleCnt === 0) {
         let alert = this.alertCtrl.create({
-          subTitle: '수신자는 최대 10명 입니다.',
+          subTitle: CommonTextsKo.MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG,
           buttons: [
             {
-              text: '확인',
+              text: CommonTextsKo.LBL_OK,
               handler: () => {
                 ev.checked = false;
               }
@@ -160,16 +158,16 @@ export class OrderReceiverContactsModalPage {
       } else {
         if(this.alreadyUse.indexOf(item.phoneNumber) > -1) {
           let alert = this.alertCtrl.create({
-            subTitle: '이미 수신자에 포함된 번호입니다.<br/>그래도 추가하시겠습니까?',
+            subTitle: CommonTextsKo.MSG_NUMBER_ALREADY_INCLUDED_IN_THE_RECIPIENT,
             buttons: [
               {
-                text: '추가',
+                text: CommonTextsKo.LBL_ADD,
                 handler: () => {
                   this.pushDatas(item);
                 }
               },
               {
-                text: '취소',
+                text: CommonTextsKo.LBL_CANCEL,
                 handler: () => {
                   ev.checked = false;
                 }

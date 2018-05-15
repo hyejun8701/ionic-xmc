@@ -1,11 +1,24 @@
 <ion-menu [content]="content" side="right">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
   <ion-content>
+      <div class="userInfo">
+          <h4><b>{{btobMember?.memberName}}</b>님</h4>
+       <ion-grid>
+          <ion-row>
+            <ion-col>
+                <div>
+                  POINT<br/>
+                  <b>{{btobMember?.point | number}}</b>P
+                </div>
+            </ion-col>
+            <ion-col>
+                <div>
+                  COUPON<br/>
+                  <b>0</b>장
+                </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     <ion-list>
       <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
           <ion-icon item-start [name]="p.icon"></ion-icon>

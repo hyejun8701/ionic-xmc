@@ -1,11 +1,22 @@
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let goods of goodsList" (click)="goOrder(goods)">
-      <ion-thumbnail item-left>
-        <img src="{{goods.goodsImg}}"/>
-      </ion-thumbnail>
-        <h2>{{goods.goodsName}}</h2>
-        <p>{{goods.goodsPrice | number}}원</p>
-    </ion-item>
-  </ion-list>
+  <div class="middle-list">
+    <ion-list>
+      <ion-item *ngFor="let goods of goodsList" (click)="goOrder(goods)">
+        <ion-thumbnail item-left>
+          <img src="{{goods.goodsImg}}"/>
+        </ion-thumbnail>
+          <h2>{{goods.goodsName}}</h2>
+          <p>{{goods.goodsPrice | number}}원</p>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="bar bar-footer bar-assertive">
+    <p class="footer">
+      (주)엑스머스컨버전스 대표:정성욱 | 사업자등록번호: 314-81-58360<br/>
+      통신판매업신고번호: 제2018-서울금천구-1234호<br/>
+      고객센터: 070-8224-5290<br/>
+      주소: 서울시 금천구 서부샛길 648(가산동 대륭테크노타운6차 611호)<br/>
+      Copyrightⓒ2018 xmerce, All rights reserved<br/>
+    </p>
+  </div>
 </ion-content>
