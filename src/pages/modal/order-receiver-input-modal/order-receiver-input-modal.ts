@@ -136,7 +136,15 @@ export class OrderReceiverInputModalPage extends BasePage {
     //   array[idx] = CommonFuntions.fnChangeToCallNumberFormat(element);
     // });
 
-    this.viewCtrl.dismiss(this.datas.slice(0, this.getInputUseCnt()));
+    let temp: Array<string> = [];
+
+    this.datas.forEach((data) => {
+      if(data != "") {
+        temp.push(data);
+      }
+    });
+
+    this.viewCtrl.dismiss(temp.slice(0, this.getInputUseCnt()));
   }
 
   closeModal() {

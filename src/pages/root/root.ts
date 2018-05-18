@@ -4,6 +4,7 @@ import { BtobMember } from '../../models/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import * as CommonTextsKo from '../../common/common-texts-ko';
 import { BaseProvider } from '../../providers/base-provider';
+import { BtobMemberCreditProvider } from '../../providers/btob/btob-member-credit';
 
 export interface PageInterface {
   title: string;
@@ -31,13 +32,25 @@ export class RootPage {
               private menuCtrl: MenuController,
               private app: App,
               private viewCtrl: ViewController,
-              private toastCtrl: ToastController
+              private toastCtrl: ToastController,
+              private btobMemberCreditProvider: BtobMemberCreditProvider
             ) {
               const changePage = this.navParams.get('rootPage');
 
               if(changePage == null) {
                 this.openPage(this.pages[0]);
               }
+  }
+
+  menuOpened() {
+    this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+    .subscribe((res: any) => {
+      console.log(res);
+      
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+        this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
+      }
+    });
   }
 
   ionViewCanEnter(): boolean {

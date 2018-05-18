@@ -39,6 +39,10 @@ export class BtobLoginProvider extends BaseProvider {
     this.btobMember.point = point;
   }
 
+  getCurrPointInfo(): number {
+    return this.btobMember.point;
+  }
+
   isLogin() {
     if(this.btobMember != null && this.btobMember != undefined) {
       return true;

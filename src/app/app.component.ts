@@ -36,7 +36,7 @@ export class MyApp {
         this.app.getActiveNav().setRoot('GoodsListPage');
       } else if(activeNav.getActive().id === 'GoodsListPage' || activeNav.getActive().id === 'LoginPage') {
         let confrim = alertCtrl.create({
-          title : CommonTextsKo.MSG_WANT_TO_EXIT_THE_APP,
+          title : CommonTextsKo.MSG_WANT_TO_EXIT_APP,
           message : "",
           buttons : [
             {text : CommonTextsKo.LBL_OK,

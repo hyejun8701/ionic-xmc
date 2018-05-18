@@ -1,4 +1,12 @@
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="middle-list">
     <ion-list>
       <ion-item *ngFor="let goods of goodsList" (click)="goOrder(goods)">

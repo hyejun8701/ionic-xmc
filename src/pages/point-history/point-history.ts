@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController, Navbar, App } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, Refresher} from 'ionic-angular';
 
 import * as moment from 'moment';
 import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
@@ -37,6 +37,17 @@ export class PointHistoryPage extends BasePage {
             ) {
     super(alertCtrl);
     this.menuCtrl.enable(true);
+  }
+
+  doRefresh(refresher: Refresher) {
+    if(this.btobLoginProvider.isLogin()) {
+      this.getPointHistory();
+      console.log('get point history..');
+              
+      setTimeout(() => {
+        refresher.complete();
+      }, 1000);
+    }
   }
 
   setDate(type: string) {

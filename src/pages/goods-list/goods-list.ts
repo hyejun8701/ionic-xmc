@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, Refresher } from 'ionic-angular';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { environment } from '../../environments/environment';
 import { ResResult } from '../../models/res-result';
 import { BasePage } from '../base-page';
 import * as CommonTextsKo from '../../common/common-texts-ko';
+import { BtobMemberCreditProvider } from '../../providers/btob/btob-member-credit';
 
 export interface EventGoodsInterface {
   goodsId: string;
@@ -24,7 +25,8 @@ export class GoodsListPage extends BasePage {
   private goodsList: EventGoodsInterface[];
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private btobLoginProvider: BtobLoginProvider,
-              private btobEventGoodsProvider: BtobEventGoodsProvider, private alertCtrl: AlertController
+              private btobEventGoodsProvider: BtobEventGoodsProvider, private alertCtrl: AlertController,
+              private btobMemberCreditProvider: BtobMemberCreditProvider
               ) {
     super(alertCtrl);
     if(btobLoginProvider.isLogin()) {
@@ -36,9 +38,30 @@ export class GoodsListPage extends BasePage {
     return this.btobLoginProvider.isLogin();
   }
 
+  doRefresh(refresher: Refresher) {
+    if(this.btobLoginProvider.isLogin()) {
+      this.getGoodsList();
+      
+      this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+      .subscribe((res: any) => {
+        //console.log(res);
+        console.log('get point info..');
+
+        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+          this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
+        }
+              
+        setTimeout(() => {
+          refresher.complete();
+        }, 1000);
+      });
+    }
+  }
+
   getGoodsList() {
     this.btobEventGoodsProvider.getEventGoodsList(this.btobLoginProvider.getLoginInfo().memberId)
     .subscribe((res: any) => {
+      console.log('get goods list..');
       this.resResult = new ResResult(res);
 
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {

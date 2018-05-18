@@ -1,4 +1,12 @@
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="centerBtn">
     <button ion-button outline fxFlex="1 1 auto" (click)="setDate('T')">당일</button>
     <button ion-button outline fxFlex="1 1 auto" (click)="setDate('M1')">1개월</button>

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController, Refresher, ToastController } from 'ionic-angular';
 import { OrderSendAuthProvider } from '../../../providers/order/order-send-auth';
 import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
@@ -20,6 +20,7 @@ export class OrderSendModalPage extends BasePage {
   receiverSetType: string;
   receivers: Array<string> = [];
   @ViewChild('myInput') myInput: ElementRef;
+  myPoint: number;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -29,10 +30,13 @@ export class OrderSendModalPage extends BasePage {
               private viewCtrl: ViewController,
               private orderSendAuthProvider: OrderSendAuthProvider,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController
             ) {
     super(alertCtrl);
     this.goods = navParams.get("item");
+
+    this.refreshPointInfo();
   }
 
   createReceiverModal(type) {
@@ -81,7 +85,29 @@ export class OrderSendModalPage extends BasePage {
   }
 
   orderSendAuth() {
+    let checkFlag:boolean = false;
+    
     if(this.receivers.length > 0) {
+      let confrim = this.alertCtrl.create({
+        title : CommonTextsKo.MSG_WANT_TO_PROCEED,
+        buttons : [
+          {text : CommonTextsKo.LBL_OK,
+            handler: () => {
+              checkFlag = true;
+            }
+          },
+          {text: CommonTextsKo.LBL_CANCEL,
+            handler: () => {
+            }
+          }
+        ]
+      });
+      confrim.present();
+    } else {
+      this.alert(CommonTextsKo.MSG_ENTER_RECIPIENT);
+    }
+
+    if(checkFlag) {
       this.orderSendAuthProvider.orderSendAuth(
         this.btobLoginProvider.getLoginInfo().memberId,
         'C',
@@ -132,8 +158,6 @@ export class OrderSendModalPage extends BasePage {
         console.error(JSON.stringify(err));
         this.alert(CommonTextsKo.MSG_AUTH_NUM_CREATE_FAILED);
       });
-    } else {
-      this.alert(CommonTextsKo.MSG_ENTER_RECIPIENT);
     }
   }
 
@@ -153,14 +177,7 @@ export class OrderSendModalPage extends BasePage {
           this.viewCtrl.dismiss();
         });
         
-        this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
-        .subscribe((res: any) => {
-          console.log(res);
-          
-          if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-            this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
-          }
-        });
+        this.refreshPointInfo();
       } else {
         this.alert(CommonTextsKo.LBL_ORDER_SEND_FAILED);
       }
@@ -171,6 +188,39 @@ export class OrderSendModalPage extends BasePage {
 
   goBack() {
     this.navCtrl.pop();
+  }
+
+  doRefresh(refresher: Refresher) {
+    if(this.btobLoginProvider.isLogin()) {
+      this.refreshPointInfo();
+      console.log('refresh point..');
+      
+      setTimeout(() => {
+        refresher.complete();
+      }, 100);
+
+      let toast = this.toastCtrl.create({
+        message: `[보유포인트] ${this.myPoint.toLocaleString()}P`,
+        position: 'top',
+        duration: 2000,
+      });    
+      toast.present();
+    }
+  }
+
+  refreshPointInfo(): number {
+    this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
+    .subscribe((res: any) => {
+      console.log(res);
+      
+      if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+        this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
+      }
+
+      this.myPoint = this.btobLoginProvider.getCurrPointInfo();
+    });
+
+    return this.myPoint;
   }
 
   ionViewDidLoad() {
