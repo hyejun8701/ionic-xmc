@@ -46,7 +46,7 @@ export class PointHistoryPage extends BasePage {
               
       setTimeout(() => {
         refresher.complete();
-      }, 1000);
+      }, 100);
     }
   }
 

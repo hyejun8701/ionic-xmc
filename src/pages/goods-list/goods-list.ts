@@ -50,10 +50,8 @@ export class GoodsListPage extends BasePage {
         if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
           this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
         }
-              
-        setTimeout(() => {
-          refresher.complete();
-        }, 1000);
+        
+        refresher.complete();
       });
     }
   }
