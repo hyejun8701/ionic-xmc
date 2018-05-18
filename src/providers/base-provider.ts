@@ -1,6 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { environment } from "../environments/environment";
 import { Header } from "ionic-angular";
+import { RootPage } from "../pages/root/root";
 
 export class BaseProvider {
     protected SERVER: string;
@@ -10,10 +11,10 @@ export class BaseProvider {
         let accessToken = localStorage.getItem('accessToken') != null ? localStorage.getItem('accessToken') : "";
 
         // dev 빌드 시 사용
-        this.SERVER = `${environment.HOST}`;
+        //this.SERVER = `${environment.HOST}`;
 
         // prod 빌드 시 사용
-        //this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
+        this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
 
         this.headers = new HttpHeaders({
             'Access-Control-Allow-Origin': '*',
@@ -22,7 +23,7 @@ export class BaseProvider {
             'accessToken': accessToken
         });
     }
-
+    
     // setAccessToken(): HttpHeaders {
     //     let headers: HttpHeaders;
     //     let accessToken = localStorage.getItem('accessToken');

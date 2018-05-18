@@ -156,7 +156,7 @@ export class OrderReceiverContactsModalPage {
         });
         alert.present();
       } else {
-        if(this.alreadyUse.indexOf(item.phoneNumber) > -1) {
+        if(this.alreadyUse.indexOf(item.phoneNumber.replace(/\-/g, '')) > -1) {
           let alert = this.alertCtrl.create({
             subTitle: CommonTextsKo.MSG_NUMBER_ALREADY_INCLUDED_IN_THE_RECIPIENT,
             buttons: [

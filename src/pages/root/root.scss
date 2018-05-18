@@ -4,25 +4,29 @@ page-root {
     }
 
     .userInfo {
-        height: 19%;
-        background-color: rgb(221, 208, 203);
         text-align: center;
-        padding-top: 8%;
-        border-bottom: 4px solid rgb(160, 148, 143);
     }
 
     .userInfo ion-grid {
-        margin-top: 5%;
-    }
-
-    .userInfo ion-row {
-        margin: 0 2%;
+        //background-color: rgb(255, 140, 95);
+        border-bottom: 10px solid rgb(242, 242, 242);
     }
 
     .userInfo ion-grid ion-col div {
         padding: 10% 0;
-        border: 1px solid rgb(168, 150, 142);
+        border: 1px solid rgb(167, 164, 164);
         border-radius: 5px;
-        text-align: center;
+        margin-bottom: 5%;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;     
+    }
+
+    ion-title img {
+        height: 40px;
+        display:inline-block;
+        vertical-align:middle;
+        margin-left: 12%;
     }
 }

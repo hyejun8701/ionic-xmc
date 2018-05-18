@@ -1,8 +1,10 @@
 <ion-menu [content]="content" side="right">
   <ion-content>
-      <div class="userInfo">
-          <h4><b>{{btobMember?.memberName}}</b>님</h4>
+      <span class="userInfo">
        <ion-grid>
+          <ion-row>
+            <ion-col><h4><b>{{btobMember?.memberName}}</b>님</h4></ion-col>
+          </ion-row>
           <ion-row>
             <ion-col>
                 <div>
@@ -10,15 +12,15 @@
                   <b>{{btobMember?.point | number}}</b>P
                 </div>
             </ion-col>
-            <ion-col>
+            <!-- <ion-col>
                 <div>
                   COUPON<br/>
                   <b>0</b>장
                 </div>
-            </ion-col>
+            </ion-col> -->
           </ion-row>
         </ion-grid>
-      </div>
+      </span>
     <ion-list>
       <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
           <ion-icon item-start [name]="p.icon"></ion-icon>
@@ -33,13 +35,9 @@
 </ion-menu>
 
 <ion-header>
-  <ion-navbar>
+  <ion-navbar align="center">
     <ion-title>
-      <!-- <img src="../assets/imgs/header_logo.png"> -->
-      <!-- <span fxFlex></span> -->
-      <span style="font-size: 0.7em;vertical-align: text-top;">
-        {{btobMember?.memberName}} 님 보유포인트: {{btobMember?.point | number}}P
-      </span>
+      <img src="assets/imgs/header_logo.png">
     </ion-title>
     <ion-buttons end>
       <button ion-button menuToggle>

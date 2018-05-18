@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, MenuController, App, ToastController, ViewController, NavOptions, Nav } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import * as CommonTextsKo from '../../common/common-texts-ko';
+import { BaseProvider } from '../../providers/base-provider';
 
 export interface PageInterface {
   title: string;
@@ -27,9 +28,13 @@ export class RootPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private btobLoginProvider: BtobLoginProvider,
-              private menuCtrl: MenuController
+              private menuCtrl: MenuController,
+              private app: App,
+              private viewCtrl: ViewController,
+              private toastCtrl: ToastController
             ) {
               const changePage = this.navParams.get('rootPage');
+
               if(changePage == null) {
                 this.openPage(this.pages[0]);
               }
@@ -45,8 +50,23 @@ export class RootPage {
 
   openPage(page: PageInterface) {
     console.log(">>>>>>>>>>> " + page.component);
-    this.navCtrl.popToRoot();
+    //this.navCtrl.popToRoot();
     this.rootPage = page.component;
+
+    let activeNav = this.app.getActiveNav();
+    let rootNav = this.app.getRootNav();
+
+    // let toast = this.toastCtrl.create({
+    //   message: `${rootNav.getActive().id} |*| ${activeNav.getActive().id}`,
+    //   showCloseButton: true,
+    //   closeButtonText: 'Ok',
+    //   position: 'bottom'
+    // });    
+    // toast.present();
+
+    if(activeNav.getActive().id != 'LoginPage' && page.component !== activeNav.getActive().id) {
+      this.app.getActiveNav().setRoot(page.component);
+    }
   }
 
   logOut() {

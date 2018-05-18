@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController, Platform, Navbar } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, Navbar, App } from 'ionic-angular';
 
 import * as moment from 'moment';
 import { BtobMemberCreditUseHistoryProvider } from '../../providers/btob/btob-member-credit-use-history';
@@ -31,18 +31,12 @@ export class PointHistoryPage extends BasePage {
   resResult: ResResult;
   pointHistory: PointHistoryInterface[];
 
-  @ViewChild(Navbar) navBar: Navbar;
-
   constructor(public navCtrl: NavController, public navParams: NavParams, private btobLoginProvider: BtobLoginProvider,
               private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider, private menuCtrl: MenuController,
-              private alertCtrl: AlertController, private platform: Platform
+              private alertCtrl: AlertController
             ) {
     super(alertCtrl);
     this.menuCtrl.enable(true);
-
-    this.platform.registerBackButtonAction(() => {
-      alert('app exit');
-    });
   }
 
   setDate(type: string) {
@@ -92,5 +86,22 @@ export class PointHistoryPage extends BasePage {
 
   ionViewDidEnter() {
     this.menuCtrl.enable(true);
+    console.log('ionViewDidEnter PointHistoryPage');
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad PointHistoryPage');
+  }
+
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave PointHistoryPage');
+  }
+
+  ionViewDidLeave() {
+    console.log('ionViewDidLeave PointHistoryPage');
+  }
+
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload PointHistoryPage');
   }
 }

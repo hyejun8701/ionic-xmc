@@ -10,7 +10,10 @@
     </ion-card-header>
     <ion-item>
       <ion-thumbnail item-left>
-        <img src="{{ goods.goodsImg }}"/>
+          <img *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
+          <ng-template #noImage>
+              <img src="assets/imgs/close-128.png">
+          </ng-template>
       </ion-thumbnail>
         <h2>{{ goods.goodsName }}</h2>
         <p>{{ goods.goodsPrice | number }}원</p>

@@ -78,7 +78,7 @@ export class LoginPage extends BasePage {
             
       this.resResult = new ResResult(res);
       
-      console.log(`login status => ${this.btobLoginProvider.isLogin()}`);
+      //console.log(`login status => ${this.btobLoginProvider.isLogin()}`);
 
       if(this.btobLoginProvider.isLogin()) {
         let loader = this.loadingCtrl.create({

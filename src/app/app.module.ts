@@ -17,8 +17,8 @@ import { OrderSendProvider } from '../providers/order/order-send';
 import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-member-credit-use-history';
 import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
-import { CallNumber } from '@ionic-native/call-number';
 import { Contacts } from '@ionic-native/contacts';
+import { BaseProvider } from '../providers/base-provider';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,7 @@ import { Contacts } from '@ionic-native/contacts';
     SplashScreen,
     Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    BaseProvider,
     BtobMemberProvider,
     BtobLoginProvider,
     BtobEventGoodsProvider,
@@ -46,7 +47,6 @@ import { Contacts } from '@ionic-native/contacts';
     OrderSendProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,
-    CallNumber,
     Contacts
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]

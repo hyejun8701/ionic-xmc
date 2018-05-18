@@ -50,7 +50,7 @@ export class GoodsListPage extends BasePage {
               goodsId: res.result_data[i].goods_id,
               goodsName: res.result_data[i].goods_name,
               goodsPrice: res.result_data[i].goods_price,
-              goodsImg: `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name
+              goodsImg: (res.result_data[i].goods_img_name != null) ? `${environment.uploadPath}` + '/goods/template/' + res.result_data[i].goods_img_name : null
             }
           );
         }
@@ -64,5 +64,25 @@ export class GoodsListPage extends BasePage {
   goOrder(goods) {
     let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
     modal.present();
+  }
+
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter GoodsListPage');
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad GoodsListPage');
+  }
+
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave GoodsListPage');
+  }
+
+  ionViewDidLeave() {
+    console.log('ionViewDidLeave GoodsListPage');
+  }
+
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload GoodsListPage');
   }
 }
