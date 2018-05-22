@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, MenuController, ToastController, ViewController } from 'ionic-angular';
+import { BaseProvider } from '../../../providers/base-provider';
 
 @IonicPage()
 @Component({
@@ -13,14 +14,17 @@ export class OrderSendResultModalPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private app: App,
-              private menuCtrl: MenuController
+              private menuCtrl: MenuController,
+              private toastCtrl: ToastController,
+              private viewCtrl: ViewController,
+              private baseProvider: BaseProvider
               ) {
     this.goods = navParams.get("item");
     this.cnt = navParams.get("cnt");
   }
 
   goPointHistory() {
-    this.app.getRootNav().setRoot('RootPage', {rootPage: 'PointHistoryPage'});
+    this.baseProvider.setRootPage('PointHistoryPage');
     this.navCtrl.pop();
   }
 

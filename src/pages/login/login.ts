@@ -138,13 +138,7 @@ export class LoginPage extends BasePage {
     },
     err => {
       console.log(JSON.stringify(err));
-      // let alert = this.alertCtrl.create({
-      //   title: '로그인실패',
-      //   subTitle: '서버에서 에러가 발생했습니다.<br/>잠시후 다시 시도해 주세요.',
-      //   buttons: ['확인']
-      // });
-      // alert.present();
-      this.alert(CommonTextsKo.LBL_LOGIN_FAILED);
+      this.alert(CommonTextsKo.LBL_LOGIN_FAILED, err.message);
     });
   }
 
@@ -162,29 +156,20 @@ export class LoginPage extends BasePage {
       ],
       buttons:[
         {
-          text: CommonTextsKo.LBL_CANCEL,
-          role: 'cancel',
-          handler: data => {
-          }
-        },
-        {
           text: CommonTextsKo.LBL_REQ_TO_ADMIN,
           handler: data => {
-            //console.log('Input data:', data);
             if(!data.memberId || !data.memberName || !data.chargeMobile) {
               return false;
             } else {
               this.btobMemberProvider.lostPassword(data.memberId, data.memberName, data.chargeMobile)
               .subscribe((res: any) => {
-                //console.log(data);
-                //if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-                  this.resResult = new ResResult(res);
-                  this.alert(CommonTextsKo.LBL_LOST_PASSWORD_REQ_RESULT, this.resResult.getResMsg());
-                //}
+                this.resResult = new ResResult(res);
+                this.alert(CommonTextsKo.LBL_LOST_PASSWORD_REQ_RESULT, this.resResult.getResMsg());
               });
             }
           }
-        }
+        },
+        {text: CommonTextsKo.LBL_CANCEL, role: 'cancel'}
       ],
       enableBackdropDismiss: false
     });

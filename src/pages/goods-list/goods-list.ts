@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, Refresher } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, Refresher, Nav } from 'ionic-angular';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { environment } from '../../environments/environment';
@@ -23,6 +23,7 @@ export interface EventGoodsInterface {
 export class GoodsListPage extends BasePage {
   resResult: ResResult;
   private goodsList: EventGoodsInterface[];
+  @ViewChild(Nav) nav: Nav;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private btobLoginProvider: BtobLoginProvider,
               private btobEventGoodsProvider: BtobEventGoodsProvider, private alertCtrl: AlertController,
@@ -84,6 +85,11 @@ export class GoodsListPage extends BasePage {
 
   goOrder(goods) {
     let modal = this.modalCtrl.create('OrderSendModalPage', {item: goods});
+
+    modal.onDidDismiss(data => {
+      console.log(JSON.stringify(this.nav));
+    });
+
     modal.present();
   }
 

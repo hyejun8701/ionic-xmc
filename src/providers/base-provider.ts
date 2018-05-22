@@ -1,12 +1,14 @@
 import { HttpHeaders } from "@angular/common/http";
 import { environment } from "../environments/environment";
-import { Header } from "ionic-angular";
+import { Header, PageTransition } from "ionic-angular";
 import { RootPage } from "../pages/root/root";
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export class BaseProvider {
     protected SERVER: string;
     protected headers: HttpHeaders;
-
+    rootPage = new BehaviorSubject<string>("default message");
     constructor() {
         let accessToken = localStorage.getItem('accessToken') != null ? localStorage.getItem('accessToken') : "";
 
@@ -23,19 +25,8 @@ export class BaseProvider {
             'accessToken': accessToken
         });
     }
-    
-    // setAccessToken(): HttpHeaders {
-    //     let headers: HttpHeaders;
-    //     let accessToken = localStorage.getItem('accessToken');
 
-    //     console.log(accessToken);
-
-    //     if(accessToken != null) {
-    //         headers = this.headers.append('accessToken', localStorage.getItem('accessToken'));
-    //     } else {
-    //         headers = this.headers;
-    //     }
-
-    //     return headers;
-    // }
+    setRootPage(page) {
+        this.rootPage.next(page);
+    }
 }

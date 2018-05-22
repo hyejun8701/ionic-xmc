@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController, Refresher, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController, Refresher, ToastController, LoadingController, App } from 'ionic-angular';
 import { OrderSendAuthProvider } from '../../../providers/order/order-send-auth';
 import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
@@ -31,7 +31,9 @@ export class OrderSendModalPage extends BasePage {
               private orderSendAuthProvider: OrderSendAuthProvider,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,
-              private toastCtrl: ToastController
+              private toastCtrl: ToastController,
+              private loadingCtrl: LoadingController,
+              private app: App
             ) {
     super(alertCtrl);
     this.goods = navParams.get("item");
@@ -85,7 +87,7 @@ export class OrderSendModalPage extends BasePage {
   }
 
   orderSendAuth() {
-    let checkFlag:boolean = false;
+    let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
     
     if(this.receivers.length > 0) {
       let confrim = this.alertCtrl.create({
@@ -93,7 +95,63 @@ export class OrderSendModalPage extends BasePage {
         buttons : [
           {text : CommonTextsKo.LBL_OK,
             handler: () => {
-              checkFlag = true;
+              this.orderSendAuthProvider.orderSendAuth(
+                this.btobLoginProvider.getLoginInfo().memberId,
+                'C',
+                ''
+              ).subscribe((res: any) => {
+                console.log(res)
+                
+                if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+                  let alert = this.alertCtrl.create({
+                    title: CommonTextsKo.MSG_ENTER_AUTH_NUM,
+                    inputs: [{type: 'number', name: 'authNum', placeholder: CommonTextsKo.LBL_AUTH_NUM}],
+                    buttons: [
+                      {
+                        text: CommonTextsKo.LBL_OK,
+                        handler: data => {
+                        if(!data.authNum) {
+                          return false;
+                        } else {
+                          this.orderSendAuthProvider.orderSendAuth(
+                            this.btobLoginProvider.getLoginInfo().memberId,
+                            'V',
+                            data.authNum
+                          ).subscribe((res: any) => {
+                            this.resResult = new ResResult(res);
+        
+                            if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
+                              this.orderSend();
+                            } else {
+                              this.alert(CommonTextsKo.MSG_AUTH_NUM_VERIFY_FAILED);
+                            }
+                          }, err => {
+                            this.alert(CommonTextsKo.MSG_AUTH_NUM_VERIFY_FAILED);
+                          });
+                        }
+                      }
+                    },
+                    {text: CommonTextsKo.LBL_CANCEL, role: 'cancel'}
+                  ],
+                    enableBackdropDismiss: false
+                  });
+
+                  let loader = this.loadingCtrl.create({
+                    spinner: 'dots',
+                    content: 'Please wait...',
+                    duration: 3000
+                  });
+                  loader.present();
+          
+                  setTimeout(() => {
+                    loader.dismiss();
+                    alert.present();
+                  }, 1500);
+                }
+              }, err => {
+                console.error(JSON.stringify(err));
+                this.alert(CommonTextsKo.MSG_AUTH_NUM_CREATE_FAILED);
+              });
             }
           },
           {text: CommonTextsKo.LBL_CANCEL,
@@ -106,59 +164,6 @@ export class OrderSendModalPage extends BasePage {
     } else {
       this.alert(CommonTextsKo.MSG_ENTER_RECIPIENT);
     }
-
-    if(checkFlag) {
-      this.orderSendAuthProvider.orderSendAuth(
-        this.btobLoginProvider.getLoginInfo().memberId,
-        'C',
-        ''
-      ).subscribe((res: any) => {
-        console.log(res)
-        if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-          let alert = this.alertCtrl.create({
-            title: CommonTextsKo.MSG_ENTER_AUTH_NUM,
-            inputs: [{type: 'number', name: 'authNum', placeholder: CommonTextsKo.LBL_AUTH_NUM}],
-            buttons: [
-              {
-                text: CommonTextsKo.LBL_CANCEL,
-                role: 'cancel',
-                handler: data => {
-                }
-              },
-              {
-                text: CommonTextsKo.LBL_OK,
-                handler: data => {
-                //console.log('Input data:', data);
-                if(!data.authNum) {
-                  return false;
-                } else {
-                  this.orderSendAuthProvider.orderSendAuth(
-                    this.btobLoginProvider.getLoginInfo().memberId,
-                    'V',
-                    data.authNum
-                  ).subscribe((res: any) => {
-                    this.resResult = new ResResult(res);
-
-                    if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-                      this.orderSend();
-                    } else {
-                      this.alert(CommonTextsKo.MSG_AUTH_NUM_VERIFY_FAILED);
-                    }
-                  }, err => {
-                    this.alert(CommonTextsKo.MSG_AUTH_NUM_VERIFY_FAILED);
-                  });
-                }
-              }
-            }],
-            enableBackdropDismiss: false
-          });
-          alert.present();
-        }
-      }, err => {
-        console.error(JSON.stringify(err));
-        this.alert(CommonTextsKo.MSG_AUTH_NUM_CREATE_FAILED);
-      });
-    }
   }
 
   orderSend() {
@@ -166,7 +171,7 @@ export class OrderSendModalPage extends BasePage {
       this.btobLoginProvider.getLoginInfo().memberId,
       this.goods.goodsId,
       JSON.parse(JSON.stringify(this.receivers)),
-      'M',
+      GlobalConstants.ORDER_SEND_SMS_TYPE_NOTSEND,
       this.myInput['_value']
     ).subscribe((res: any) => {
       this.resResult = new ResResult(res);
@@ -211,7 +216,7 @@ export class OrderSendModalPage extends BasePage {
   refreshPointInfo(): number {
     this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
     .subscribe((res: any) => {
-      console.log(res);
+      //console.log(res);
       
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);

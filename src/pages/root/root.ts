@@ -33,19 +33,23 @@ export class RootPage {
               private app: App,
               private viewCtrl: ViewController,
               private toastCtrl: ToastController,
-              private btobMemberCreditProvider: BtobMemberCreditProvider
+              private btobMemberCreditProvider: BtobMemberCreditProvider,
+              private baseProvider: BaseProvider
             ) {
               const changePage = this.navParams.get('rootPage');
 
               if(changePage == null) {
+                this.baseProvider.setRootPage(this.pages[0].component);
                 this.openPage(this.pages[0]);
               }
+
+             
   }
 
   menuOpened() {
     this.btobMemberCreditProvider.getPointInfo(this.btobLoginProvider.getLoginInfo().memberId)
     .subscribe((res: any) => {
-      console.log(res);
+      //console.log(res);
       
       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
         this.btobLoginProvider.setCurrPointInfo(res.result_data.credit_balance - res.result_data.ready_credit);
@@ -63,20 +67,12 @@ export class RootPage {
 
   openPage(page: PageInterface) {
     console.log(">>>>>>>>>>> " + page.component);
-    //this.navCtrl.popToRoot();
+    this.navCtrl.popToRoot();
     this.rootPage = page.component;
 
     let activeNav = this.app.getActiveNav();
     let rootNav = this.app.getRootNav();
-
-    // let toast = this.toastCtrl.create({
-    //   message: `${rootNav.getActive().id} |*| ${activeNav.getActive().id}`,
-    //   showCloseButton: true,
-    //   closeButtonText: 'Ok',
-    //   position: 'bottom'
-    // });    
-    // toast.present();
-
+    
     if(activeNav.getActive().id != 'LoginPage' && page.component !== activeNav.getActive().id) {
       this.app.getActiveNav().setRoot(page.component);
     }
@@ -87,17 +83,23 @@ export class RootPage {
     this.navCtrl.setRoot('LoginPage');
   }
 
+  ngOnInit() {
+    this.baseProvider.rootPage.subscribe(data => this.rootPage = data);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad RootPage');
   }
 
   ionViewDidEnter() {
     console.log("ionViewDidEnter RootPage");
-    const changePage = this.navParams.get('rootPage');
-    if(changePage != null) {
-      this.openPage(this.pages[1]);
-      this.menuCtrl.enable(true);
-    }
+    // const changePage = this.navParams.get('rootPage');
+
+    // if(changePage != null) {
+    //   this.openPage(this.pages[1]);
+    //   this.menuCtrl.enable(true);
+    // }
+    this.menuCtrl.enable(true);
   }
 
   ionViewWillLeave() {
