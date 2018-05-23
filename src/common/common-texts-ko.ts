@@ -1,5 +1,6 @@
-export const MSG_ENTER_RECIPIENT: string = '수신자를 입력하세요.';
 export const MSG_PLEASE_CHANGE_YOUR_PASSWORD: string = '고객님의 소중한 정보를 위하여<br/>비밀번호를 변경하여 주세요.';
+export const MSG_UPDATE_MEMBER_INFO_SUCC: string = '개인정보 수정이 완료되었습니다.';
+export const MSG_ENTER_RECIPIENT: string = '수신자를 입력하세요.';
 export const MSG_MAXIMUM_NUMBER_OF_RECIPIENTS_WRONG: string = '수신자는 최대 10명 입니다.';
 export const MSG_WANT_TO_EXIT_APP: string = '앱을 종료하시겠습니까?';
 export const MSG_NUMBER_ALREADY_INCLUDED_IN_THE_RECIPIENT: string = '이미 수신자에 포함된 번호입니다.<br/>그래도 추가하시겠습니까?';
@@ -9,10 +10,12 @@ export const MSG_WANT_TO_PROCEED: string = '인증번호가 발송됩니다.<br/
 export const MSG_ENTER_AUTH_NUM: string = '인증번호를 입력하세요.<br/>(2분30초 이내)';
 
 export const LBL_REQ_TO_ADMIN: string = '관리자에게 정보 요청하기';
+export const LBL_MEMBER_INFO: string = '개인정보';
 export const LBL_NEXT_TIME: string = '다음에';
 export const LBL_LOGIN_FAILED: string = '로그인실패';
 export const LBL_GET_LIST_FAILED: string = '리스트조회실패';
 export const LBL_ORDER_SEND_FAILED: string = '발송실패';
+export const LBL_UPDATE_PASSWORD_REQ_RESULT: string = '비밀번호변경결과';
 export const LBL_LOST_PASSWORD_REQ_RESULT: string = '비밀번호요청결과';
 export const LBL_FIND_LOST_PASSWORD: string = '비밀번호 찾기';
 export const LBL_ID: string = '아이디';

@@ -1,8 +1,4 @@
 page-root {
-    ion-content .toolbar-background-md {
-        //background-color: #fff;        
-    }
-
     .userInfo {
         text-align: center;
     }
@@ -27,6 +23,10 @@ page-root {
         height: 40px;
         display:inline-block;
         vertical-align:middle;
-        margin-left: 12%;
+        margin-left: 12.5%;
+    }
+
+    .profile {
+        zoom: 4.0;
     }
 }

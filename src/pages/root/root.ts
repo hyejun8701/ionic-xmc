@@ -23,7 +23,8 @@ export class RootPage {
 
   pages: PageInterface[] = [
     {title: CommonTextsKo.LBL_GOODS_LIST, component: 'GoodsListPage', icon:'home'},
-    {title: CommonTextsKo.LBL_POINT_MANAGE, component: 'PointHistoryPage', icon:'card'}
+    {title: CommonTextsKo.LBL_POINT_MANAGE, component: 'PointHistoryPage', icon:'card'},
+    {title: CommonTextsKo.LBL_MEMBER_INFO, component: 'MemberInfoPage', icon:'settings'}
   ]
 
   constructor(public navCtrl: NavController,

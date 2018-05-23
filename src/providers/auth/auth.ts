@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { BaseProvider } from '../base-provider';
 
 @Injectable()
-export class OrderSendAuthProvider extends BaseProvider {
+export class AuthProvider extends BaseProvider {
   constructor(public http: HttpClient) {
     super();
   }
 
-  orderSendAuth(memberId: string, reqType: string, authNum: string) {
+  auth(memberId: string, reqType: string, authNum: string) {
     return this.http.post(
-      this.SERVER + '/orderSendAuth.do',
+      this.SERVER + '/auth.do',
       JSON.stringify(
         {
           'memberId': memberId,

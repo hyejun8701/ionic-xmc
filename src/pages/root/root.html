@@ -1,9 +1,11 @@
 <ion-menu [content]="content" side="right" (ionOpen)="menuOpened()">
   <ion-content>
       <span class="userInfo">
-       <ion-grid>
+        <ion-grid>
           <ion-row>
-            <ion-col><h4><b>{{btobMember?.memberName}}</b>님</h4></ion-col>
+            <ion-col>
+              <ion-icon class="profile" name="ios-contact-outline"></ion-icon>
+              <h4><b>{{btobMember?.memberName}}</b>님</h4></ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
@@ -35,10 +37,9 @@
 </ion-menu>
 
 <ion-header>
-  <ion-navbar align="center">
+  <ion-navbar align="center" color="stepin">
     <ion-title>
-      {{rootPage}}
-      <img src="assets/imgs/header_logo.png">
+      <img src="assets/imgs/logoC_2.png">
     </ion-title>
     <ion-buttons end>
       <button ion-button menuToggle>

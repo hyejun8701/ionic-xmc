@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BtobMemberProvider } from '../providers/btob/btob-member';
 import { BtobLoginProvider } from '../providers/btob/btob-login';
 import { BtobEventGoodsProvider } from '../providers/btob/btob-event-goods';
-import { OrderSendAuthProvider } from '../providers/order/order-send-auth';
+import { AuthProvider } from '../providers/auth/auth';
 import { OrderSendProvider } from '../providers/order/order-send';
 import { BtobMemberCreditUseHistoryProvider } from '../providers/btob/btob-member-credit-use-history';
 import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
@@ -43,7 +43,7 @@ import { BaseProvider } from '../providers/base-provider';
     BtobMemberProvider,
     BtobLoginProvider,
     BtobEventGoodsProvider,
-    OrderSendAuthProvider,
+    AuthProvider,
     OrderSendProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,

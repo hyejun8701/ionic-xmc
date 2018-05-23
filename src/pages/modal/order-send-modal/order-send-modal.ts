@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController, Refresher, ToastController, LoadingController, App } from 'ionic-angular';
-import { OrderSendAuthProvider } from '../../../providers/order/order-send-auth';
+import { AuthProvider } from '../../../providers/auth/auth';
 import { OrderSendProvider } from '../../../providers/order/order-send';
 import { BtobLoginProvider } from '../../../providers/btob/btob-login';
 import { BtobMemberCreditProvider } from '../../../providers/btob/btob-member-credit';
@@ -28,7 +28,7 @@ export class OrderSendModalPage extends BasePage {
               private orderSendProvider: OrderSendProvider,
               private btobMemberCreditProvider: BtobMemberCreditProvider,
               private viewCtrl: ViewController,
-              private orderSendAuthProvider: OrderSendAuthProvider,
+              private authProvider: AuthProvider,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
@@ -87,7 +87,7 @@ export class OrderSendModalPage extends BasePage {
   }
 
   orderSendAuth() {
-    let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
+    //let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
     
     if(this.receivers.length > 0) {
       let confrim = this.alertCtrl.create({
@@ -95,7 +95,7 @@ export class OrderSendModalPage extends BasePage {
         buttons : [
           {text : CommonTextsKo.LBL_OK,
             handler: () => {
-              this.orderSendAuthProvider.orderSendAuth(
+              this.authProvider.auth(
                 this.btobLoginProvider.getLoginInfo().memberId,
                 'C',
                 ''
@@ -113,7 +113,7 @@ export class OrderSendModalPage extends BasePage {
                         if(!data.authNum) {
                           return false;
                         } else {
-                          this.orderSendAuthProvider.orderSendAuth(
+                          this.authProvider.auth(
                             this.btobLoginProvider.getLoginInfo().memberId,
                             'V',
                             data.authNum
