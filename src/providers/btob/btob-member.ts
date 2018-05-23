@@ -28,4 +28,13 @@ export class BtobMemberProvider extends BaseProvider {
       {headers: this.headers}
     );
   }
+
+  /* btob_member */
+  getMemberInfo(memberId: string) {
+    return this.http.post(
+      this.SERVER + '/memberInfo.do',
+      JSON.stringify({'memberId': memberId}),
+      {headers: this.headers}
+    );
+  }
 }

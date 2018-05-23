@@ -32,7 +32,8 @@ export class MyApp {
       // });    
       // toast.present();
 
-      if(activeNav.getViews()[0].name === 'PointHistoryPage' || activeNav.getActive().id === 'PointHistoryPage') {
+      if(activeNav.getViews()[0].name === 'PointHistoryPage' || activeNav.getActive().id === 'PointHistoryPage'
+       || activeNav.getViews()[0].name === 'MemberInfoPage' || activeNav.getActive().id === 'MemberInfoPage') {
         this.app.getActiveNav().setRoot('GoodsListPage');
       } else if(activeNav.getActive().id === 'GoodsListPage' || activeNav.getActive().id === 'LoginPage') {
         let confrim = alertCtrl.create({

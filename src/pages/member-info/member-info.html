@@ -1,8 +1,8 @@
-<ion-header align="center">
+<!-- <ion-header align="center">
   <ion-navbar>
     <ion-title>개인정보 수정</ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> -->
 <ion-content>
   <form [formGroup]="renewForm" (ngSubmit)="updateMemberInfo()" #form="ngForm">
     <div class="notice">
@@ -10,15 +10,15 @@
     </div>
     <ion-item>
       <ion-label>기존비밀번호</ion-label>
-      <ion-input type="password" [(ngModel)]="password" formControlName="password" >{{password}}</ion-input>
+      <ion-input type="password" [(ngModel)]="password" formControlName="password">{{password}}</ion-input>
     </ion-item>
     <ion-item>
       <ion-label>변경비밀번호</ion-label>
-      <ion-input type="password" [(ngModel)]="newPassword" formControlName="newPassword" >{{newPassword}}</ion-input>
+      <ion-input type="password" [(ngModel)]="newPassword" formControlName="newPassword">{{newPassword}}</ion-input>
     </ion-item>
     <ion-item>
       <ion-label>비밀번호확인</ion-label>
-      <ion-input type="password" [(ngModel)]="newPasswordCheck" formControlName="newPasswordCheck" >{{newPasswordCheck}}</ion-input>
+      <ion-input type="password" [(ngModel)]="newPasswordCheck" formControlName="newPasswordCheck">{{newPasswordCheck}}</ion-input>
     </ion-item>
   </form>
 </ion-content>

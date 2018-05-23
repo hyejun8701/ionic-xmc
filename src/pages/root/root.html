@@ -28,6 +28,10 @@
           <ion-icon item-start [name]="p.icon"></ion-icon>
           {{ p.title }}
         </button>
+        <button ion-item menuClose (click)="openVerifyModal()">
+          <ion-icon item-start name="settings"></ion-icon>
+          개인정보
+        </button>
         <button ion-item menuClose (click)="logOut()">
           <ion-icon item-start name="log-out"></ion-icon>
           로그아웃

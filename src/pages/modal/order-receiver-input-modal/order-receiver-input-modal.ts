@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import * as GlobalConstants from '../../../common/global-constants';
-import * as CommonFuntions from '../../../common/common-funtions';
 import * as CommonTextsKo from '../../../common/common-texts-ko';
 import { BasePage } from '../../base-page';
 

@@ -1,7 +1,5 @@
 import { HttpHeaders } from "@angular/common/http";
 import { environment } from "../environments/environment";
-import { Header, PageTransition } from "ionic-angular";
-import { RootPage } from "../pages/root/root";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 

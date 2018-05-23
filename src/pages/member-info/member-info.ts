@@ -3,11 +3,10 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
-import * as GlobalConstants from '../../common/global-constants';
-import * as CommonTextsKo from '../../common/common-texts-ko';
 import { BasePage } from '../base-page';
 import { ResResult } from '../../models/res-result';
 import { BtobMemberProvider } from '../../providers/btob/btob-member';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 @IonicPage()
 @Component({

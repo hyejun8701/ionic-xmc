@@ -13,9 +13,7 @@ export class OrderSendResultModalPage {
   
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private app: App,
               private menuCtrl: MenuController,
-              private toastCtrl: ToastController,
               private viewCtrl: ViewController,
               private baseProvider: BaseProvider
               ) {

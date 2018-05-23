@@ -1,10 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, App, ToastController, ViewController, NavOptions, Nav } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, MenuController, App, ModalController } from 'ionic-angular';
 import { BtobMember } from '../../models/btob-member';
 import { BtobLoginProvider } from '../../providers/btob/btob-login';
-import * as CommonTextsKo from '../../common/common-texts-ko';
 import { BaseProvider } from '../../providers/base-provider';
 import { BtobMemberCreditProvider } from '../../providers/btob/btob-member-credit';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 export interface PageInterface {
   title: string;
@@ -23,8 +23,7 @@ export class RootPage {
 
   pages: PageInterface[] = [
     {title: CommonTextsKo.LBL_GOODS_LIST, component: 'GoodsListPage', icon:'home'},
-    {title: CommonTextsKo.LBL_POINT_MANAGE, component: 'PointHistoryPage', icon:'card'},
-    {title: CommonTextsKo.LBL_MEMBER_INFO, component: 'MemberInfoPage', icon:'settings'}
+    {title: CommonTextsKo.LBL_POINT_MANAGE, component: 'PointHistoryPage', icon:'card'}
   ]
 
   constructor(public navCtrl: NavController,
@@ -32,10 +31,9 @@ export class RootPage {
               private btobLoginProvider: BtobLoginProvider,
               private menuCtrl: MenuController,
               private app: App,
-              private viewCtrl: ViewController,
-              private toastCtrl: ToastController,
               private btobMemberCreditProvider: BtobMemberCreditProvider,
-              private baseProvider: BaseProvider
+              private baseProvider: BaseProvider,
+              private modalCtrl: ModalController
             ) {
               const changePage = this.navParams.get('rootPage');
 
@@ -43,8 +41,6 @@ export class RootPage {
                 this.baseProvider.setRootPage(this.pages[0].component);
                 this.openPage(this.pages[0]);
               }
-
-             
   }
 
   menuOpened() {
@@ -72,11 +68,20 @@ export class RootPage {
     this.rootPage = page.component;
 
     let activeNav = this.app.getActiveNav();
-    let rootNav = this.app.getRootNav();
     
     if(activeNav.getActive().id != 'LoginPage' && page.component !== activeNav.getActive().id) {
       this.app.getActiveNav().setRoot(page.component);
     }
+  }
+
+  openVerifyModal() {
+    let modal = this.modalCtrl.create('PasswordVerifyModalPage');
+    modal.onDidDismiss(data => {
+      if(data != null) {
+        
+      }
+    });
+    modal.present();
   }
 
   logOut() {

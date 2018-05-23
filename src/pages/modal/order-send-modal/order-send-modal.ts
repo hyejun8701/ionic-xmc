@@ -32,8 +32,7 @@ export class OrderSendModalPage extends BasePage {
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
-              private loadingCtrl: LoadingController,
-              private app: App
+              private loadingCtrl: LoadingController
             ) {
     super(alertCtrl);
     this.goods = navParams.get("item");

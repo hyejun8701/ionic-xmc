@@ -5,8 +5,8 @@ import { BtobEventGoodsProvider } from '../../providers/btob/btob-event-goods';
 import { environment } from '../../environments/environment';
 import { ResResult } from '../../models/res-result';
 import { BasePage } from '../base-page';
-import * as CommonTextsKo from '../../common/common-texts-ko';
 import { BtobMemberCreditProvider } from '../../providers/btob/btob-member-credit';
+import * as CommonTextsKo from '../../common/common-texts-ko';
 
 export interface EventGoodsInterface {
   goodsId: string;
