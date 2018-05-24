@@ -11,17 +11,16 @@ export class BaseProvider {
         let accessToken = localStorage.getItem('accessToken') != null ? localStorage.getItem('accessToken') : "";
 
         // dev 빌드 시 사용
-        this.SERVER = `${environment.HOST}`;
+        //this.SERVER = `${environment.HOST}`;
 
         // prod 빌드 시 사용
-        //this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
+        this.SERVER = 'http://api.stepin.xmerce.com/external/smt';
 
         this.headers = new HttpHeaders({
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'accessToken': accessToken
-        });
+            'Accept': 'application/json'
+        }).set('accessToken' , accessToken);
     }
 
     setRootPage(page) {
