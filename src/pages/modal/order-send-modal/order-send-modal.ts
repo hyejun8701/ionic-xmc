@@ -170,7 +170,7 @@ export class OrderSendModalPage extends BasePage {
       this.btobLoginProvider.getLoginInfo().memberId,
       this.goods.goodsId,
       JSON.parse(JSON.stringify(this.receivers)),
-      GlobalConstants.ORDER_SEND_SMS_TYPE_NOTSEND,
+      GlobalConstants.ORDER_SEND_SMS_TYPE_MMS,
       this.myInput['_value']
     ).subscribe((res: any) => {
       this.resResult = new ResResult(res);

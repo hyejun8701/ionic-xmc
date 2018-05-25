@@ -19,6 +19,7 @@ import { BtobMemberCreditProvider } from '../providers/btob/btob-member-credit';
 
 import { Contacts } from '@ionic-native/contacts';
 import { BaseProvider } from '../providers/base-provider';
+import { HeaderColor } from '@ionic-native/header-color';
 
 @NgModule({
   declarations: [
@@ -47,8 +48,11 @@ import { BaseProvider } from '../providers/base-provider';
     OrderSendProvider,
     BtobMemberCreditUseHistoryProvider,
     BtobMemberCreditProvider,
-    Contacts
+    Contacts,
+    HeaderColor
     //{ provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })
 export class AppModule {}
+
+IonicModule.forRoot (MyApp, { preloadModules : true });

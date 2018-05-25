@@ -23,6 +23,7 @@ export class LoginPage extends BasePage {
   rememberMe: boolean;
   resResult: ResResult;
   btobMember: BtobMember;
+  isDisabled: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private formBuilder: FormBuilder,
               private btobLoginProvider: BtobLoginProvider, private btobMemberProvider: BtobMemberProvider, private loadingCtrl: LoadingController) {
@@ -54,8 +55,10 @@ export class LoginPage extends BasePage {
       this.doLogin('A');
     }
   }
-
+  
   doLogin(loginType: string) {
+    this.isDisabled = true;
+    
     this.btobLoginProvider.authenticate(this.memberId, this.password, loginType)
     .subscribe((res: any) => {
       if(res.result_code == 'APP_LINK_SUCCESS_S0000' && res.access_token != null) {
@@ -134,11 +137,13 @@ export class LoginPage extends BasePage {
 
       } else {
         this.alert(CommonTextsKo.LBL_LOGIN_FAILED, this.resResult.getResMsg());
+        this.isDisabled = false;
       }
     },
     err => {
       console.log(JSON.stringify(err));
       this.alert(CommonTextsKo.LBL_LOGIN_FAILED, err.message);
+      this.isDisabled = false;
     });
   }
 

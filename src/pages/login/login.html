@@ -13,7 +13,7 @@
         <ion-item>
           <ion-input type="password" [(ngModel)]="password" formControlName="password" placeholder="비밀번호"></ion-input>
         </ion-item>
-        <button ion-button block style="background-color: #3b5998" [disabled]="!loginForm.valid" type="submit">로그인</button>
+        <button ion-button block style="background-color: #3b5998" [disabled]="!loginForm.valid || isDisabled" type="submit">로그인</button>
       </ion-list>
       <ion-grid no-padding>
         <ion-row>
