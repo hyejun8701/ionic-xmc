@@ -67,7 +67,7 @@ export class RootPage {
     this.navCtrl.popToRoot();
     this.rootPage = page.component;
 
-    let activeNav = this.app.getActiveNav();
+    let activeNav = this.app.getActiveNavs()[0];
     
     if(activeNav.getActive().id != 'LoginPage' && page.component !== activeNav.getActive().id) {
       this.app.getActiveNav().setRoot(page.component);

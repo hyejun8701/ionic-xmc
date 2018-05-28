@@ -11,25 +11,21 @@ import * as CommonTextsKo from '../common/common-texts-ko';
 })
 export class MyApp {
   rootPage:any = 'LoginPage';
+  alertShown: boolean = false;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, keyboard: Keyboard,
+  constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, keyboard: Keyboard,
               private app: App, private alertCtrl: AlertController, private toastCtrl: ToastController,
               private headerColor: HeaderColor) {
     platform.ready().then(() => {
-      //statusBar.styleDefault();
       splashScreen.hide();
-
       keyboard.disableScroll(true);
-      
       headerColor.tint('#ea1a8c');
-
       statusBar.styleBlackTranslucent();
-      //statusBar.backgroundColorByHexString('#000000');
     });
     
     platform.registerBackButtonAction(() => {
-      let activeNav = app.getActiveNav();
-      let rootNav = app.getRootNav();
+      let activeNav = app.getActiveNavs()[0];
+      let rootNav = app.getRootNavs()[0];
 
       // let toast = this.toastCtrl.create({
       //   message: `${rootNav.getActive().id} |*| ${activeNav.getActive().id}`,
@@ -43,26 +39,39 @@ export class MyApp {
        || activeNav.getViews()[0].name === 'MemberInfoPage' || activeNav.getActive().id === 'MemberInfoPage') {
         this.app.getActiveNav().setRoot('GoodsListPage');
       } else if(activeNav.getActive().id === 'GoodsListPage' || activeNav.getActive().id === 'LoginPage') {
-        let confrim = alertCtrl.create({
-          title : CommonTextsKo.MSG_WANT_TO_EXIT_APP,
-          message : "",
-          buttons : [
-            {text : CommonTextsKo.LBL_OK,
-              handler: () => {
-                platform.exitApp();
-              }
-            },
-            {text: CommonTextsKo.LBL_CANCEL,
-              handler: () => {
-              }
-            }
-          ]
-        });
-        confrim.present();
+        if(this.alertShown == false) {
+          this.presentConfirm();
+        }
       } else {
         // modal pop
         activeNav.pop();
       }
+    });
+  }
+
+  presentConfirm() {
+    let confrim = this.alertCtrl.create({
+      title : CommonTextsKo.MSG_WANT_TO_EXIT_APP,
+      message: '',
+      buttons: [
+        {
+          text: CommonTextsKo.LBL_OK,
+          handler: () => {
+            this.platform.exitApp();
+          }
+        },
+        {
+          text: CommonTextsKo.LBL_CANCEL,
+          role: 'cancel',
+          handler: () => {
+            this.alertShown = false;
+          }
+        }
+      ]
+    });
+
+    confrim.present().then(() => {
+      this.alertShown = true;
     });
   }
 }
