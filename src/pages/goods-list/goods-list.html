@@ -8,7 +8,7 @@
     </ion-refresher-content>
   </ion-refresher>
   <div class="middle-list">
-    <ion-list>
+    <!-- <ion-list>
       <ion-item *ngFor="let goods of goodsList" (click)="goOrder(goods)">
         <ion-thumbnail item-left>
           <img *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
@@ -19,7 +19,58 @@
           <h2>{{goods.goodsName}}</h2>
           <p>{{goods.goodsPrice | number}}원</p>
       </ion-item>
-    </ion-list>
+    </ion-list> -->
+    <ion-grid no-padding>
+      <ion-row>
+          <ion-col class="topGrid" col-6 *ngFor="let goods of goodsList; let i = index;">
+            <!-- <div class="goodsInfoArea">
+              <img class="goodsImg" *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
+              <ng-template #noImage>
+                <img src="assets/imgs/close-128.png">
+              </ng-template>
+              <p class="goods_name">
+                {{goods.goodsName | slice:0:8}}
+              </p>
+              <p class="price"><b>{{goods.goodsPrice | number}}</b> 원</p>
+            </div>
+            <div class="orderBtnArea">
+              <button ion-button block outline (click)="goOrder(goods)">주문</button>
+            </div> -->
+            <ion-grid class="subGrid">
+                <ion-row class="imgRow">
+                  <ion-col>
+                    <img class="goodsImg" *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
+                    <ng-template #noImage>
+                      <img class="goodsImg" src="assets/imgs/close-128.png">
+                    </ng-template>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="nameRow">
+                  <ion-col>
+                      <h5 text-uppercase no-padding no-margin>
+                        <ng-container *ngIf="goods.goodsName.length > 6; else origin">
+                          {{goods.goodsName | slice:0:5}}..
+                        </ng-container>
+                        <ng-template #origin>
+                          {{goods.goodsName}}
+                        </ng-template>
+                      </h5>
+                      <h6 no-padding no-margin><b>{{goods.goodsPrice | number}}</b> 원</h6>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="btnRow">
+                  <ion-col>
+                    <div class="orderBtnArea">
+                      <button ion-button block outline (click)="goOrder(goods)">주문</button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+          </ion-col>
+          <ion-col col-6 *ngIf="(goodsList?.length % 2) != 0">
+          </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
   <div class="bar bar-footer bar-assertive">
     <p class="footer">

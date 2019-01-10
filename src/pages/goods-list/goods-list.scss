@@ -1,26 +1,4 @@
 page-goods-list {
-    ion-card {
-      position: relative;
-      text-align: center;
-    }
-  
-    .card-title {
-      position: absolute;
-      top: 36%;
-      font-size: 2.0em;
-      width: 100%;
-      font-weight: bold;
-      color: #fff;
-    }
-  
-    .card-subtitle {
-      font-size: 1.0em;
-      position: absolute;
-      top: 52%;
-      width: 100%;
-      color: #fff;
-    }
-
     .middle-list {
       height: 100%;
       overflow: scroll;
@@ -34,5 +12,42 @@ page-goods-list {
       line-height: 200%;
     }
 
-    //$refresher-border-color: rgb(255, 255, 255)
+    .middle-list .topGrid {
+      text-align: center;
+      font-size: 1em;
+
+      &:first-child:not(:last-child) {
+        border-right: 1px solid #f2f2f2;
+        border-bottom: 1px solid #f2f2f2;
+      }
+      &:not(:first-child):not(:last-child) {
+          border-right: 1px solid #f2f2f2;
+          border-bottom: 1px solid #f2f2f2;
+      }
+      &:last-child:not(:first-child) {
+          border-bottom: 1px solid #f2f2f2;
+      }
+    }
+
+    .button-outline-md {
+      color: black;
+      border-color: #e0e0e0;
+    }
+    .orderBtnArea {
+      text-align: center;
+      margin: 0 10%;
+    }
+
+    // .subGrid .imgRow {
+    //   height: 45%;
+    // }
+
+    .subGrid > .row {
+      height: 33.33%;
+    }
+
+    .subGrid img {
+      //max-height:140em;
+      width:100%;
+    }
 }

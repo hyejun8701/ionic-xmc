@@ -7,6 +7,7 @@ import { BtobLoginProvider } from '../../providers/btob/btob-login';
 import { ResResult } from '../../models/res-result';
 import { BasePage } from '../base-page';
 import * as CommonTextsKo from '../../common/common-texts-ko';
+import { BtobMember } from '../../models/btob-member';
 
 export interface PointHistoryInterface {
   datecreated: string;
@@ -30,6 +31,7 @@ export class PointHistoryPage extends BasePage {
 
   resResult: ResResult;
   pointHistory: PointHistoryInterface[];
+  isMaster: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private btobLoginProvider: BtobLoginProvider,
               private btobMemberCreditUseHistoryProvider: BtobMemberCreditUseHistoryProvider, private menuCtrl: MenuController,
@@ -37,6 +39,7 @@ export class PointHistoryPage extends BasePage {
             ) {
     super(alertCtrl);
     this.menuCtrl.enable(true);
+    this.isMaster = this.btobLoginProvider.getLoginInfo().isMaster;
   }
 
   doRefresh(refresher: Refresher) {

@@ -67,6 +67,7 @@ export class LoginPage extends BasePage {
         this.btobMember.memberName = res.result_data.member_name;
         this.btobMember.point = res.result_data.credit_balance;
         this.btobMember.lastLoginDate = res.result_data.last_login_date;
+        this.btobMember.isMaster = res.result_data.is_master;
 
         if(res.refresh_token != null) {
           localStorage.setItem('refreshToken', res.refresh_token);
@@ -91,6 +92,7 @@ export class LoginPage extends BasePage {
 
         setTimeout(() => {
           this.navCtrl.setRoot('RootPage');
+          //this.navCtrl.push('RootIndexModalPage');
     
           if(this.saveId) {
             localStorage.setItem('memberId', this.memberId);
@@ -132,7 +134,15 @@ export class LoginPage extends BasePage {
             alert.present();
           }
 
-          loader.dismiss();
+          loader.dismiss().then(() => {
+            // let alert = this.alertCtrl.create({
+            //   title: 'New Friend!',
+            //   subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
+            //   buttons: ['OK'],
+            //   cssClass: 'welcomeAlert'
+            // });
+            // alert.present();
+          });
         }, 1500);
 
       } else {

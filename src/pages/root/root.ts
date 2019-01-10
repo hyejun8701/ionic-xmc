@@ -64,7 +64,7 @@ export class RootPage {
 
   openPage(page: PageInterface) {
     console.log(">>>>>>>>>>> " + page.component);
-    this.navCtrl.popToRoot();
+    //this.navCtrl.popToRoot();
     this.rootPage = page.component;
 
     let activeNav = this.app.getActiveNavs()[0];

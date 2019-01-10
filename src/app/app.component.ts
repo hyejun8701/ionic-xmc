@@ -10,7 +10,7 @@ import * as CommonTextsKo from '../common/common-texts-ko';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = 'LoginPage';
+  rootPage: any = 'LoginPage';
   alertShown: boolean = false;
 
   constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, keyboard: Keyboard,

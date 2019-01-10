@@ -4,4 +4,5 @@ export class BtobMember {
     password: string;
     point: number;
     lastLoginDate: string;
+    isMaster: string;
 }

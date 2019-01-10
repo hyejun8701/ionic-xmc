@@ -35,7 +35,10 @@
     <ion-row class="grid-table-body" *ngFor="let ph of pointHistory">
       <ion-col>{{ph.datecreated}}</ion-col>
       <ion-col>
-        <ng-container *ngIf="ph.sumGroup == '1'">
+        <ng-container *ngIf="ph.sumGroup == '1' &&  isMaster == 'Y'">
+          여신부여
+        </ng-container>
+        <ng-container *ngIf="ph.sumGroup == '1' &&  isMaster != 'Y'">
           최초포인트
         </ng-container>
         <ng-container *ngIf="ph.sumGroup == '2'">

@@ -1,12 +1,13 @@
 {
   "name": "ion-xmc",
-  "app_id": "",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
   },
-  "proxies":[{
-    "path": "/external",
-    "proxyUrl": "http://api.stepin.xmerce.com/external/smt"
-  }]
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/external",
+      "proxyUrl": "http://api.stepin.xmerce.com/external/smt"
+    }
+  ]
 }
