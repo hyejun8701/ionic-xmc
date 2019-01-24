@@ -35,17 +35,20 @@
     <ion-row class="grid-table-body" *ngFor="let ph of pointHistory">
       <ion-col>{{ph.datecreated}}</ion-col>
       <ion-col>
-        <ng-container *ngIf="ph.sumGroup == '1' &&  isMaster == 'Y'">
-          여신부여
-        </ng-container>
-        <ng-container *ngIf="ph.sumGroup == '1' &&  isMaster != 'Y'">
+        <ng-container *ngIf="ph.sumGroup == '1'">
           최초포인트
         </ng-container>
         <ng-container *ngIf="ph.sumGroup == '2'">
-          발송(성공 {{ph.orderCnt}}건, 실패 {{ph.failCnt}}건, 취소 {{ph.cancelCnt}}건)
+          상품발송(성공 {{ph.orderCnt}}건, 실패 {{ph.failCnt}}건, 취소 {{ph.cancelCnt}}건)
         </ng-container>
-        <ng-container *ngIf="ph.sumGroup == '3'">
-          충전(회수)
+        <ng-container *ngIf="ph.sumGroup == '3' && isMaster == 'N'">
+          포인트부여(회수)
+        </ng-container>
+        <ng-container *ngIf="ph.sumGroup == '3' && isMaster == 'Y'">
+          포인트충전(차감)
+        </ng-container>
+        <ng-container *ngIf="ph.sumGroup == '4'">
+          포인트부여(회수)
         </ng-container>
       </ion-col>
       <ion-col>{{ph.usePrice | number}}</ion-col>

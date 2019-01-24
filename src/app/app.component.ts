@@ -12,6 +12,7 @@ import * as CommonTextsKo from '../common/common-texts-ko';
 export class MyApp {
   rootPage: any = 'LoginPage';
   alertShown: boolean = false;
+  retryCnt: number = 0;
 
   constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, keyboard: Keyboard,
               private app: App, private alertCtrl: AlertController, private toastCtrl: ToastController,
@@ -65,13 +66,17 @@ export class MyApp {
           role: 'cancel',
           handler: () => {
             this.alertShown = false;
+            this.retryCnt = 0;
           }
         }
       ]
     });
 
-    confrim.present().then(() => {
-      this.alertShown = true;
-    });
+    if(this.retryCnt == 0) {
+      this.retryCnt++;
+      confrim.present().then(() => {
+        this.alertShown = true;
+      });
+    }
   }
 }

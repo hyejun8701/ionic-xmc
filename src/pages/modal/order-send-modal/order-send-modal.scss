@@ -3,7 +3,46 @@ page-order-send-modal {
         background-color: #f9f9f9;
     }
 
-    .centerBtn {
-        margin-bottom: 25px;
+    .scroll-content {
+        margin-bottom: 40px;
+    }
+
+    ion-text {
+        margin: 10px;
+        font-weight: bold;
+    }
+
+    .orderBtn {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        text-align: center;
+    }
+
+    .orderBtn ion-button {
+        margin: 3px 0;
+        width: 49%;
+        border-radius: 2px;
+    }
+
+    .orderBtn .back {
+        background-color: #ffffff;
+        color:#3b5998;
+        border: 1px solid #3b5998;
+        padding: 14px 0;
+    }
+
+    .orderBtn .send {
+        background-color: #3b5998;
+        color:#ffffff;
+        border: 1px solid #3b5998;
+        padding: 14px 0;
+    }
+
+    #footer {
+        position : absolute;
+        bottom : 0;
+        background-color: #f9f9f9;
+        width: 100%;
     }
 }

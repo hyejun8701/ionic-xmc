@@ -21,6 +21,7 @@ export class OrderSendModalPage extends BasePage {
   receivers: Array<string> = [];
   @ViewChild('myInput') myInput: ElementRef;
   myPoint: number;
+  title: string = GlobalConstants.ORDER_SEND_MSG_TITLE;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -89,6 +90,20 @@ export class OrderSendModalPage extends BasePage {
     //let modal = this.modalCtrl.create('OrderSendResultModalPage', {item: this.goods, cnt: this.receivers.length});
     
     if(this.receivers.length > 0) {
+      let matchCnt: number = 0;
+      const pattern = new RegExp(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/);
+
+      this.receivers.forEach((receiver) => {
+        if(pattern.test(receiver)) {
+          matchCnt++;
+        }
+      });
+      
+      if(this.receivers.length !== matchCnt) {
+        this.alert(CommonTextsKo.MSG_RECIPIENT_PATTERN_NOT_MATCH);
+        return false;
+      }
+
       let confrim = this.alertCtrl.create({
         title : CommonTextsKo.MSG_WANT_TO_PROCEED,
         buttons : [

@@ -36,7 +36,7 @@
             <div class="orderBtnArea">
               <button ion-button block outline (click)="goOrder(goods)">주문</button>
             </div> -->
-            <ion-grid class="subGrid">
+            <ion-grid class="subGrid" (click)="goOrder(goods)">
                 <ion-row class="imgRow">
                   <ion-col>
                     <img class="goodsImg" *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
@@ -61,7 +61,7 @@
                 <ion-row class="btnRow">
                   <ion-col>
                     <div class="orderBtnArea">
-                      <button ion-button block outline (click)="goOrder(goods)">주문</button>
+                      <button ion-button block outline>주문</button>
                     </div>
                   </ion-col>
                 </ion-row>

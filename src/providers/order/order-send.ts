@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseProvider } from '../base-provider';
+import * as GlobalConstants from '../../common/global-constants';
 
 @Injectable()
 export class OrderSendProvider extends BaseProvider {
@@ -18,6 +19,7 @@ export class OrderSendProvider extends BaseProvider {
           'goodsId': goodsId,
           'receivermobiles': receivermobiles,
           'smsType': smsType,
+          'title': GlobalConstants.ORDER_SEND_MSG_TITLE,
           'content': content
         }),
       {headers: this.headers}

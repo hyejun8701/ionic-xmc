@@ -73,7 +73,19 @@ export class MemberInfoPage extends BasePage {
                     .subscribe((res: any) => {
                       this.resResult = new ResResult(res);
                       if(res.result_code == 'APP_LINK_SUCCESS_S0000') {
-                        this.alert(CommonTextsKo.MSG_UPDATE_MEMBER_INFO_SUCC);
+                        let alert = this.alertCtrl.create({
+                          subTitle: CommonTextsKo.MSG_UPDATE_MEMBER_INFO_SUCC,
+                          buttons: [
+                            {
+                              text: '확인',
+                              handler: () => {
+                                this.navCtrl.setRoot('GoodsListPage');
+                              }
+                            }
+                          ]
+                        });
+                        
+                        alert.present();
                       } else {
                         this.alert(this.resResult.getResMsg());
                       }

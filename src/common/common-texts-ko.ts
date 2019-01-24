@@ -9,6 +9,7 @@ export const MSG_AUTH_NUM_VERIFY_FAILED: string = '인증번호 검증이 실패
 export const MSG_WANT_TO_PROCEED: string = '인증번호가 발송됩니다.<br/>진행하시겠습니까?';
 export const MSG_ENTER_AUTH_NUM: string = '인증번호를 입력하세요.<br/>(2분30초 이내)';
 export const MSG_ENTERED_DOES_NOT_MATCH: string = '입력하신 정보가 일치하지 않습니다.';
+export const MSG_RECIPIENT_PATTERN_NOT_MATCH: string = '수신자번호 형식오류입니다.';
 
 export const LBL_REQ_TO_ADMIN: string = '관리자에게 정보 요청하기';
 export const LBL_MEMBER_INFO: string = '개인정보';

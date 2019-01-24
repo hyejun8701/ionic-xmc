@@ -53,5 +53,6 @@ export class BtobLoginProvider extends BaseProvider {
   logOut() {
     this.btobMember = null;
     localStorage.removeItem('rememberMe');
+    localStorage.removeItem('refreshToken');
   }
 }

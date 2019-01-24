@@ -3,7 +3,7 @@
     <ion-title>쿠폰 주문하기</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content class="mb-40">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -54,6 +54,7 @@
       </ion-item>
     </ion-list>
   </ion-card>
+  <ion-text>[발송제목] {{title}}</ion-text>
   <ion-card style="min-height: 25px">
     <ion-card-header>
       3. 메시지 입력
@@ -77,8 +78,10 @@
       </ion-item>
     </ion-list>
   </ion-card>
-  <div class="centerBtn">
-    <button ion-button (click)="orderSendAuth();">발송하기</button>
-    <button ion-button (click)="goBack();">돌아가기</button>
-  </div>
 </ion-content>
+<div id="footer" class="button-bar">
+  <div class="orderBtn">
+    <ion-button class="back" (click)="goBack();">돌아가기</ion-button>
+    <ion-button class="send" (click)="orderSendAuth();">발송하기</ion-button>
+  </div>
+</div>
