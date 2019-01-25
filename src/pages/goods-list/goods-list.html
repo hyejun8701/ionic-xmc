@@ -8,34 +8,9 @@
     </ion-refresher-content>
   </ion-refresher>
   <div class="middle-list">
-    <!-- <ion-list>
-      <ion-item *ngFor="let goods of goodsList" (click)="goOrder(goods)">
-        <ion-thumbnail item-left>
-          <img *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
-          <ng-template #noImage>
-              <img src="assets/imgs/close-128.png">
-          </ng-template>
-        </ion-thumbnail>
-          <h2>{{goods.goodsName}}</h2>
-          <p>{{goods.goodsPrice | number}}원</p>
-      </ion-item>
-    </ion-list> -->
     <ion-grid no-padding>
       <ion-row>
           <ion-col class="topGrid" col-6 *ngFor="let goods of goodsList; let i = index;">
-            <!-- <div class="goodsInfoArea">
-              <img class="goodsImg" *ngIf="goods.goodsImg != null; else noImage" src="{{goods.goodsImg}}"/>
-              <ng-template #noImage>
-                <img src="assets/imgs/close-128.png">
-              </ng-template>
-              <p class="goods_name">
-                {{goods.goodsName | slice:0:8}}
-              </p>
-              <p class="price"><b>{{goods.goodsPrice | number}}</b> 원</p>
-            </div>
-            <div class="orderBtnArea">
-              <button ion-button block outline (click)="goOrder(goods)">주문</button>
-            </div> -->
             <ion-grid class="subGrid" (click)="goOrder(goods)">
                 <ion-row class="imgRow">
                   <ion-col>
