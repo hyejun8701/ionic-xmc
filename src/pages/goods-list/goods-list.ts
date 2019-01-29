@@ -93,23 +93,23 @@ export class GoodsListPage extends BasePage {
     modal.present();
   }
 
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter GoodsListPage');
-  }
+  // ionViewDidEnter() {
+  //   console.log('ionViewDidEnter GoodsListPage');
+  // }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GoodsListPage');
-  }
+  // ionViewDidLoad() {
+  //   console.log('ionViewDidLoad GoodsListPage');
+  // }
 
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave GoodsListPage');
-  }
+  // ionViewWillLeave() {
+  //   console.log('ionViewWillLeave GoodsListPage');
+  // }
 
-  ionViewDidLeave() {
-    console.log('ionViewDidLeave GoodsListPage');
-  }
+  // ionViewDidLeave() {
+  //   console.log('ionViewDidLeave GoodsListPage');
+  // }
 
-  ionViewWillUnload() {
-    console.log('ionViewWillUnload GoodsListPage');
-  }
+  // ionViewWillUnload() {
+  //   console.log('ionViewWillUnload GoodsListPage');
+  // }
 }
